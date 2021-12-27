@@ -7,6 +7,8 @@ class KedersediaanKamarController extends GetxController {
   //TODO: Implement KedersediaanKamarController
   var listKelasKamar = <KelasKamarModel>[].obs;
   var listBangsalKamar = <BangsalKamarModel>[].obs;
+  KetersediaanKamarProvider _kamarProvider =
+      GetInstance().find<KetersediaanKamarProvider>();
   @override
   void onInit() {
     super.onInit();
@@ -14,10 +16,10 @@ class KedersediaanKamarController extends GetxController {
 
   @override
   void onReady() {
-    KetersediaanKamarProvider()
+    _kamarProvider
         .fetchKelasKamar()
         .then((value) => listKelasKamar.value = value);
-    KetersediaanKamarProvider()
+    _kamarProvider
         .fetchBangsalKamar()
         .then((value) => listBangsalKamar.value = value);
     super.onReady();

@@ -96,7 +96,7 @@ class MLPenjabComponentState extends State<MLPenjabComponent> {
                               Row(
                                 children: [
                                   Image.asset(
-                                          ('images/employee.png').validate(),
+                                          ('images/insurance.png').validate(),
                                           height: 75,
                                           width: 75,
                                           fit: BoxFit.fill)
@@ -117,8 +117,8 @@ class MLPenjabComponentState extends State<MLPenjabComponent> {
                                       //     style: secondaryTextStyle()),
                                       // 8.height,
                                       Text(
-                                          (controller.listPenjab.value[index]
-                                                  .noTelp)
+                                          (controller
+                                                  .listPenjab.value[index].attn)
                                               .validate(),
                                           style: boldTextStyle(
                                               color: mlColorDarkBlue)),
@@ -138,14 +138,14 @@ class MLPenjabComponentState extends State<MLPenjabComponent> {
                                           child: Icon(Icons.home, size: 14),
                                         ),
                                         TextSpan(
-                                            text: ' Alamat',
+                                            text: ' Perusahaan',
                                             style: secondaryTextStyle()),
                                       ],
                                     ),
                                   ),
                                   Text(
                                       controller.listPenjab.value[index]
-                                          .alamatAsuransi!,
+                                          .namaPerusahaan!,
                                       style: secondaryTextStyle(
                                           color: Colors.black87)),
                                 ],

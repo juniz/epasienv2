@@ -62,6 +62,9 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
                       decoration: boxDecorationWithRoundedCorners(
                         backgroundColor: Colors.grey.shade50,
                         borderRadius: radius(12),
+                        border: Border.all(
+                          color: mlPrimaryColor,
+                        ),
                       ),
                       child: Column(
                         children: [
@@ -103,7 +106,7 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
                                             secondaryTextStyle(color: white)),
                                   ],
                                 ),
-                              ),
+                              ).expand(),
                               8.width,
                               Row(
                                 mainAxisAlignment:
@@ -128,7 +131,7 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
                                       // Text('Patient: ' + (e.patient).validate(),
                                       //     style: secondaryTextStyle()),
                                     ],
-                                  ),
+                                  ).expand(),
                                   Container(
                                     alignment: Alignment.topCenter,
                                     padding: EdgeInsets.all(8.0),
@@ -140,7 +143,7 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
                                     ),
                                   ).paddingBottom(16.0)
                                 ],
-                              ).expand(),
+                              ).expand(flex: 3),
                             ],
                           ).paddingOnly(right: 16.0, left: 16.0),
                           8.height,
@@ -199,18 +202,13 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.network(
-                            (controller
-                                    .listWeb
-                                    .value[index]
-                                    .betterFeaturedImage!
-                                    .mediaDetails!
-                                    .sizes!['medium_large']!
-                                    .sourceUrl!)
-                                .validate(),
-                            height: Get.height * 0.25,
-                            width: Get.width,
-                            fit: BoxFit.fill)
-                        .cornerRadiusWithClipRRectOnly(topLeft: 8, topRight: 8),
+                      (controller.listWeb.value[index].betterFeaturedImage!
+                              .mediaDetails!.sizes!['medium_large']!.sourceUrl!)
+                          .validate(),
+                      height: Get.height * 0.25,
+                      width: Get.width,
+                      fit: BoxFit.fill,
+                    ).cornerRadiusWithClipRRectOnly(topLeft: 8, topRight: 8),
                     8.height,
                     Text(
                       (controller.listWeb.value[index].title!.rendered!)

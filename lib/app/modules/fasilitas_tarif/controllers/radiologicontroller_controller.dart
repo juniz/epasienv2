@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class RadiologiController extends GetxController {
   //TODO: Implement RadiologicontrollerController
-
+  final _apiProvider = GetInstance().put(RadiologiProvider());
   var listRadiologi = <RadiologiModel>[].obs;
   @override
   void onInit() {
@@ -13,9 +13,7 @@ class RadiologiController extends GetxController {
 
   @override
   void onReady() {
-    RadiologiProvider()
-        .fetchRadiologi()
-        .then((value) => listRadiologi.value = value);
+    _apiProvider.fetchRadiologi().then((value) => listRadiologi.value = value);
     super.onReady();
   }
 

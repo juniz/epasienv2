@@ -16,6 +16,8 @@ abstract class Routes {
   static const KEDERSEDIAAN_KAMAR = _Paths.KEDERSEDIAAN_KAMAR;
   static const WEBVIEW = _Paths.WEBVIEW;
   static const SURAT_SAKIT = _Paths.SURAT_SAKIT;
+  static const LOGIN = _Paths.LOGIN;
+  static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
 }
 
 abstract class _Paths {
@@ -31,4 +33,6 @@ abstract class _Paths {
   static const KEDERSEDIAAN_KAMAR = '/kedersediaan-kamar';
   static const WEBVIEW = '/webview';
   static const SURAT_SAKIT = '/surat-sakit';
+  static const LOGIN = '/login';
+  static const SPLASH_SCREEN = '/splash-screen';
 }

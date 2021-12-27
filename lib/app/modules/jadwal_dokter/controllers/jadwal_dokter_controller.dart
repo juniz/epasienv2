@@ -1,11 +1,12 @@
-import 'package:epasien/app/modules/booking_pasien_baru/providers/poliklinik_provider.dart';
 import 'package:epasien/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
+import 'package:epasien/app/modules/jadwal_dokter/providers/jadwal_dokter_home_provider.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class JadwalDokterController extends GetxController {
   //TODO: Implement JadwalDokterController
-
+  JadwalDokterHomeProvider _jadwalProvider =
+      GetInstance().put(JadwalDokterHomeProvider());
   var selectedIndex = 0.obs;
   var selectedDate = DateTime.now().add(Duration(days: 1)).obs;
   var selectedKdPoli = "".obs;
@@ -38,12 +39,8 @@ class JadwalDokterController extends GetxController {
         'tanggal': DateFormat('yyyy-MM-dd').format(selectedDate.value),
       };
 
-      PoliklinikProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/poliklinik',
-              body)
-          .then((value) {
-        listPoliklinik.value = jadwalPoliklinikModelFromJson(value.bodyString!);
+      _jadwalProvider.fetchJadwalDokter(body).then((value) {
+        listPoliklinik.value = value;
         if (listPoliklinik.value.isEmpty) {
           selectedKdDokter.value = "";
           selectedKdPoli.value = "";

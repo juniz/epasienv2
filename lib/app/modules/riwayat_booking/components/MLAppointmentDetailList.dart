@@ -59,7 +59,7 @@ class MLAppointmentDetailListState extends State<MLAppointmentDetailList> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset((topHospitalList[0].image).validate(),
+              Image.asset(('images/reservation.jpg').validate(),
                       width: double.infinity, height: 150.0, fit: BoxFit.cover)
                   .cornerRadiusWithClipRRect(8.0),
               16.height,
@@ -106,7 +106,7 @@ class MLAppointmentDetailListState extends State<MLAppointmentDetailList> {
                       style: primaryTextStyle(color: mlColorDarkBlue))
                   .paddingLeft(18.0),
               16.height,
-              controller.selectedRiwayatBooking.value.status != 'Batal'
+              controller.selectedRiwayatBooking.value.status == 'Belum'
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

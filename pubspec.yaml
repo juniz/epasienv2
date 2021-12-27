@@ -18,6 +18,8 @@ dependencies:
   pdf: 3.6.5
   open_file: 3.2.1
   path_provider: 2.0.8
+  get_storage: 2.0.3
+  flutter_launch: 0.3.0
   flutter: 
     sdk: flutter
   flutter_localizations: 

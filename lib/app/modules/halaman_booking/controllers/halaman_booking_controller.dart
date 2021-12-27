@@ -1,19 +1,17 @@
 import 'package:epasien/app/data/MLBookAppointmentData.dart';
-import 'package:epasien/app/modules/booking_pasien_baru/providers/poliklinik_provider.dart';
 import 'package:epasien/app/modules/halaman_booking/components/MLBookedDailog.dart';
-import 'package:epasien/app/modules/halaman_booking/components/MLCheckBookingList.dart';
 import 'package:epasien/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
 import 'package:epasien/app/modules/halaman_booking/models/penjab_model.dart';
 import 'package:epasien/app/modules/halaman_booking/providers/booking_provider.dart';
 import 'package:epasien/app/utils/MLDataProvider.dart';
 import 'package:epasien/app/utils/helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:nb_utils/nb_utils.dart';
 
 class HalamanBookingController extends GetxController {
   //TODO: Implement HalamanBookingController
+  BookingProvider _bookingProvider = GetInstance().put(BookingProvider());
 
   var currentWidget = 0.obs;
   var selectedIndex = 0.obs;
@@ -39,7 +37,7 @@ class HalamanBookingController extends GetxController {
   void onReady() {
     // cekBookingReg();
     getPoliklinik();
-    getPenjab();
+    // getPenjab();
     super.onReady();
   }
 
@@ -55,12 +53,8 @@ class HalamanBookingController extends GetxController {
         'tanggal': DateFormat('yyyy-MM-dd').format(selectedDate.value),
       };
 
-      PoliklinikProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/poliklinik',
-              body)
-          .then((value) {
-        listPoliklinik.value = jadwalPoliklinikModelFromJson(value.bodyString!);
+      _bookingProvider.fetchJadwalPoliklinik(body).then((value) {
+        listPoliklinik.value = value;
         if (listPoliklinik.value.isEmpty) {
           selectedKdDokter.value = "";
           selectedKdPoli.value = "";
@@ -84,11 +78,8 @@ class HalamanBookingController extends GetxController {
         Duration(seconds: 3),
       );
 
-      PoliklinikProvider()
-          .get(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/penjab')
-          .then((value) {
-        listPenjab.value = penjabModelFromJson(value.bodyString!);
+      _bookingProvider.fetchPenjab().then((value) {
+        listPenjab.value = value;
         selectedKdPenjab.value = listPenjab.value[0].kdPj!;
         selectedPenjab.value = listPenjab.value[0].pngJawab!;
       });
@@ -101,7 +92,7 @@ class HalamanBookingController extends GetxController {
     try {
       Future.delayed(
         Duration.zero,
-        () => DialogHelper.showLoading('Sedang memproses data.....'),
+        () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
         'no_rkm_medis': '165056',
@@ -111,18 +102,20 @@ class HalamanBookingController extends GetxController {
         'kd_pj': selectedKdPenjab.value
       };
       print(body);
-      BookingProvider()
-          .postBooking(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/booking',
-              body)
-          .then((res) {
-        print(res.bodyString);
+      _bookingProvider.postBooking(body).then((res) {
         DialogHelper.hideLoading();
         if (res.statusCode == 200) {
           Get.dialog(
             MLBookedDialog(
               desc: res.body['message'],
             ),
+          );
+        } else {
+          Get.snackbar(
+            'Error',
+            res.statusText!,
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
           );
         }
       });

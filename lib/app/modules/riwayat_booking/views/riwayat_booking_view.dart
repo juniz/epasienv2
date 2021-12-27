@@ -9,8 +9,9 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../controllers/riwayat_booking_controller.dart';
 
-class RiwayatBookingView extends StatelessWidget {
-  final controller = Get.put(RiwayatBookingController());
+class RiwayatBookingView extends GetView<RiwayatBookingController> {
+  // final controller =
+  //     Get.lazyPut<RiwayatBookingController>(() => RiwayatBookingController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,7 +26,7 @@ class RiwayatBookingView extends StatelessWidget {
                 // Text(mlHistory!, style: secondaryTextStyle(color: white))
                 //     .paddingRight(8.0),
                 Icon(Icons.refresh, color: white, size: 30)
-                    .onTap(() => controller.getRiwayatBooking()),
+                    .onTap(() => controller.riwayatPemeriksaan()),
               ],
             ).paddingAll(16.0),
             8.width,

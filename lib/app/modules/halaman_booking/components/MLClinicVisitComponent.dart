@@ -3,7 +3,6 @@ import 'package:epasien/app/data/MLDepartmentData.dart';
 import 'package:epasien/app/modules/halaman_booking/controllers/halaman_booking_controller.dart';
 import 'package:epasien/app/utils/MLColors.dart';
 import 'package:epasien/app/utils/MLDataProvider.dart';
-import 'package:epasien/app/utils/MLImage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -48,14 +47,11 @@ class MLClinicVisitComponentState extends State<MLClinicVisitComponent> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Booking Poliklinik', style: boldTextStyle(size: 24)),
+                  Text('Pilih Poliklinik Dan Dokter',
+                      style: boldTextStyle(size: 24)),
                   8.height,
                 ],
               ).expand(),
-              // mlRoundedIconContainer(Icons.search, mlColorBlue),
-              // 16.width,
-              // mlRoundedIconContainer(
-              //     Icons.calendar_view_day_outlined, mlColorBlue),
             ],
           ).paddingOnly(right: 16.0, left: 16.0),
           MLCalenderComponent(),
@@ -95,7 +91,8 @@ class MLClinicVisitComponentState extends State<MLClinicVisitComponent> {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset((ml_ic_dashHomeVisit)!.validate(),
+                                  Image.asset(
+                                          ('images/hospital.png').validate(),
                                           height: 75,
                                           width: 75,
                                           fit: BoxFit.fill)

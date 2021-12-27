@@ -16,10 +16,14 @@ import 'package:epasien/app/modules/jadwal_dokter/bindings/jadwal_dokter_binding
 import 'package:epasien/app/modules/jadwal_dokter/views/jadwal_dokter_view.dart';
 import 'package:epasien/app/modules/kedersediaan_kamar/bindings/kedersediaan_kamar_binding.dart';
 import 'package:epasien/app/modules/kedersediaan_kamar/views/kedersediaan_kamar_view.dart';
+import 'package:epasien/app/modules/login/bindings/login_binding.dart';
+import 'package:epasien/app/modules/login/views/login_view.dart';
 import 'package:epasien/app/modules/pengaduan/bindings/pengaduan_binding.dart';
 import 'package:epasien/app/modules/pengaduan/views/pengaduan_view.dart';
 import 'package:epasien/app/modules/riwayat_booking/bindings/riwayat_booking_binding.dart';
 import 'package:epasien/app/modules/riwayat_booking/views/riwayat_booking_view.dart';
+import 'package:epasien/app/modules/splash_screen/bindings/splash_screen_binding.dart';
+import 'package:epasien/app/modules/splash_screen/views/splash_screen_view.dart';
 import 'package:epasien/app/modules/surat_sakit/bindings/surat_sakit_binding.dart';
 import 'package:epasien/app/modules/surat_sakit/views/surat_sakit_view.dart';
 import 'package:epasien/app/modules/webview/bindings/webview_binding.dart';
@@ -30,7 +34,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.DASHBOARD;
+  static const INITIAL = Routes.SPLASH_SCREEN;
 
   static final routes = [
     GetPage(
@@ -92,6 +96,16 @@ class AppPages {
       name: _Paths.SURAT_SAKIT,
       page: () => SuratSakitView(),
       binding: SuratSakitBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOGIN,
+      page: () => LoginView(),
+      binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH_SCREEN,
+      page: () => SplashScreenView(),
+      binding: SplashScreenBinding(),
     ),
   ];
 }

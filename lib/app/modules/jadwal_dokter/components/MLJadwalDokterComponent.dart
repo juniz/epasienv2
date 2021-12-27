@@ -55,7 +55,8 @@ class MLJadwalDokterComponent extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset((ml_ic_dashHomeVisit)!.validate(),
+                                  Image.asset(
+                                          ('images/hospital.png').validate(),
                                           height: 75,
                                           width: 75,
                                           fit: BoxFit.fill)

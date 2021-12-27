@@ -11,7 +11,8 @@ import 'package:intl/intl.dart';
 class RiwayatBookingController extends GetxController
     with SingleGetTickerProviderMixin {
   //TODO: Implement RiwayatBookingController
-
+  RiwayatBookingProvider _provider =
+      GetInstance().put(RiwayatBookingProvider());
   late TabController tabController;
   var riwayatBooking = <RiwayatBookingModel>[].obs;
   var selectedRiwayatBooking = RiwayatBookingModel().obs;
@@ -44,13 +45,8 @@ class RiwayatBookingController extends GetxController
       var body = {
         'no_rkm_medis': '165056',
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/riwayatbooking',
-              body)
-          .then((res) {
-        print(res.bodyString);
-        riwayatBooking.value = riwayatBookingModelFromJson(res.bodyString!);
+      _provider.fetchRiwayatBooking(body).then((res) {
+        riwayatBooking.value = res;
       });
     } catch (e) {}
   }
@@ -59,7 +55,7 @@ class RiwayatBookingController extends GetxController
     try {
       Future.delayed(
         Duration.zero,
-        () => DialogHelper.showLoading('Sedang memproses data.....'),
+        () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
         'no_rkm_medis': '165056',
@@ -71,12 +67,7 @@ class RiwayatBookingController extends GetxController
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/checkin',
-              body)
-          .then((res) {
-        print(res.bodyString);
+      _provider.checkin(body).then((res) {
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;
@@ -123,7 +114,7 @@ class RiwayatBookingController extends GetxController
     try {
       Future.delayed(
         Duration.zero,
-        () => DialogHelper.showLoading('Sedang memproses data.....'),
+        () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
         'no_rkm_medis': '165056',
@@ -135,11 +126,7 @@ class RiwayatBookingController extends GetxController
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/checkin',
-              body)
-          .then((res) {
+      _provider.batalCheckin(body).then((res) {
         print(res.bodyString);
         DialogHelper.hideLoading();
         bookingDetail();
@@ -197,12 +184,9 @@ class RiwayatBookingController extends GetxController
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/bookingdetail',
-              body)
-          .then((res) => selectedRiwayatBooking.value =
-              selectedRiwayatBookingModelFromJson(res.bodyString!));
+      _provider
+          .fetchRiwayatBookingDetail(body)
+          .then((res) => selectedRiwayatBooking.value = res);
     } catch (e) {}
   }
 
@@ -214,12 +198,9 @@ class RiwayatBookingController extends GetxController
       var body = {
         'no_rkm_medis': '165056',
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/riwayatperiksa',
-              body)
-          .then((res) => listRiwayatPemeriksaan.value =
-              riwayatPemeriksaanModelFromJson(res.bodyString!));
+      _provider
+          .fetchRiwayatPeriksaan(body)
+          .then((res) => listRiwayatPemeriksaan.value = res);
     } catch (e) {}
   }
 
@@ -231,13 +212,9 @@ class RiwayatBookingController extends GetxController
       var body = {
         'no_rawat': noRawat,
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/resume',
-              body)
-          .then(
+      _provider.fetchResume(body).then(
         (res) {
-          dataResume.value = resumeModelFromJson(res.bodyString!);
+          dataResume.value = res;
         },
       );
     } catch (e) {}
@@ -251,14 +228,10 @@ class RiwayatBookingController extends GetxController
       var body = {
         'no_rawat': noRawat,
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/billing',
-              body)
-          .then(
+      _provider.fetchBilling(body).then(
         (res) {
           totalBilling.value = 0;
-          listBilling.value = billingModelFromJson(res.bodyString!);
+          listBilling.value = res;
           listBilling.value.forEach((e) {
             if (e.empat != '') {
               totalBilling.value += int.parse(e.empat!);

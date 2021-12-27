@@ -84,7 +84,7 @@ class MLRiwayatPemeriksaanComponent extends StatelessWidget {
                                           style: secondaryTextStyle()),
                                       8.height,
                                     ],
-                                  ),
+                                  ).expand(),
                                   Container(
                                     alignment: Alignment.topCenter,
                                     padding: EdgeInsets.all(8.0),

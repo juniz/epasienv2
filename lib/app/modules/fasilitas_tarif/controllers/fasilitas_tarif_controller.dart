@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class FasilitasTarifController extends GetxController
     with SingleGetTickerProviderMixin {
   //TODO: Implement FasilitasTarifController
-  KamarProvider _apiProvider = KamarProvider();
+  final _apiProvider = GetInstance().put(KamarProvider());
   var listKamar = <KamarModel>[].obs;
   late TabController tabController;
   @override

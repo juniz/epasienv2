@@ -3,13 +3,16 @@ import 'package:epasien/app/modules/pengaduan/models/pengaduan_model.dart';
 import 'package:epasien/app/modules/pengaduan/providers/pengaduan_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class PengaduanController extends GetxController {
   //TODO: Implement PengaduanController
+  final _provider = GetInstance().put(PengaduanProvider());
   late TextEditingController messageController;
   var listPengaduan = <PengaduanModel>[].obs;
   var listJawabanPengaduan = <JawabanPengaduanModel>[].obs;
+  final pasien = GetStorage().read('pasien');
 
   @override
   void onInit() {
@@ -32,19 +35,18 @@ class PengaduanController extends GetxController {
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
         'pesan': messageController.text,
       };
-      PengaduanProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/kirimpengaduan',
-              body)
-          .then((res) {
-        toast(
-          res.body['message'],
-          textColor: Colors.black,
-          gravity: ToastGravity.TOP,
-        );
+      _provider.kirimPengaduan(body).then((res) {
+        if (res.statusCode == 200) {
+          toast(
+            res.body['message'],
+            textColor: Colors.black,
+            gravity: ToastGravity.TOP,
+          );
+          pengaduan();
+        }
       });
     } catch (e) {}
   }
@@ -55,14 +57,10 @@ class PengaduanController extends GetxController {
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
       };
-      PengaduanProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/pengaduan',
-              body)
-          .then((res) {
-        listPengaduan.value = pengaduanModelFromJson(res.bodyString!);
+      _provider.pengaduan(body).then((res) {
+        listPengaduan.value = res;
       });
     } catch (e) {}
   }
@@ -75,9 +73,7 @@ class PengaduanController extends GetxController {
       'id_pengaduan': id,
     };
     //listJawabanPengaduan.clear();
-    var data = await PengaduanProvider().post(
-        'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/jawabanpengaduan',
-        body);
+    var data = await _provider.jawabanPengaduan(body);
     // listJawabanPengaduan.value =
     //     jawabanPengaduanModelFromJson(data.bodyString!);
     return jawabanPengaduanModelFromJson(data.bodyString!);

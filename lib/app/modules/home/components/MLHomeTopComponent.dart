@@ -1,4 +1,5 @@
 import 'package:epasien/app/data/MLServiceData.dart';
+import 'package:epasien/app/modules/home/controllers/home_controller.dart';
 import 'package:epasien/app/utils/MLColors.dart';
 import 'package:epasien/app/utils/MLDataProvider.dart';
 import 'package:epasien/app/utils/MLImage.dart';
@@ -30,6 +31,7 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(HomeController());
     return Container(
       height: 240,
       width: Get.width,
@@ -60,7 +62,8 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
                           style: secondaryTextStyle(
                               color: white.withOpacity(0.7))),
                       4.height,
-                      Text('Admin', style: boldTextStyle(color: whiteColor)),
+                      Text(controller.pasien['nm_pasien'],
+                          style: boldTextStyle(color: whiteColor)),
                     ],
                   ),
                 ],

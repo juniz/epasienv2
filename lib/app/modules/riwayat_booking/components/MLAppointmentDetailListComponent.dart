@@ -111,7 +111,7 @@ class MLAppointmentDetailListComponentState
                                       // Text('Patient: ' + (e.patient).validate(),
                                       //     style: secondaryTextStyle()),
                                     ],
-                                  ),
+                                  ).expand(),
                                   Container(
                                     alignment: Alignment.topCenter,
                                     padding: EdgeInsets.all(8.0),
@@ -121,13 +121,6 @@ class MLAppointmentDetailListComponentState
                                       border: Border.all(
                                           color: Colors.grey.withOpacity(0.1)),
                                     ),
-                                    // child: Icon(
-                                    //   Icons.notifications_none,
-                                    //   color: e.department == 'General Care'
-                                    //       ? mlColorBlue
-                                    //       : Colors.grey.shade400,
-                                    //   size: 24,
-                                    // ),
                                   ).paddingBottom(16.0)
                                 ],
                               ).expand(),
@@ -160,18 +153,6 @@ class MLAppointmentDetailListComponentState
                         ],
                       ),
                     ).paddingBottom(16.0),
-                    // Positioned(
-                    //   left: 16.0,
-                    //   child: Container(
-                    //     padding: EdgeInsets.all(2.0),
-                    //     decoration: boxDecorationWithRoundedCorners(
-                    //         backgroundColor: mlColorDarkBlue,
-                    //         borderRadius: radius(20)),
-                    //     child: Text((e.service.validate()),
-                    //             style: secondaryTextStyle(color: white))
-                    //         .paddingOnly(right: 10.0, left: 10.0),
-                    //   ),
-                    // ),
                   ],
                 );
               }).toList(),

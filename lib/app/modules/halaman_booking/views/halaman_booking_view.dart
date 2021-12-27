@@ -106,7 +106,11 @@ class HalamanBookingView extends GetView<HalamanBookingController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Lanjut", style: boldTextStyle(color: white)),
+                    Obx(() => Text(
+                        controller.currentWidget.value == 2
+                            ? "Booking"
+                            : "Lanjut",
+                        style: boldTextStyle(color: white))),
                     8.width,
                     Icon(Icons.arrow_forward_ios, color: whiteColor, size: 12),
                   ],
@@ -121,17 +125,19 @@ class HalamanBookingView extends GetView<HalamanBookingController> {
                       );
                     } else {
                       // print(controller.currentWidget.value);
+                      controller.getPenjab();
                       controller.currentWidget.value++;
                     }
                   } else if (controller.currentWidget.value == 1) {
                     controller.currentWidget.value++;
                   } else if (controller.currentWidget.value > 1) {
-                    controller.postBooking();
-                    // controller.currentWidget.value--;
-
-                    // controller.currentWidget.value = 0;
-                    // finish(context);
-                    //MLAddPaymentScreen().launch(context);
+                    showConfirmDialog(
+                      context,
+                      'Anda yakin ingin melakukan booking ?',
+                      onAccept: () {
+                        controller.postBooking();
+                      },
+                    );
                   }
                 },
               )

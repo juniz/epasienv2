@@ -1,15 +1,18 @@
 import 'package:epasien/app/modules/home/models/WebModel.dart';
-import 'package:epasien/app/modules/home/providers/booking_provider.dart';
+import 'package:epasien/app/modules/home/providers/booking_provider_home.dart';
 import 'package:epasien/app/modules/home/providers/web_provider.dart';
 import 'package:epasien/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
-import 'package:epasien/app/modules/riwayat_booking/providers/riwayat_booking_provider.dart';
 import 'package:epasien/app/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
+  BookingProviderHome _bookingProvider =
+      GetInstance().put(BookingProviderHome());
+  final pasien = GetStorage().read('pasien');
   var listWeb = <WebModel>[].obs;
   var listBooking = <RiwayatBookingModel>[].obs;
   var selectedRiwayatBooking = RiwayatBookingModel().obs;
@@ -30,7 +33,7 @@ class HomeController extends GetxController {
   void onClose() {}
 
   onRefreshBooking() {
-    BookingProvider().fetchRiwayatBooking({'no_rkm_medis': '165056'}).then(
+    _bookingProvider.fetchRiwayatBooking({'no_rkm_medis': '165056'}).then(
         (value) => listBooking.value = value);
   }
 
@@ -50,11 +53,7 @@ class HomeController extends GetxController {
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/checkin',
-              body)
-          .then((res) {
+      _bookingProvider.checkin(body).then((res) {
         print(res.bodyString);
         DialogHelper.hideLoading();
         bookingDetail();
@@ -118,19 +117,15 @@ class HomeController extends GetxController {
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/checkin',
-              body)
-          .then((res) {
+      _bookingProvider.checkin(body).then((res) {
         print(res.bodyString);
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;
         var message = res.body['message'];
         if (statusCode == 200) {
-          onRefreshBooking();
           Get.back();
+          onRefreshBooking();
         }
         Get.snackbar(
           statusCode == 200 ? 'Batal checkin berhasil' : 'Batal checkin gagal',
@@ -184,12 +179,9 @@ class HomeController extends GetxController {
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      RiwayatBookingProvider()
-          .post(
-              'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/apm/bookingdetail',
-              body)
-          .then((res) => selectedRiwayatBooking.value =
-              selectedRiwayatBookingModelFromJson(res.bodyString!));
+      _bookingProvider.fetchRiwayatBookingDetail(body).then(
+            (res) => selectedRiwayatBooking.value = res,
+          );
     } catch (e) {}
   }
 }

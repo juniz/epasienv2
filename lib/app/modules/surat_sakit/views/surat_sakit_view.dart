@@ -1,5 +1,6 @@
 import 'package:epasien/app/modules/surat_sakit/components/MLCutiSakitComponents.dart';
 import 'package:epasien/app/modules/surat_sakit/components/MLNarkobaComponents.dart';
+import 'package:epasien/app/modules/surat_sakit/components/MLRujukanComponents.dart';
 import 'package:epasien/app/modules/surat_sakit/components/MLSuratKontrolComponents.dart';
 import 'package:epasien/app/utils/MLColors.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class SuratSakitView extends GetView<SuratSakitController> {
                       Tab(text: 'Cuti Sakit'),
                       Tab(text: 'Bebas Narkoba'),
                       Tab(text: 'Kontrol/SKDP'),
-                      // Tab(text: 'Operasi'),
+                      Tab(text: 'Rujukan'),
                     ],
                   ),
                   Flexible(
@@ -55,7 +56,7 @@ class SuratSakitView extends GetView<SuratSakitController> {
                         MLCutiSakitComponents(),
                         MLNarkobaComponents(),
                         MLSuratKontrolComponents(),
-                        // MLOperasiComponent(),
+                        MLRujukanComponents(),
                       ],
                     ),
                   ),

@@ -39,7 +39,7 @@ class MLSuratKontrolComponents extends StatelessWidget {
                         DataColumn(label: Text('Rencana Tindak Lanjut')),
                         DataColumn(label: Text('Kembali')),
                       ],
-                      rows: controller.listSuratKontrol
+                      rows: controller.listSuratKontrol.value
                           .map(
                             (e) => DataRow(
                               cells: <DataCell>[
@@ -50,8 +50,8 @@ class MLSuratKontrolComponents extends StatelessWidget {
                                       e.noAntrian!,
                                       style: primaryTextStyle(color: white),
                                     ),
-                                    onTap: () =>
-                                        controller.suratSKDP(e.noAntrian!),
+                                    onTap: () => controller.suratSKDP(
+                                        e.noAntrian!, e.tahun!.toString()),
                                   ).cornerRadiusWithClipRRect(10).paddingAll(2),
                                 ),
                                 DataCell(Text(e.nmDokter!)),

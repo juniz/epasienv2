@@ -77,7 +77,7 @@ class MLHomeDetailBookingState extends State<MLHomeDetailBooking> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset((topHospitalList[0].image).validate(),
+                          Image.asset('images/reservation.jpg',
                                   width: double.infinity,
                                   height: 150.0,
                                   fit: BoxFit.cover)
@@ -143,8 +143,8 @@ class MLHomeDetailBookingState extends State<MLHomeDetailBooking> {
                                       primaryTextStyle(color: mlColorDarkBlue))
                               .paddingLeft(18.0),
                           16.height,
-                          controller.selectedRiwayatBooking.value.status !=
-                                  'Batal'
+                          controller.selectedRiwayatBooking.value.status ==
+                                  'Belum'
                               ? Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -157,7 +157,15 @@ class MLHomeDetailBookingState extends State<MLHomeDetailBooking> {
                                         "Check In",
                                         style: boldTextStyle(color: white),
                                       ),
-                                      onTap: () => controller.checkin(),
+                                      onTap: () => showConfirmDialog(
+                                        context,
+                                        'Anda yakin ingin melakukan check in booking?',
+                                        onAccept: () {
+                                          controller.checkin();
+                                        },
+                                        positiveText: 'Ya',
+                                        negativeText: 'Tidak',
+                                      ),
                                     ).cornerRadiusWithClipRRect(10),
                                     AppButton(
                                       height: 50,
@@ -167,7 +175,15 @@ class MLHomeDetailBookingState extends State<MLHomeDetailBooking> {
                                         "Batal",
                                         style: boldTextStyle(color: white),
                                       ),
-                                      onTap: () => controller.batalCheckin(),
+                                      onTap: () => showConfirmDialog(
+                                        context,
+                                        'Anda yakin ingin membatalkan booking?',
+                                        onAccept: () {
+                                          controller.batalCheckin();
+                                        },
+                                        positiveText: 'Ya',
+                                        negativeText: 'Tidak',
+                                      ),
                                     ).cornerRadiusWithClipRRect(10)
                                   ],
                                 )

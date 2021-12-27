@@ -14,6 +14,10 @@ class DashboardView extends GetView<DashboardController> {
         () => Scaffold(
           backgroundColor: white,
           body: controller.widgets[controller.currentWidget.value],
+          floatingActionButton: FloatingActionButton(
+              child: Image.asset('images/whatsapp.png'),
+              // tooltip: 'Telehot',
+              onPressed: () => controller.whatsAppOpen()),
           bottomNavigationBar: Container(
             color: Colors.white,
             child: showBottomDrawer(),
