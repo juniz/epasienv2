@@ -18,6 +18,7 @@ abstract class Routes {
   static const SURAT_SAKIT = _Paths.SURAT_SAKIT;
   static const LOGIN = _Paths.LOGIN;
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
+  static const PANDUAN = _Paths.PANDUAN;
 }
 
 abstract class _Paths {
@@ -35,4 +36,5 @@ abstract class _Paths {
   static const SURAT_SAKIT = '/surat-sakit';
   static const LOGIN = '/login';
   static const SPLASH_SCREEN = '/splash-screen';
+  static const PANDUAN = '/panduan';
 }

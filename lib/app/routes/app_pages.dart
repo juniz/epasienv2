@@ -18,6 +18,8 @@ import 'package:epasien/app/modules/kedersediaan_kamar/bindings/kedersediaan_kam
 import 'package:epasien/app/modules/kedersediaan_kamar/views/kedersediaan_kamar_view.dart';
 import 'package:epasien/app/modules/login/bindings/login_binding.dart';
 import 'package:epasien/app/modules/login/views/login_view.dart';
+import 'package:epasien/app/modules/panduan/bindings/panduan_binding.dart';
+import 'package:epasien/app/modules/panduan/views/panduan_view.dart';
 import 'package:epasien/app/modules/pengaduan/bindings/pengaduan_binding.dart';
 import 'package:epasien/app/modules/pengaduan/views/pengaduan_view.dart';
 import 'package:epasien/app/modules/riwayat_booking/bindings/riwayat_booking_binding.dart';
@@ -106,6 +108,11 @@ class AppPages {
       name: _Paths.SPLASH_SCREEN,
       page: () => SplashScreenView(),
       binding: SplashScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.PANDUAN,
+      page: () => PanduanView(),
+      binding: PanduanBinding(),
     ),
   ];
 }

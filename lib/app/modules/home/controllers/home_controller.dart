@@ -54,7 +54,7 @@ class HomeController extends GetxController {
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
       _bookingProvider.checkin(body).then((res) {
-        print(res.bodyString);
+        // print(res.bodyString);
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;
@@ -118,7 +118,7 @@ class HomeController extends GetxController {
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
       _bookingProvider.checkin(body).then((res) {
-        print(res.bodyString);
+        // print(res.bodyString);
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;

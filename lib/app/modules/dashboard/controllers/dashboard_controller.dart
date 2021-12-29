@@ -1,4 +1,5 @@
 import 'package:epasien/app/modules/home/views/home_view.dart';
+import 'package:epasien/app/modules/panduan/views/panduan_view.dart';
 import 'package:epasien/app/modules/riwayat_booking/views/riwayat_booking_view.dart';
 import 'package:epasien/app/modules/surat_sakit/views/surat_sakit_view.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +12,11 @@ class DashboardController extends GetxController {
   //TODO: Implement DashboardController
   final rumkit = GetStorage().read('rumkit');
   var currentWidget = 0.obs;
-  List<Widget> widgets = [
+  List<dynamic> widgets = [
     HomeView(),
     RiwayatBookingView(),
     SuratSakitView(),
+    PanduanView(),
   ];
 
   @override
