@@ -1,8 +1,9 @@
 import 'package:epasien/app/modules/home/views/home_view.dart';
 import 'package:epasien/app/modules/panduan/views/panduan_view.dart';
+import 'package:epasien/app/modules/profile/views/profile_view.dart';
 import 'package:epasien/app/modules/riwayat_booking/views/riwayat_booking_view.dart';
 import 'package:epasien/app/modules/surat_sakit/views/surat_sakit_view.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:flutter_launch/flutter_launch.dart';
 import 'package:get_storage/get_storage.dart';
@@ -17,6 +18,7 @@ class DashboardController extends GetxController {
     RiwayatBookingView(),
     SuratSakitView(),
     PanduanView(),
+    ProfileView(),
   ];
 
   @override

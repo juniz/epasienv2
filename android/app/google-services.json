@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "291534560731",
+    "project_id": "epasienrsbnganjuk",
+    "storage_bucket": "epasienrsbnganjuk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291534560731:android:a08e640dd2e28cd80b1bfe",
+        "android_client_info": {
+          "package_name": "com.bhayangkaranganjuk.epasien"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291534560731-hd1jggoiqr50e4pdqjhnne8nl9egjb8b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bhayangkaranganjuk.epasien",
+            "certificate_hash": "154d4b42874624abb37d8b1f3ae5ba0f550f7422"
+          }
+        },
+        {
+          "client_id": "291534560731-mvsp6lm8n5sdch1mb30lr9413g7t4539.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bhayangkaranganjuk.epasien",
+            "certificate_hash": "5307ad178d65d58c1058ce44c1dddca4bc290cda"
+          }
+        },
+        {
+          "client_id": "291534560731-plh22j5t55ntebg3pfplfgbnf72s6ots.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEkJWGwouFIvU1HBnftBaqCbY40Jkozs4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291534560731-plh22j5t55ntebg3pfplfgbnf72s6ots.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

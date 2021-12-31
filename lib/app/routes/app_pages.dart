@@ -22,6 +22,8 @@ import 'package:epasien/app/modules/panduan/bindings/panduan_binding.dart';
 import 'package:epasien/app/modules/panduan/views/panduan_view.dart';
 import 'package:epasien/app/modules/pengaduan/bindings/pengaduan_binding.dart';
 import 'package:epasien/app/modules/pengaduan/views/pengaduan_view.dart';
+import 'package:epasien/app/modules/profile/bindings/profile_binding.dart';
+import 'package:epasien/app/modules/profile/views/profile_view.dart';
 import 'package:epasien/app/modules/riwayat_booking/bindings/riwayat_booking_binding.dart';
 import 'package:epasien/app/modules/riwayat_booking/views/riwayat_booking_view.dart';
 import 'package:epasien/app/modules/splash_screen/bindings/splash_screen_binding.dart';
@@ -113,6 +115,11 @@ class AppPages {
       name: _Paths.PANDUAN,
       page: () => PanduanView(),
       binding: PanduanBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => ProfileView(),
+      binding: ProfileBinding(),
     ),
   ];
 }

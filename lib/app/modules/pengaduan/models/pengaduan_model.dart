@@ -19,16 +19,16 @@ class PengaduanModel {
     this.message,
   });
 
-  int? id;
+  String? id;
   DateTime? dateTime;
   String? username;
   String? message;
 
   factory PengaduanModel.fromJson(Map<String, dynamic> json) => PengaduanModel(
         id: json["id"],
-        dateTime: DateTime.parse(json["date_time"]),
-        username: json["username"],
-        message: json["message"],
+        dateTime: DateTime.parse(json["tanggal"]),
+        username: json["no_rkm_medis"],
+        message: json["pesan"],
       );
 
   Map<String, dynamic> toJson() => {

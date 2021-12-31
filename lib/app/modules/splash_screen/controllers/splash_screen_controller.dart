@@ -38,7 +38,12 @@ class SplashScreenController extends GetxController {
         GetStorage().write('token', token.body['data']['token']);
         GetStorage().write('rumkit', value.body);
         var pasien = GetStorage().read('pasien');
-        if (pasien['no_rkm_medis'] != null) {
+        var loginRes = await _loginprovider.login({
+          'username': pasien['no_rkm_medis'],
+          'password': pasien['tgl_lahir']
+        });
+        if (loginRes.statusCode == 200) {
+          GetStorage().write('pasien', loginRes.body);
           Get.offAllNamed(Routes.DASHBOARD);
         } else {
           Get.offNamed('login');

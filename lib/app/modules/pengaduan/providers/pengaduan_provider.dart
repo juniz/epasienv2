@@ -36,6 +36,7 @@ class PengaduanProvider extends GetConnect {
 
   Future<Response> kirimPengaduan(var body) async {
     final response = await post("apm/kirimpengaduan", body);
+    print(response.bodyString);
     if (response.status.hasError) {
       toast(response.statusText!);
       return Future.error(response.statusText!);

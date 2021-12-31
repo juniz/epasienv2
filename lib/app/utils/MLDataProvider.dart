@@ -724,14 +724,16 @@ List<MLOrderTrackData> mlOrderTrackDataList() {
 List<MLProfileCardData> mlProfileDataList() {
   List<MLProfileCardData> list = [];
   list.add(MLProfileCardData(
-      img: ml_prescription1, name: 'Prescription', color: Colors.blueAccent));
+      img: 'images/information.png',
+      name: 'Kunjungan',
+      color: Colors.pinkAccent));
   list.add(MLProfileCardData(
-      img: ml_prescription2,
-      name: 'Medical Record',
+      img: 'images/check-up.png', name: 'Rawat Jalan', color: Colors.cyan));
+  list.add(MLProfileCardData(
+      img: 'images/bed.png', name: 'Rawat Inap', color: Colors.blueAccent));
+  list.add(MLProfileCardData(
+      img: 'images/calendar.png',
+      name: 'Bulan Ini',
       color: Colors.orangeAccent));
-  list.add(MLProfileCardData(
-      img: ml_prescription3, name: 'Medical Test', color: Colors.pinkAccent));
-  list.add(MLProfileCardData(
-      img: ml_prescription4, name: 'Health Tracking', color: Colors.cyan));
   return list;
 }
