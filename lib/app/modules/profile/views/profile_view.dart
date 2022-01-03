@@ -32,7 +32,17 @@ class ProfileView extends GetView<ProfileController> {
                           Icons.logout,
                           color: white,
                           size: 30,
-                        ),
+                        ).onTap(() {
+                          showConfirmDialog(
+                            context,
+                            'Anda yakin ingin keluar dari aplikasi?',
+                            positiveText: 'Ya',
+                            negativeText: 'Tidak',
+                            onAccept: () {
+                              controller.logOut();
+                            },
+                          );
+                        }),
                       ).paddingAll(10),
                       Align(
                         alignment: Alignment.center,

@@ -63,7 +63,13 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
                         backgroundColor: Colors.grey.shade50,
                         borderRadius: radius(12),
                         border: Border.all(
-                          color: mlPrimaryColor,
+                          color: controller.listBooking.value[0].status ==
+                                  'Terdaftar'
+                              ? Colors.green
+                              : controller.listBooking.value[0].status ==
+                                      'Belum'
+                                  ? mlColorDarkBlue
+                                  : Colors.red,
                         ),
                       ),
                       child: Column(

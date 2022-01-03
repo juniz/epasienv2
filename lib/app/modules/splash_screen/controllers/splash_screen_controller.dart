@@ -27,28 +27,34 @@ class SplashScreenController extends GetxController {
     Future.delayed(
       Duration(seconds: 3),
     );
-    _provider.rumkit().then((value) async {
-      // print(value.body);
-      if (value.statusCode == 200) {
-        var token = await _provider.getToken({
-          'username': value.body['username'],
-          'password': value.body['password']
-        });
-        // print(value.bodyString);
-        GetStorage().write('token', token.body['data']['token']);
-        GetStorage().write('rumkit', value.body);
-        var pasien = GetStorage().read('pasien');
-        var loginRes = await _loginprovider.login({
-          'username': pasien['no_rkm_medis'],
-          'password': pasien['tgl_lahir']
-        });
-        if (loginRes.statusCode == 200) {
-          GetStorage().write('pasien', loginRes.body);
-          Get.offAllNamed(Routes.DASHBOARD);
-        } else {
-          Get.offNamed('login');
+    _provider.rumkit().then(
+      (value) async {
+        // print(value.body);
+        if (value.statusCode == 200) {
+          var token = await _provider.getToken({
+            'username': value.body['username'],
+            'password': value.body['password']
+          });
+          // print(value.bodyString);
+          GetStorage().write('token', token.body['data']['token']);
+          GetStorage().write('rumkit', value.body);
+          var pasien = GetStorage().read('pasien');
+          if (pasien != null) {
+            var loginRes = await _loginprovider.login({
+              'username': pasien['no_rkm_medis'],
+              'password': pasien['tgl_lahir']
+            });
+            if (loginRes.statusCode == 200) {
+              GetStorage().write('pasien', loginRes.body);
+              Get.offAllNamed(Routes.DASHBOARD);
+            } else {
+              Get.offNamed('login');
+            }
+          } else {
+            Get.offNamed('login');
+          }
         }
-      }
-    });
+      },
+    );
   }
 }
