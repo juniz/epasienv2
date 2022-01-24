@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
-import 'package:epasien/app/modules/jadwal_dokter/providers/jadwal_dokter_home_provider.dart';
+import 'package:ALPOKAT/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
+import 'package:ALPOKAT/app/modules/jadwal_dokter/providers/jadwal_dokter_home_provider.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +15,7 @@ class JadwalDokterController extends GetxController {
   var selectedDokter = "".obs;
   var listPoliklinik = <JadwalPoliklinikModel>[].obs;
   var selectedJam = "".obs;
+  var loadJadwal = true.obs;
 
   @override
   void onInit() {
@@ -31,27 +32,29 @@ class JadwalDokterController extends GetxController {
   void onClose() {}
 
   getPoliklinik() {
+    loadJadwal.value = true;
+    // print(loadJadwal);
     try {
-      Future.delayed(
-        Duration(seconds: 3),
-      );
-      var body = {
-        'tanggal': DateFormat('yyyy-MM-dd').format(selectedDate.value),
-      };
+      Future.delayed(Duration(seconds: 1), () {
+        var body = {
+          'tanggal': DateFormat('yyyy-MM-dd').format(selectedDate.value),
+        };
 
-      _jadwalProvider.fetchJadwalDokter(body).then((value) {
-        listPoliklinik.value = value;
-        if (listPoliklinik.value.isEmpty) {
-          selectedKdDokter.value = "";
-          selectedKdPoli.value = "";
-        } else {
-          selectedKdDokter.value = listPoliklinik.value[0].kdDokter!;
-          selectedDokter.value = listPoliklinik.value[0].nmDokter!;
-          selectedKdPoli.value = listPoliklinik.value[0].kdPoli!;
-          selectedPoli.value = listPoliklinik.value[0].nmPoli!;
-          selectedJam.value =
-              '${listPoliklinik.value[0].jamMulai} - ${listPoliklinik.value[0].jamSelesai}';
-        }
+        _jadwalProvider.fetchJadwalDokter(body).then((value) {
+          listPoliklinik.value = value;
+          if (listPoliklinik.value.isEmpty) {
+            selectedKdDokter.value = "";
+            selectedKdPoli.value = "";
+          } else {
+            selectedKdDokter.value = listPoliklinik.value[0].kdDokter!;
+            selectedDokter.value = listPoliklinik.value[0].nmDokter!;
+            selectedKdPoli.value = listPoliklinik.value[0].kdPoli!;
+            selectedPoli.value = listPoliklinik.value[0].nmPoli!;
+            selectedJam.value =
+                '${listPoliklinik.value[0].jamMulai} - ${listPoliklinik.value[0].jamSelesai}';
+          }
+          loadJadwal(false);
+        });
       });
     } catch (e) {
       print(e);

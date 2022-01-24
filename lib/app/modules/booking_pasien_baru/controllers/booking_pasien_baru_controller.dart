@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/booking_pasien_baru/models/poliklinik_model.dart';
-import 'package:epasien/app/modules/booking_pasien_baru/providers/poliklinik_provider.dart';
+import 'package:ALPOKAT/app/modules/booking_pasien_baru/models/poliklinik_model.dart';
+import 'package:ALPOKAT/app/modules/booking_pasien_baru/providers/poliklinik_provider.dart';
 import 'package:get/get.dart';
 import 'package:smart_select/smart_select.dart';
 

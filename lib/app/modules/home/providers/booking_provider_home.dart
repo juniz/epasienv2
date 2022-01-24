@@ -1,4 +1,5 @@
-import 'package:epasien/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
+import 'package:ALPOKAT/app/modules/home/models/Homevisite.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -83,5 +84,17 @@ class BookingProviderHome extends GetConnect {
     } else {
       return response;
     }
+  }
+
+  Future<Response> postHomevisite(var body) async {
+    final response = await post("apm/daftarhomevisite", body);
+    // print(response.bodyString);
+    return response;
+  }
+
+  Future<HomeVisiteModel> fetchHomevisite(var body) async {
+    final response = await post("apm/homevisite", body);
+    print(response.bodyString);
+    return homeVisiteModelFromJson(response.bodyString!);
   }
 }

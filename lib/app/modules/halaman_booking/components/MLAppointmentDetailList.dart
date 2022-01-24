@@ -1,8 +1,5 @@
-import 'package:epasien/app/data/MLTopHospitalData.dart';
-import 'package:epasien/app/modules/halaman_booking/controllers/halaman_booking_controller.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLDataProvider.dart';
-import 'package:epasien/app/utils/MLImage.dart';
+import 'package:ALPOKAT/app/modules/halaman_booking/controllers/halaman_booking_controller.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -15,7 +12,7 @@ class MLAppointmentDetailList extends StatefulWidget {
 
 class MLAppointmentDetailListState extends State<MLAppointmentDetailList> {
   final controller = Get.find<HalamanBookingController>();
-  List<MLTopHospitalData> topHospitalList = mlHospitalListDataList();
+  // List<MLTopHospitalData> topHospitalList = mlHospitalListDataList();
 
   @override
   void initState() {

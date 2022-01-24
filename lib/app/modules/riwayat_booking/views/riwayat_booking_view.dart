@@ -1,7 +1,7 @@
-import 'package:epasien/app/modules/riwayat_booking/components/MLAppointmentDetailListComponent.dart';
-import 'package:epasien/app/modules/riwayat_booking/components/MLRiwayatPemeriksaanComponent.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLString.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/components/MLAppointmentDetailListComponent.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/components/MLRiwayatPemeriksaanComponent.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLString.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';

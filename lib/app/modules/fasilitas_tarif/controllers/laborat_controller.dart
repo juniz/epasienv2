@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/fasilitas_tarif/models/laborat_model.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/providers/laborat_provider.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/models/laborat_model.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/providers/laborat_provider.dart';
 import 'package:get/get.dart';
 
 class LaboratController extends GetxController {

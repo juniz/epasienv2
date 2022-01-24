@@ -1,8 +1,9 @@
-import 'package:epasien/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../controllers/panduan_controller.dart';
@@ -58,54 +59,17 @@ class ResumeWidget extends StatelessWidget {
     return ExpandableNotifier(
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: <Widget>[
-              ScrollOnExpand(
-                scrollOnExpand: true,
-                scrollOnCollapse: false,
-                child: ExpandablePanel(
-                  theme: const ExpandableThemeData(
-                    hasIcon: false,
-                    tapHeaderToExpand: true,
-                    headerAlignment: ExpandablePanelHeaderAlignment.center,
-                    tapBodyToCollapse: true,
-                  ),
-                  header: Container(
-                    width: Get.width,
-                    color: mlPrimaryColor,
-                    child: Text(
-                      header!,
-                      style: boldTextStyle(color: white),
-                    ).paddingAll(16),
-                  ).cornerRadiusWithClipRRect(10),
-                  collapsed: Container(),
-                  expanded: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        controller!,
-                        style: primaryTextStyle(size: 12),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ).paddingAll(10),
-                    ],
-                  ),
-                  builder: (_, collapsed, expanded) {
-                    return Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                      child: Expandable(
-                        collapsed: collapsed,
-                        expanded: expanded,
-                        theme: const ExpandableThemeData(crossFadePoint: 0),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+        child: GFAccordion(
+          titleChild: Text(
+            header!,
+            style: boldTextStyle(color: white),
           ),
+          content: controller,
+          collapsedIcon: Icon(Icons.add, color: white),
+          expandedIcon: Icon(Icons.minimize, color: white),
+          collapsedTitleBackgroundColor: mlPrimaryColor,
+          expandedTitleBackgroundColor: mlColorCyan,
+          titleBorderRadius: BorderRadius.all(radiusCircular(10)),
         ),
       ),
     );

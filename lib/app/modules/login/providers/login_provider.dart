@@ -3,9 +3,11 @@ import 'package:get_storage/get_storage.dart';
 
 class LoginProvider extends GetConnect {
   final rumkit = GetStorage().read('rumkit');
+
   @override
   void onInit() {
-    httpClient.baseUrl = rumkit['urlBase'];
+    httpClient.baseUrl =
+        'https://webapps.rsbhayangkaranganjuk.com/api-rsbnganjuk/api/v1/';
 
     httpClient.addRequestModifier<dynamic>((request) {
       request.headers['Accept'] = 'application/json';

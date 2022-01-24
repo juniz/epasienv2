@@ -1,7 +1,7 @@
-import 'package:epasien/app/modules/riwayat_booking/models/BillingModel.dart';
-import 'package:epasien/app/modules/riwayat_booking/models/ResumeModel.dart';
-import 'package:epasien/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
-import 'package:epasien/app/modules/riwayat_booking/models/RiwayatPemeriksaanModel.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/BillingModel.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/ResumeModel.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatPemeriksaanModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -81,7 +81,6 @@ class RiwayatBookingProvider extends GetConnect {
   Future<List<RiwayatPemeriksaanModel>> fetchRiwayatPeriksaan(
       dynamic body) async {
     final response = await post('apm/riwayatperiksa', body);
-    print(response.bodyString);
     if (response.status.hasError) {
       Get.snackbar(
         'Error',

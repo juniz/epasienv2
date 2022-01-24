@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/jadwal_dokter/controllers/jadwal_dokter_controller.dart';
-import 'package:epasien/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/modules/jadwal_dokter/controllers/jadwal_dokter_controller.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';

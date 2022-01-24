@@ -1,4 +1,4 @@
-import 'package:epasien/app/modules/kedersediaan_kamar/providers/ketersediaan_kamar_provider.dart';
+import 'package:ALPOKAT/app/modules/kedersediaan_kamar/providers/ketersediaan_kamar_provider.dart';
 import 'package:get/get.dart';
 
 import '../controllers/kedersediaan_kamar_controller.dart';

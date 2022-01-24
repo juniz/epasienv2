@@ -1,6 +1,6 @@
-import 'package:epasien/app/modules/kedersediaan_kamar/models/BangsalKamar.dart';
-import 'package:epasien/app/modules/kedersediaan_kamar/models/KelasKamar.dart';
-import 'package:epasien/app/modules/kedersediaan_kamar/providers/ketersediaan_kamar_provider.dart';
+import 'package:ALPOKAT/app/modules/kedersediaan_kamar/models/BangsalKamar.dart';
+import 'package:ALPOKAT/app/modules/kedersediaan_kamar/models/KelasKamar.dart';
+import 'package:ALPOKAT/app/modules/kedersediaan_kamar/providers/ketersediaan_kamar_provider.dart';
 import 'package:get/get.dart';
 
 class KedersediaanKamarController extends GetxController {

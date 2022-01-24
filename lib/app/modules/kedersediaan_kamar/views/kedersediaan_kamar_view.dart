@@ -1,5 +1,5 @@
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLCommon.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLCommon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';

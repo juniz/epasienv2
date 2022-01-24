@@ -1,7 +1,5 @@
-import 'package:epasien/app/data/MLCovidData.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/fasilitas_tarif_controller.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLDataProvider.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/controllers/fasilitas_tarif_controller.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

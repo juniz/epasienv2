@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/fasilitas_tarif/models/operasi_model.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/providers/operasi_provider.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/models/operasi_model.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/providers/operasi_provider.dart';
 import 'package:get/get.dart';
 
 class OperasiController extends GetxController {

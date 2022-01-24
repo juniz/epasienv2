@@ -1,10 +1,11 @@
-import 'package:epasien/app/data/MLServiceData.dart';
-import 'package:epasien/app/modules/home/controllers/home_controller.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLDataProvider.dart';
-import 'package:epasien/app/utils/MLImage.dart';
-import 'package:epasien/app/utils/MLString.dart';
+import 'package:ALPOKAT/app/data/MLServiceData.dart';
+import 'package:ALPOKAT/app/modules/home/controllers/home_controller.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
+import 'package:ALPOKAT/app/utils/MLImage.dart';
+import 'package:ALPOKAT/app/utils/MLString.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -50,11 +51,13 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
             children: [
               Row(
                 children: [
-                  // CircleAvatar(
-                  //     child: Image.asset(ml_ic_profile_picture!),
-                  //     radius: 22,
-                  //     backgroundColor: mlColorCyan),
-                  // 8.width,
+                  CircleAvatar(
+                      child: Image.asset(controller.pasien['jk'] == 'P'
+                          ? ml_ic_profile_picture!
+                          : 'images/profile.png'),
+                      radius: 22,
+                      backgroundColor: mlColorCyan),
+                  8.width,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -62,8 +65,11 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
                           style: secondaryTextStyle(
                               color: white.withOpacity(0.7))),
                       4.height,
-                      Text(controller.pasien['nm_pasien'],
-                          style: boldTextStyle(color: whiteColor)),
+                      Text(
+                        controller.pasien['nm_pasien'],
+                        style: boldTextStyle(color: whiteColor),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   ),
                 ],
@@ -74,7 +80,8 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
                   // 10.width,
                   Stack(
                     children: [
-                      Icon(Icons.shopping_bag_outlined, color: white, size: 24),
+                      Icon(Icons.shopping_bag_outlined, color: white, size: 24)
+                          .visible(false),
                       Positioned(
                         top: 0.0,
                         right: 0.0,
@@ -123,7 +130,17 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
                     ],
                   ),
                 ).onTap(() {
-                  Get.toNamed(e.widget!);
+                  if (e.title == 'Home Visit') {
+                    DatePicker.showDatePicker(context,
+                        showTitleActions: true,
+                        minTime: DateTime.now().add(Duration(days: 2)),
+                        maxTime: DateTime.now().add(Duration(days: 9)),
+                        onConfirm: (date) {
+                      controller.postHomevisite(date);
+                    }, currentTime: DateTime.now(), locale: LocaleType.id);
+                  } else {
+                    Get.toNamed(e.widget!);
+                  }
                 });
               }).toList(),
             ),

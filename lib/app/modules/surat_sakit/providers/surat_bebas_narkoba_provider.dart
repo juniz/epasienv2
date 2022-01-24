@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/surat_sakit/models/DataSuratSakitModel.dart';
-import 'package:epasien/app/modules/surat_sakit/models/LIstSuratNarkobaModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/DataSuratSakitModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/LIstSuratNarkobaModel.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

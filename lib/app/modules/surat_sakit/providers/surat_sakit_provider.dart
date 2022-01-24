@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:epasien/app/modules/surat_sakit/models/data_surat_sakit_model.dart';
-import 'package:epasien/app/modules/surat_sakit/models/surat_sakit_model.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/data_surat_sakit_model.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/surat_sakit_model.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

@@ -1,11 +1,10 @@
-import 'package:epasien/app/modules/riwayat_booking/controllers/riwayat_booking_controller.dart';
-import 'package:epasien/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/controllers/riwayat_booking_controller.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:nb_utils/src/extensions/widget_extensions.dart';
+import 'package:getwidget/getwidget.dart';
 
 class MLResumeDetailList extends StatelessWidget {
   const MLResumeDetailList({Key? key}) : super(key: key);
@@ -40,34 +39,216 @@ class MLResumeDetailList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ResumeWidget(
-                      controller: controller.dataResume.value.nmDokter,
-                      header: 'Dokter DPJP',
+                    GFAccordion(
+                      titleChild: Text(
+                        'Dokter DPJP',
+                        style: boldTextStyle(color: white),
+                      ),
+                      content: controller.dataResume.value.nmDokter,
+                      collapsedIcon: Icon(Icons.add, color: white),
+                      expandedIcon: Icon(Icons.minimize, color: white),
+                      collapsedTitleBackgroundColor: mlPrimaryColor,
+                      expandedTitleBackgroundColor: mlColorCyan,
+                      titleBorderRadius: BorderRadius.all(radiusCircular(10)),
                     ),
-                    ResumeWidget(
-                      controller: controller.dataResume.value.diagnosaUtama,
-                      header: 'Keluhan Utama Riwayat Penyakit Yang Positif',
+                    GFAccordion(
+                      titleChild: Text(
+                        'Keluhan Utama Riwayat Penyakit Yang Positif',
+                        style: boldTextStyle(color: white),
+                      ),
+                      content: controller.dataResume.value.diagnosaUtama,
+                      collapsedIcon: Icon(Icons.add, color: white),
+                      expandedIcon: Icon(Icons.minimize, color: white),
+                      collapsedTitleBackgroundColor: mlPrimaryColor,
+                      expandedTitleBackgroundColor: mlColorCyan,
+                      titleBorderRadius: BorderRadius.all(radiusCircular(10)),
                     ),
-                    ResumeWidget(
-                      controller: controller.dataResume.value.jalannyaPenyakit,
-                      header: 'Jalannya Penyakit Selama Perawatan',
+                    GFAccordion(
+                      titleChild: Text(
+                        'Jalannya Penyakit Selama Perawatan',
+                        style: boldTextStyle(color: white),
+                      ),
+                      content: controller.dataResume.value.jalannyaPenyakit,
+                      collapsedIcon: Icon(Icons.add, color: white),
+                      expandedIcon: Icon(Icons.minimize, color: white),
+                      collapsedTitleBackgroundColor: mlPrimaryColor,
+                      expandedTitleBackgroundColor: mlColorCyan,
+                      titleBorderRadius: BorderRadius.all(radiusCircular(10)),
                     ),
-                    ResumeWidget(
-                      controller:
-                          controller.dataResume.value.pemeriksaanPenunjang,
-                      header: 'Pemeriksaan Penunjang Yang Positif',
+                    GFAccordion(
+                      titleChild: Text(
+                        'Pemeriksaan Penunjang Yang Positif',
+                        style: boldTextStyle(color: white),
+                      ),
+                      content: controller.dataResume.value.pemeriksaanPenunjang,
+                      collapsedIcon: Icon(Icons.add, color: white),
+                      expandedIcon: Icon(Icons.minimize, color: white),
+                      collapsedTitleBackgroundColor: mlPrimaryColor,
+                      expandedTitleBackgroundColor: mlColorCyan,
+                      titleBorderRadius: BorderRadius.all(radiusCircular(10)),
                     ),
-                    ResumeWidget(
-                      controller: controller.dataResume.value.hasilLaborat,
-                      header: 'Hasil Laboratorium Yang Positif',
+                    GFAccordion(
+                      titleChild: Text(
+                        'Hasil Laboratorium Yang Positif',
+                        style: boldTextStyle(color: white),
+                      ),
+                      content: controller.dataResume.value.hasilLaborat,
+                      collapsedIcon: Icon(Icons.add, color: white),
+                      expandedIcon: Icon(Icons.minimize, color: white),
+                      collapsedTitleBackgroundColor: mlPrimaryColor,
+                      expandedTitleBackgroundColor: mlColorCyan,
+                      titleBorderRadius: BorderRadius.all(radiusCircular(10)),
                     ),
-                    ResumeAkhirWidget(
-                      controller: controller,
-                      header: 'Diagnosa Akhir',
+                    GFAccordion(
+                      titleChild: Text(
+                        'Hasil Laboratorium Yang Positif',
+                        style: boldTextStyle(color: white),
+                      ),
+                      content: controller.dataResume.value.hasilLaborat,
+                      collapsedIcon: Icon(Icons.add, color: white),
+                      expandedIcon: Icon(Icons.minimize, color: white),
+                      collapsedTitleBackgroundColor: mlPrimaryColor,
+                      expandedTitleBackgroundColor: mlColorCyan,
+                      titleBorderRadius: BorderRadius.all(radiusCircular(10)),
                     ),
-                    ResumeWidget(
-                      controller: controller.dataResume.value.obatPulang,
-                      header: 'Obat-obatan Waktu Pulang/Nasihat',
+                    GFAccordion(
+                      titleChild: Text(
+                        'Diagnosa Akhir',
+                        style: boldTextStyle(color: white),
+                      ),
+                      contentChild: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              Text('Diagnosa Utama', style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text('${controller.dataResume.value.diagnosaUtama!} (${controller.dataResume.value.kdDiagnosaUtama!})',
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3),
+                            ],
+                          ).paddingAll(5),
+                          Row(
+                            children: [
+                              Text('Diagnosa Sekunder 1',
+                                      style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text(
+                                      controller
+                                          .dataResume.value.diagnosaSekunder!,
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3)
+                            ],
+                          ).paddingAll(5),
+                          Row(
+                            children: [
+                              Text('Diagnosa Sekunder 2',
+                                      style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text(
+                                      controller
+                                          .dataResume.value.diagnosaSekunder2!,
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3)
+                            ],
+                          ).paddingAll(5),
+                          Row(
+                            children: [
+                              Text('Diagnosa Sekunder 3',
+                                      style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text(
+                                      controller
+                                          .dataResume.value.diagnosaSekunder3!,
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3)
+                            ],
+                          ).paddingAll(5),
+                          Row(
+                            children: [
+                              Text('Diagnosa Sekunder 4',
+                                      style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text(
+                                      controller
+                                          .dataResume.value.diagnosaSekunder4!,
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3)
+                            ],
+                          ).paddingAll(5),
+                          Row(
+                            children: [
+                              Text('Prosedur Utama', style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text(controller.dataResume.value.prosedurUtama!,
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3)
+                            ],
+                          ).paddingAll(5),
+                          Row(
+                            children: [
+                              Text('Prosedur Sekunder 1',
+                                      style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text(
+                                      controller
+                                          .dataResume.value.prosedurSekunder!,
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3)
+                            ],
+                          ).paddingAll(5),
+                          Row(
+                            children: [
+                              Text('Prosedur Sekunder 2',
+                                      style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text(
+                                      controller
+                                          .dataResume.value.diagnosaSekunder2!,
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3)
+                            ],
+                          ).paddingAll(5),
+                          Row(
+                            children: [
+                              Text('Prosedur Sekunder 3',
+                                      style: primaryTextStyle())
+                                  .expand(flex: 2),
+                              Text(':').expand(),
+                              Text(
+                                      controller
+                                          .dataResume.value.diagnosaSekunder3!,
+                                      style: primaryTextStyle())
+                                  .expand(flex: 3)
+                            ],
+                          ).paddingAll(5),
+                        ],
+                      ),
+                      collapsedIcon: Icon(Icons.add, color: white),
+                      expandedIcon: Icon(Icons.minimize, color: white),
+                      collapsedTitleBackgroundColor: mlPrimaryColor,
+                      expandedTitleBackgroundColor: mlColorCyan,
+                      titleBorderRadius: BorderRadius.all(radiusCircular(10)),
+                    ),
+                    GFAccordion(
+                      titleChild: Text(
+                        'Obat-obatan Waktu Pulang/Nasihat',
+                        style: boldTextStyle(color: white),
+                      ),
+                      content: controller.dataResume.value.obatPulang,
+                      collapsedIcon: Icon(Icons.add, color: white),
+                      expandedIcon: Icon(Icons.minimize, color: white),
+                      collapsedTitleBackgroundColor: mlPrimaryColor,
+                      expandedTitleBackgroundColor: mlColorCyan,
+                      titleBorderRadius: BorderRadius.all(radiusCircular(10)),
                     ),
                   ],
                 ),

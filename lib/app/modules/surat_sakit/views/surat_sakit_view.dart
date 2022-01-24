@@ -1,8 +1,8 @@
-import 'package:epasien/app/modules/surat_sakit/components/MLCutiSakitComponents.dart';
-import 'package:epasien/app/modules/surat_sakit/components/MLNarkobaComponents.dart';
-import 'package:epasien/app/modules/surat_sakit/components/MLRujukanComponents.dart';
-import 'package:epasien/app/modules/surat_sakit/components/MLSuratKontrolComponents.dart';
-import 'package:epasien/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/components/MLCutiSakitComponents.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/components/MLNarkobaComponents.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/components/MLRujukanComponents.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/components/MLSuratKontrolComponents.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -44,8 +44,8 @@ class SuratSakitView extends GetView<SuratSakitController> {
                     labelStyle: primaryTextStyle(size: 14),
                     tabs: [
                       Tab(text: 'Cuti Sakit'),
-                      Tab(text: 'Bebas Narkoba'),
-                      Tab(text: 'Kontrol/SKDP'),
+                      Tab(text: 'SKBN'),
+                      Tab(text: 'SKDP'),
                       Tab(text: 'Rujukan'),
                     ],
                   ),

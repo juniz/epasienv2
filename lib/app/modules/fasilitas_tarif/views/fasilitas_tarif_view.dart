@@ -1,11 +1,9 @@
-import 'package:epasien/app/modules/fasilitas_tarif/components/MLKamarComponent.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/components/MLOperasiComponent.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/components/MLRadiologiComponent.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/components/MlLaboratComponent.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLCommon.dart';
-import 'package:epasien/app/utils/MLImage.dart';
-import 'package:epasien/app/utils/MLString.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/components/MLKamarComponent.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/components/MLOperasiComponent.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/components/MLRadiologiComponent.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/components/MlLaboratComponent.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLCommon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';

@@ -1,6 +1,6 @@
-import 'package:epasien/app/modules/profile/components/MLProfileBottomComponent.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLImage.dart';
+import 'package:ALPOKAT/app/modules/profile/components/MLProfileBottomComponent.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLImage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';

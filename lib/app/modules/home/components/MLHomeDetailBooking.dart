@@ -1,8 +1,8 @@
-import 'package:epasien/app/data/MLTopHospitalData.dart';
-import 'package:epasien/app/modules/home/controllers/home_controller.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLCommon.dart';
-import 'package:epasien/app/utils/MLDataProvider.dart';
+import 'package:ALPOKAT/app/data/MLTopHospitalData.dart';
+import 'package:ALPOKAT/app/modules/home/controllers/home_controller.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLCommon.dart';
+import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

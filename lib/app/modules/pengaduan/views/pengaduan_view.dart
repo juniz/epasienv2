@@ -1,9 +1,9 @@
-import 'package:epasien/app/data/MLInboxData.dart';
-import 'package:epasien/app/modules/pengaduan/models/jawaban_pengaduan_model.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLCommon.dart';
-import 'package:epasien/app/utils/MLDataProvider.dart';
-import 'package:epasien/app/utils/MLImage.dart';
+import 'package:ALPOKAT/app/data/MLInboxData.dart';
+import 'package:ALPOKAT/app/modules/pengaduan/models/jawaban_pengaduan_model.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLCommon.dart';
+import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
+import 'package:ALPOKAT/app/utils/MLImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

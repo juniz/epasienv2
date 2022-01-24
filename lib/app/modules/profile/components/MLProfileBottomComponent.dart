@@ -1,6 +1,6 @@
-import 'package:epasien/app/data/MLProfileCardData.dart';
-import 'package:epasien/app/modules/profile/controllers/profile_controller.dart';
-import 'package:epasien/app/utils/MLDataProvider.dart';
+import 'package:ALPOKAT/app/data/MLProfileCardData.dart';
+import 'package:ALPOKAT/app/modules/profile/controllers/profile_controller.dart';
+import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -73,61 +73,63 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
             crossAxisCount: 2,
             itemCount: mlProfileData.length,
             itemBuilder: (context, index) {
-              return Obx(() => Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: mlProfileData[index].color!,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.asset(mlProfileData[index].img!,
-                                height: 50, width: 50, fit: BoxFit.cover)
-                            .cornerRadiusWithClipRRect(12.0),
-                        16.height,
-                        Row(
-                          children: [
-                            Text(mlProfileData[index].name.toString(),
-                                    style: secondaryTextStyle(color: white),
-                                    textAlign: TextAlign.start)
-                                .expand(),
-                            controller.statistikPasien.value.isNotEmpty
-                                ? Text(
-                                    mlProfileData[index].name.toString() ==
-                                            'Kunjungan'
-                                        ? controller
-                                            .statistikPasien.value[0].kunjungan
-                                            .toString()
-                                        : mlProfileData[index]
-                                                    .name
-                                                    .toString() ==
-                                                'Rawat Jalan'
-                                            ? controller
-                                                .statistikPasien.value[0].rajal
-                                                .toString()
-                                            : mlProfileData[index]
-                                                        .name
-                                                        .toString() ==
-                                                    'Rawat Inap'
-                                                ? controller.statistikPasien
-                                                    .value[0].ranap
-                                                    .toString()
-                                                : controller.statistikPasien
-                                                    .value[0].bulan
-                                                    .toString(),
-                                    style: secondaryTextStyle(color: white),
-                                  )
-                                : Text(
-                                    '0',
-                                    style: secondaryTextStyle(color: white),
-                                  ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ).onTap(() {
+              return Obx(
+                () => Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: boxDecorationWithRoundedCorners(
+                    backgroundColor: mlProfileData[index].color!,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(mlProfileData[index].img!,
+                              height: 50, width: 50, fit: BoxFit.cover)
+                          .cornerRadiusWithClipRRect(12.0),
+                      16.height,
+                      Row(
+                        children: [
+                          Text(mlProfileData[index].name.toString(),
+                                  style: secondaryTextStyle(color: white),
+                                  textAlign: TextAlign.start)
+                              .expand(),
+                          controller.statistikPasien.value.isNotEmpty
+                              ? Text(
+                                  mlProfileData[index].name.toString() ==
+                                          'Kunjungan'
+                                      ? controller
+                                          .statistikPasien.value[0].kunjungan
+                                          .toString()
+                                      : mlProfileData[index].name.toString() ==
+                                              'Rawat Jalan'
+                                          ? controller
+                                              .statistikPasien.value[0].rajal
+                                              .toString()
+                                          : mlProfileData[index]
+                                                      .name
+                                                      .toString() ==
+                                                  'Rawat Inap'
+                                              ? controller.statistikPasien
+                                                  .value[0].ranap
+                                                  .toString()
+                                              : controller.statistikPasien
+                                                  .value[0].bulan
+                                                  .toString(),
+                                  style: secondaryTextStyle(color: white),
+                                )
+                              : Text(
+                                  '0',
+                                  style: secondaryTextStyle(color: white),
+                                ),
+                        ],
+                      )
+                    ],
+                  ),
+                ).onTap(
+                  () {
                     toasty(context, mlProfileData[index].name);
-                  }));
+                  },
+                ),
+              );
             },
             staggeredTileBuilder: (index) => StaggeredTile.fit(1),
             mainAxisSpacing: 16.0,
@@ -240,26 +242,6 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                 toasty(context, controller.pasien['no_tlp']);
               }),
             ],
-            // children: data.map((e) {
-            //   return Container(
-            //     margin: EdgeInsets.only(bottom: 16.0),
-            //     padding: EdgeInsets.all(12.0),
-            //     decoration: boxDecorationRoundedWithShadow(8),
-            //     child: Row(
-            //       children: [
-            //         Icon(Icons.tab, size: 24, color: Colors.blue),
-            //         8.width,
-            //         Text(e.validate(),
-            //                 style: secondaryTextStyle(color: black, size: 16))
-            //             .expand(),
-            //         Icon(Icons.arrow_forward_ios,
-            //             color: Colors.grey[300], size: 16),
-            //       ],
-            //     ),
-            //   ).onTap(() {
-            //     toasty(context, e.validate());
-            //   });
-            // }).toList(),
           ),
         ],
       ),

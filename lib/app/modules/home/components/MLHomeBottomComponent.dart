@@ -1,15 +1,16 @@
-import 'package:epasien/app/data/MLDepartmentData.dart';
-import 'package:epasien/app/data/MLTopHospitalData.dart';
-import 'package:epasien/app/modules/home/components/MLHomeDetailBooking.dart';
-import 'package:epasien/app/modules/home/controllers/home_controller.dart';
-import 'package:epasien/app/modules/riwayat_booking/components/MLAppintmentDetailScreen.dart';
-import 'package:epasien/app/modules/riwayat_booking/controllers/riwayat_booking_controller.dart';
-import 'package:epasien/app/routes/app_pages.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLDataProvider.dart';
-import 'package:epasien/app/utils/MLString.dart';
+import 'package:ALPOKAT/app/data/MLDepartmentData.dart';
+import 'package:ALPOKAT/app/data/MLTopHospitalData.dart';
+import 'package:ALPOKAT/app/modules/home/components/MLHomeDetailBooking.dart';
+import 'package:ALPOKAT/app/modules/home/controllers/home_controller.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/components/MLAppintmentDetailScreen.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/controllers/riwayat_booking_controller.dart';
+import 'package:ALPOKAT/app/routes/app_pages.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
+import 'package:ALPOKAT/app/utils/MLString.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -54,137 +55,290 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
           ],
         ).paddingOnly(left: 16, right: 16),
         Obx(
-          () => controller.listBooking.value.isNotEmpty
-              ? Stack(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 8.0),
-                      decoration: boxDecorationWithRoundedCorners(
-                        backgroundColor: Colors.grey.shade50,
-                        borderRadius: radius(12),
-                        border: Border.all(
-                          color: controller.listBooking.value[0].status ==
-                                  'Terdaftar'
-                              ? Colors.green
-                              : controller.listBooking.value[0].status ==
-                                      'Belum'
-                                  ? mlColorDarkBlue
-                                  : Colors.red,
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          20.height,
-                          Row(
+          () => controller.loadBooking.value
+              ? GFShimmer(
+                  child: emptyBooking,
+                )
+              : controller.listBooking.value.isNotEmpty
+                  ? Stack(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 8.0),
+                          decoration: boxDecorationWithRoundedCorners(
+                            backgroundColor: Colors.grey.shade50,
+                            borderRadius: radius(12),
+                            border: Border.all(
+                              color: controller.listBooking.value[0].status ==
+                                      'Terdaftar'
+                                  ? Colors.green
+                                  : controller.listBooking.value[0].status ==
+                                          'Belum'
+                                      ? mlColorDarkBlue
+                                      : Colors.red,
+                            ),
+                          ),
+                          child: Column(
                             children: [
-                              Container(
-                                height: 75,
-                                width: 75,
-                                decoration: boxDecorationWithRoundedCorners(
-                                    backgroundColor: controller
-                                                .listBooking.value[0].status ==
-                                            'Terdaftar'
-                                        ? Colors.green
-                                        : controller.listBooking.value[0]
-                                                    .status ==
-                                                'Belum'
-                                            ? mlColorDarkBlue
-                                            : Colors.red,
-                                    borderRadius: radius(12)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        (DateFormat('dd').format(controller
-                                                .listBooking
-                                                .value[0]
-                                                .tanggalPeriksa!))
-                                            .validate(),
-                                        style: boldTextStyle(
-                                            size: 32, color: white)),
-                                    Text(
-                                        (DateFormat('MMMM').format(controller
-                                                .listBooking
-                                                .value[0]
-                                                .tanggalPeriksa!))
-                                            .validate(),
-                                        style:
-                                            secondaryTextStyle(color: white)),
-                                  ],
-                                ),
-                              ).expand(),
-                              8.width,
+                              20.height,
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          (controller
-                                                  .listBooking.value[0].nmPoli)
-                                              .validate(),
-                                          style: boldTextStyle(size: 18)),
-                                      8.height,
-                                      Text(
-                                          (controller.listBooking.value[0]
-                                                  .nmDokter)
-                                              .validate(),
-                                          style: secondaryTextStyle()),
-                                      8.height,
-                                      // Text('Patient: ' + (e.patient).validate(),
-                                      //     style: secondaryTextStyle()),
-                                    ],
-                                  ).expand(),
                                   Container(
-                                    alignment: Alignment.topCenter,
-                                    padding: EdgeInsets.all(8.0),
+                                    height: 75,
+                                    width: 75,
                                     decoration: boxDecorationWithRoundedCorners(
-                                      backgroundColor: Colors.transparent,
-                                      borderRadius: radius(30),
-                                      border: Border.all(
-                                          color: Colors.grey.withOpacity(0.1)),
+                                        backgroundColor: controller.listBooking
+                                                    .value[0].status ==
+                                                'Terdaftar'
+                                            ? Colors.green
+                                            : controller.listBooking.value[0]
+                                                        .status ==
+                                                    'Belum'
+                                                ? mlColorDarkBlue
+                                                : Colors.red,
+                                        borderRadius: radius(12)),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            (DateFormat('dd').format(controller
+                                                    .listBooking
+                                                    .value[0]
+                                                    .tanggalPeriksa!))
+                                                .validate(),
+                                            style: boldTextStyle(
+                                                size: 32, color: white)),
+                                        Text(
+                                            (DateFormat('MMMM').format(
+                                                    controller
+                                                        .listBooking
+                                                        .value[0]
+                                                        .tanggalPeriksa!))
+                                                .validate(),
+                                            style: secondaryTextStyle(
+                                                color: white)),
+                                      ],
                                     ),
-                                  ).paddingBottom(16.0)
+                                  ).expand(),
+                                  8.width,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              (controller.listBooking.value[0]
+                                                      .nmPoli)
+                                                  .validate(),
+                                              style: boldTextStyle(size: 18)),
+                                          8.height,
+                                          Text(
+                                              (controller.listBooking.value[0]
+                                                      .nmDokter)
+                                                  .validate(),
+                                              style: secondaryTextStyle()),
+                                          8.height,
+                                          Text(
+                                              (controller.listBooking.value[0]
+                                                      .status)
+                                                  .validate(),
+                                              style: secondaryTextStyle()),
+                                          // Text('Patient: ' + (e.patient).validate(),
+                                          //     style: secondaryTextStyle()),
+                                        ],
+                                      ).expand(),
+                                      Container(
+                                        alignment: Alignment.topCenter,
+                                        padding: EdgeInsets.all(8.0),
+                                        decoration:
+                                            boxDecorationWithRoundedCorners(
+                                          backgroundColor: Colors.transparent,
+                                          borderRadius: radius(30),
+                                          border: Border.all(
+                                              color:
+                                                  Colors.grey.withOpacity(0.1)),
+                                        ),
+                                      ).paddingBottom(16.0)
+                                    ],
+                                  ).expand(flex: 3),
                                 ],
-                              ).expand(flex: 3),
-                            ],
-                          ).paddingOnly(right: 16.0, left: 16.0),
-                          8.height,
-                          Divider(thickness: 0.5),
-                          8.height,
-                          Row(
-                            children: [
-                              Text(
-                                  'No. Antrian : ' +
-                                      controller.listBooking.value[0].noReg!,
-                                  style: boldTextStyle(color: mlColorDarkBlue)),
+                              ).paddingOnly(right: 16.0, left: 16.0),
+                              8.height,
+                              Divider(thickness: 0.5),
+                              8.height,
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text('Detail booking',
-                                      style: secondaryTextStyle(
+                                  Text(
+                                      'No. Antrian : ' +
+                                          controller
+                                              .listBooking.value[0].noReg!,
+                                      style: boldTextStyle(
                                           color: mlColorDarkBlue)),
-                                  4.width,
-                                  Icon(Icons.arrow_forward,
-                                      color: mlPrimaryColor, size: 16),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text('Detail booking',
+                                          style: secondaryTextStyle(
+                                              color: mlColorDarkBlue)),
+                                      4.width,
+                                      Icon(Icons.arrow_forward,
+                                          color: mlPrimaryColor, size: 16),
+                                    ],
+                                  ).onTap(() {
+                                    controller.selectedRiwayatBooking.value =
+                                        controller.listBooking.value[0];
+                                    MLHomeDetailBooking().launch(context);
+                                  }).expand()
                                 ],
-                              ).onTap(() {
-                                controller.selectedRiwayatBooking.value =
-                                    controller.listBooking.value[0];
-                                MLHomeDetailBooking().launch(context);
-                              }).expand()
+                              ).paddingOnly(right: 16.0, left: 16.0),
+                              16.height,
                             ],
-                          ).paddingOnly(right: 16.0, left: 16.0),
-                          16.height,
-                        ],
-                      ),
-                    ).paddingBottom(16.0),
-                  ],
-                ).paddingOnly(right: 16.0, left: 16.0)
-              : Text("Data Booking Kosong", style: boldTextStyle()).center(),
+                          ),
+                        ).paddingBottom(16.0),
+                      ],
+                    ).paddingOnly(right: 16.0, left: 16.0)
+                  : Text("Data Booking Kosong", style: boldTextStyle())
+                      .center(),
+        ),
+        Obx(
+          () => controller.loadHomevisite.value == true
+              ? GFShimmer(
+                  child: emptyBooking,
+                )
+              : controller.homevisite.value.noRkmMedis != null
+                  ? Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text('Home Visit', style: boldTextStyle(size: 18))
+                                .expand(),
+                            Icon(Icons.refresh)
+                                .onTap(() => controller.onRefreshBooking()),
+                          ],
+                        ).paddingOnly(left: 16, right: 16),
+                        Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 8.0),
+                              decoration: boxDecorationWithRoundedCorners(
+                                backgroundColor: Colors.grey.shade50,
+                                borderRadius: radius(12),
+                                border: Border.all(
+                                  color: controller.homevisite.value.status ==
+                                          'Terdaftar'
+                                      ? Colors.green
+                                      : controller.homevisite.value.status ==
+                                              'Belum'
+                                          ? mlColorDarkBlue
+                                          : Colors.red,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  20.height,
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 75,
+                                        width: 75,
+                                        decoration:
+                                            boxDecorationWithRoundedCorners(
+                                                backgroundColor: controller
+                                                            .homevisite
+                                                            .value
+                                                            .status ==
+                                                        'Terdaftar'
+                                                    ? Colors.green
+                                                    : controller.homevisite
+                                                                .value.status ==
+                                                            'Belum'
+                                                        ? mlColorDarkBlue
+                                                        : Colors.red,
+                                                borderRadius: radius(12)),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                                (DateFormat('dd').format(
+                                                    controller.homevisite.value
+                                                            .tanggalPemeriksaan ??
+                                                        DateTime.now())),
+                                                style: boldTextStyle(
+                                                    size: 32, color: white)),
+                                            Text(
+                                                (DateFormat('MMMM').format(
+                                                    controller.homevisite.value
+                                                            .tanggalPemeriksaan ??
+                                                        DateTime.now())),
+                                                style: secondaryTextStyle(
+                                                    color: white)),
+                                          ],
+                                        ),
+                                      ).expand(),
+                                      8.width,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  (controller.homevisite.value
+                                                                  .nmDokter)
+                                                              .validate() ==
+                                                          '-'
+                                                      ? 'Dokter belum ditentukan'
+                                                      : (controller.homevisite
+                                                              .value.nmDokter)
+                                                          .validate(),
+                                                  style:
+                                                      boldTextStyle(size: 18)),
+                                              8.height,
+                                              Text(
+                                                  (controller.homevisite.value
+                                                          .status)
+                                                      .validate(),
+                                                  style: secondaryTextStyle()),
+                                              8.height,
+                                              // Text('Patient: ' + (e.patient).validate(),
+                                              //     style: secondaryTextStyle()),
+                                            ],
+                                          ).expand(),
+                                          Container(
+                                            alignment: Alignment.topCenter,
+                                            padding: EdgeInsets.all(8.0),
+                                            decoration:
+                                                boxDecorationWithRoundedCorners(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              borderRadius: radius(30),
+                                              border: Border.all(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.1)),
+                                            ),
+                                          ).paddingBottom(16.0)
+                                        ],
+                                      ).expand(flex: 3),
+                                    ],
+                                  ).paddingOnly(right: 16.0, left: 16.0),
+                                  8.height,
+                                  Divider(thickness: 0.5),
+                                  8.height,
+                                  16.height,
+                                ],
+                              ),
+                            ).paddingBottom(16.0),
+                          ],
+                        ).paddingOnly(right: 16.0, left: 16.0),
+                      ],
+                    )
+                  : Container(),
         ),
         Row(
           children: [
@@ -214,7 +368,7 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
                       height: Get.height * 0.25,
                       width: Get.width,
                       fit: BoxFit.fill,
-                    ).cornerRadiusWithClipRRectOnly(topLeft: 8, topRight: 8),
+                    ).cornerRadiusWithClipRRect(10),
                     8.height,
                     Text(
                       (controller.listWeb.value[index].title!.rendered!)
@@ -237,4 +391,43 @@ class MLHomeBottomComponentState extends State<MLHomeBottomComponent> {
       ],
     );
   }
+
+  final Widget emptyBooking = Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 100,
+          height: 100,
+          color: Colors.white,
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                height: 20,
+                color: Colors.white,
+              ),
+              const SizedBox(height: 6),
+              Container(
+                width: Get.width * 0.5,
+                height: 20,
+                color: Colors.white,
+              ),
+              const SizedBox(height: 6),
+              Container(
+                width: Get.width * 0.25,
+                height: 20,
+                color: Colors.white,
+              ),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
 }

@@ -1,13 +1,9 @@
 import 'package:get/get.dart';
 
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/konsultasi_controller.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/konsultasi_controller.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/laborat_controller.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/laborat_controller.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/operasi_controller.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/operasi_controller.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/radiologicontroller_controller.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/controllers/radiologicontroller_controller.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/controllers/konsultasi_controller.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/controllers/laborat_controller.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/controllers/operasi_controller.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/controllers/radiologicontroller_controller.dart';
 
 import '../controllers/fasilitas_tarif_controller.dart';
 

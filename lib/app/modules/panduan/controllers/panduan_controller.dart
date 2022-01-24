@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/panduan/models/PanduanModel.dart';
-import 'package:epasien/app/modules/panduan/providers/panduan_provider.dart';
+import 'package:ALPOKAT/app/modules/panduan/models/PanduanModel.dart';
+import 'package:ALPOKAT/app/modules/panduan/providers/panduan_provider.dart';
 import 'package:get/get.dart';
 
 class PanduanController extends GetxController {

@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/fasilitas_tarif/models/kamar_model.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/providers/kamar_provider.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/models/kamar_model.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/providers/kamar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

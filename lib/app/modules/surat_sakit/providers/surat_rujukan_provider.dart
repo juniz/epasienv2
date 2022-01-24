@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/surat_sakit/models/SuratRujukanDataModel.dart';
-import 'package:epasien/app/modules/surat_sakit/models/SuratRujukanModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratRujukanDataModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratRujukanModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

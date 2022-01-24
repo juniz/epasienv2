@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/fasilitas_tarif/models/radiologi_model.dart';
-import 'package:epasien/app/modules/fasilitas_tarif/providers/radiologi_provider.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/models/radiologi_model.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/providers/radiologi_provider.dart';
 import 'package:get/get.dart';
 
 class RadiologiController extends GetxController {

@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
-import 'package:epasien/app/modules/halaman_booking/models/penjab_model.dart';
+import 'package:ALPOKAT/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
+import 'package:ALPOKAT/app/modules/halaman_booking/models/penjab_model.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

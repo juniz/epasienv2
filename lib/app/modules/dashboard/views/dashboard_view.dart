@@ -1,4 +1,4 @@
-import 'package:epasien/app/components/MLBottomNavigationBarWidget.dart';
+import 'package:ALPOKAT/app/components/MLBottomNavigationBarWidget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';

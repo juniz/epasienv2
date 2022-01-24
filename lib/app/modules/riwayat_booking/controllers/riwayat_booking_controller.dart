@@ -1,11 +1,12 @@
-import 'package:epasien/app/modules/riwayat_booking/models/BillingModel.dart';
-import 'package:epasien/app/modules/riwayat_booking/models/ResumeModel.dart';
-import 'package:epasien/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
-import 'package:epasien/app/modules/riwayat_booking/models/RiwayatPemeriksaanModel.dart';
-import 'package:epasien/app/modules/riwayat_booking/providers/riwayat_booking_provider.dart';
-import 'package:epasien/app/utils/helper.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/BillingModel.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/ResumeModel.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatPemeriksaanModel.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/providers/riwayat_booking_provider.dart';
+import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
 class RiwayatBookingController extends GetxController
@@ -13,6 +14,7 @@ class RiwayatBookingController extends GetxController
   //TODO: Implement RiwayatBookingController
   RiwayatBookingProvider _provider =
       GetInstance().put(RiwayatBookingProvider());
+  final pasien = GetStorage().read('pasien');
   late TabController tabController;
   var riwayatBooking = <RiwayatBookingModel>[].obs;
   var selectedRiwayatBooking = RiwayatBookingModel().obs;
@@ -43,7 +45,7 @@ class RiwayatBookingController extends GetxController
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
       };
       _provider.fetchRiwayatBooking(body).then((res) {
         riwayatBooking.value = res;
@@ -58,7 +60,7 @@ class RiwayatBookingController extends GetxController
         () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'status': selectedRiwayatBooking.value.status,
@@ -117,7 +119,7 @@ class RiwayatBookingController extends GetxController
         () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'status': 'batal',
@@ -127,7 +129,6 @@ class RiwayatBookingController extends GetxController
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
       _provider.batalCheckin(body).then((res) {
-        print(res.bodyString);
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;
@@ -176,7 +177,7 @@ class RiwayatBookingController extends GetxController
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'kd_dokter': selectedRiwayatBooking.value.kdDokter,
@@ -196,7 +197,7 @@ class RiwayatBookingController extends GetxController
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
       };
       _provider
           .fetchRiwayatPeriksaan(body)
@@ -237,7 +238,6 @@ class RiwayatBookingController extends GetxController
               totalBilling.value += int.parse(e.empat!);
             }
           });
-          print(totalBilling.value);
         },
       );
     } catch (e) {}

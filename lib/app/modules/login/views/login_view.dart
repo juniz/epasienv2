@@ -1,6 +1,7 @@
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLImage.dart';
-import 'package:epasien/app/utils/MLString.dart';
+import 'package:ALPOKAT/app/routes/app_pages.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLImage.dart';
+import 'package:ALPOKAT/app/utils/MLString.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -13,111 +14,107 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mlPrimaryColor,
-      body: Stack(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 250),
-            height: Get.height,
-            decoration: boxDecorationWithRoundedCorners(
-                borderRadius: radiusOnly(topRight: 32)),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  60.height,
-                  Text(mlLogin_title!, style: secondaryTextStyle(size: 16)),
-                  16.height,
-                  AppTextField(
-                    textFieldType: TextFieldType.PHONE,
-                    controller: controller.username,
-                    decoration: InputDecoration(
-                      labelText: 'NRP/Nomor Rekam Medis',
-                      labelStyle: secondaryTextStyle(size: 16),
-                      prefixIcon: Icon(Icons.credit_card),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: mlColorLightGrey),
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        child: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 250),
+              height: Get.height,
+              decoration: boxDecorationWithRoundedCorners(
+                  borderRadius: radiusOnly(topRight: 32)),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    60.height,
+                    Text(
+                      'Password menggunakan tanggal lahir (contoh : 31122021).',
+                      style: primaryTextStyle(size: 16),
+                      textAlign: TextAlign.left,
+                    ),
+                    16.height,
+                    AppTextField(
+                      textFieldType: TextFieldType.PHONE,
+                      controller: controller.username,
+                      decoration: InputDecoration(
+                        labelText: 'NRP/Nomor Rekam Medik',
+                        labelStyle: secondaryTextStyle(size: 16),
+                        prefixIcon: Icon(Icons.credit_card),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: mlColorLightGrey),
+                        ),
                       ),
                     ),
-                  ),
-                  16.height,
-                  AppTextField(
-                    textFieldType: TextFieldType.PASSWORD,
-                    controller: controller.password,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: secondaryTextStyle(size: 16),
-                      prefixIcon: Icon(Icons.lock_outline),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: mlColorLightGrey),
+                    16.height,
+                    AppTextField(
+                      textFieldType: TextFieldType.PASSWORD,
+                      controller: controller.password,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: secondaryTextStyle(size: 16),
+                        prefixIcon: Icon(Icons.lock_outline),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: mlColorLightGrey),
+                        ),
                       ),
                     ),
-                  ),
-                  8.height,
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Text(mlForget_password!,
-                            style: secondaryTextStyle(size: 16))
-                        .onTap(() {
-                      // MLForgetPasswordScreen().launch(context);
-                    }),
-                  ),
-                  24.height,
-                  AppButton(
-                    color: mlPrimaryColor,
-                    width: double.infinity,
-                    onTap: () {
-                      if (controller.username.text.isEmpty) {
-                        toast(
-                          'NRP/Nomor Rekam Medis tidak boleh kosong',
-                        );
-                      } else if (controller.password.text.isEmpty) {
-                        toast('Password tidak boleh kosong');
-                      } else {
-                        controller.login();
-                      }
-                    },
-                    child: Text(mlLogin!, style: boldTextStyle(color: white)),
-                  ).cornerRadiusWithClipRRect(10),
-                  22.height,
-                  Text(mlLogin_with!, style: secondaryTextStyle(size: 16))
-                      .center(),
-                  22.height,
-                  // MLSocialAccountsComponent(),
-                  22.height,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        mlDont_have_account!,
-                        style: primaryTextStyle(),
-                      ),
-                      8.width,
-                      Text(
-                        mlRegister!,
-                        style: boldTextStyle(
+                    8.height,
+                    24.height,
+                    AppButton(
+                      color: mlPrimaryColor,
+                      width: double.infinity,
+                      onTap: () {
+                        if (controller.username.text.isEmpty) {
+                          toasty(
+                            context,
+                            'NRP/Nomor Rekam Medis tidak boleh kosong',
+                          );
+                        } else if (controller.password.text.isEmpty) {
+                          toasty(context, 'Tanggal lahir tidak boleh kosong');
+                        } else {
+                          controller.login();
+                        }
+                      },
+                      child: Text(mlLogin!, style: boldTextStyle(color: white)),
+                    ).cornerRadiusWithClipRRect(10),
+                    22.height,
+                    22.height,
+                    Column(
+                      children: [
+                        Text(
+                          'Belum punya Nomor Rekam Medik?',
+                          style: primaryTextStyle(),
+                        ),
+                        8.height,
+                        Text(
+                          'Silahkan menuju ke petugas pendaftaran',
+                          style: boldTextStyle(
                             color: mlColorBlue,
-                            decoration: TextDecoration.underline),
-                      ).onTap(() {
-                        // MLRegistrationScreen().launch(context);
-                      }),
-                    ],
-                  ),
-                  32.height,
-                ],
-              ).paddingOnly(left: 16, right: 16),
+                            // decoration: TextDecoration.underline,
+                          ),
+                        ).onTap(() {
+                          Get.toNamed(Routes.REGISTER);
+                        }),
+                      ],
+                    ).center(),
+                    32.height,
+                  ],
+                ).paddingOnly(left: 16, right: 16),
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 75),
-            width: Get.width,
-            child: Image.asset(
-              'images/rsbnganjuk.png',
-              alignment: Alignment.center,
-              width: 150,
-              height: 150,
+            Container(
+              margin: EdgeInsets.only(top: 75),
+              width: Get.width,
+              child: Image.asset(
+                'images/rsbnganjuk.png',
+                alignment: Alignment.center,
+                width: 150,
+                height: 150,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

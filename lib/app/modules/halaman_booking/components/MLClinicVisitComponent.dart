@@ -1,10 +1,12 @@
-import 'package:epasien/app/modules/halaman_booking/components/MLCalenderComponent.dart';
-import 'package:epasien/app/data/MLDepartmentData.dart';
-import 'package:epasien/app/modules/halaman_booking/controllers/halaman_booking_controller.dart';
-import 'package:epasien/app/utils/MLColors.dart';
-import 'package:epasien/app/utils/MLDataProvider.dart';
+import 'package:ALPOKAT/app/components/MLEmptyWidget.dart';
+import 'package:ALPOKAT/app/modules/halaman_booking/components/MLCalenderComponent.dart';
+import 'package:ALPOKAT/app/data/MLDepartmentData.dart';
+import 'package:ALPOKAT/app/modules/halaman_booking/controllers/halaman_booking_controller.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
+import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -57,119 +59,132 @@ class MLClinicVisitComponentState extends State<MLClinicVisitComponent> {
           MLCalenderComponent(),
           8.height,
           Obx(
-            () => controller.listPoliklinik.isEmpty
-                ? Column(
-                    children: [
-                      Lottie.asset('lottie/search-not-found.json')
-                          .flexible(flex: 3),
-                      Text(
-                        'Jadwal tidak ditemukan',
-                        style: primaryTextStyle(),
-                      ).flexible(),
-                    ],
-                  ).withSize(width: 300, height: 300).center()
-                : ListView.builder(
-                    padding:
-                        EdgeInsets.only(right: 16.0, left: 16.0, bottom: 70),
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: controller.listPoliklinik.length,
-                    itemBuilder: (context, index) {
-                      return Obx(
-                        () => Container(
-                          margin: EdgeInsets.only(bottom: 16),
-                          padding: EdgeInsets.all(8.0),
-                          decoration: boxDecorationWithRoundedCorners(
-                            border: Border.all(
-                              color: controller.selectedIndex.value == index
-                                  ? mlColorBlue
-                                  : mlColorLightGrey100,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
+            () => controller.isLoading.value
+                ? GFShimmer(
+                    child: Column(
+                      children: [
+                        MLEmptyWidget(),
+                        MLEmptyWidget(),
+                        MLEmptyWidget(),
+                        MLEmptyWidget(),
+                      ],
+                    ),
+                  )
+                : controller.listPoliklinik.isEmpty
+                    ? Column(
+                        children: [
+                          Lottie.asset('lottie/search-not-found.json')
+                              .flexible(flex: 3),
+                          Text(
+                            'Jadwal tidak ditemukan',
+                            style: primaryTextStyle(),
+                          ).flexible(),
+                        ],
+                      ).withSize(width: 300, height: 300).center()
+                    : ListView.builder(
+                        padding: EdgeInsets.only(
+                            right: 16.0, left: 16.0, bottom: 70),
+                        physics: NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: controller.listPoliklinik.length,
+                        itemBuilder: (context, index) {
+                          return Obx(
+                            () => Container(
+                              margin: EdgeInsets.only(bottom: 16),
+                              padding: EdgeInsets.all(8.0),
+                              decoration: boxDecorationWithRoundedCorners(
+                                border: Border.all(
+                                  color: controller.selectedIndex.value == index
+                                      ? mlColorBlue
+                                      : mlColorLightGrey100,
+                                ),
+                              ),
+                              child: Column(
                                 children: [
-                                  Image.asset(
-                                          ('images/hospital.png').validate(),
-                                          height: 75,
-                                          width: 75,
-                                          fit: BoxFit.fill)
-                                      .paddingAll(8.0)
-                                      .expand(flex: 1),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
                                     children: [
-                                      Text(
-                                          (controller.listPoliklinik
-                                                  .value[index].nmPoli)!
-                                              .validate(),
-                                          style: boldTextStyle(size: 18)),
-                                      8.height,
-                                      // Text((departmentList[index].subtitle).validate(),
-                                      //     style: secondaryTextStyle()),
-                                      // 8.height,
-                                      Text(
-                                          (controller.listPoliklinik
-                                                  .value[index].nmDokter)
-                                              .validate(),
-                                          style: boldTextStyle(
-                                              color: mlColorDarkBlue)),
+                                      Image.asset(
+                                              ('images/hospital.png')
+                                                  .validate(),
+                                              height: 75,
+                                              width: 75,
+                                              fit: BoxFit.fill)
+                                          .paddingAll(8.0)
+                                          .expand(flex: 1),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              (controller.listPoliklinik
+                                                      .value[index].nmPoli)!
+                                                  .validate(),
+                                              style: boldTextStyle(size: 18)),
+                                          8.height,
+                                          // Text((departmentList[index].subtitle).validate(),
+                                          //     style: secondaryTextStyle()),
+                                          // 8.height,
+                                          Text(
+                                              (controller.listPoliklinik
+                                                      .value[index].nmDokter)
+                                                  .validate(),
+                                              style: boldTextStyle(
+                                                  color: mlColorDarkBlue)),
+                                        ],
+                                      ).expand(flex: 3),
                                     ],
-                                  ).expand(flex: 3),
+                                  ),
+                                  8.height,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Icon(
+                                                  Icons.watch_later_outlined,
+                                                  size: 14),
+                                            ),
+                                            TextSpan(
+                                                text: ' Jam pelayanan',
+                                                style: secondaryTextStyle()),
+                                          ],
+                                        ),
+                                      ),
+                                      Text(
+                                          '${controller.listPoliklinik.value[index].jamMulai} - ${controller.listPoliklinik.value[index].jamSelesai}',
+                                          style: secondaryTextStyle(
+                                              color: Colors.black87)),
+                                    ],
+                                  ).paddingOnly(left: 8, right: 8),
+                                  8.height,
                                 ],
                               ),
-                              8.height,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        WidgetSpan(
-                                          child: Icon(
-                                              Icons.watch_later_outlined,
-                                              size: 14),
-                                        ),
-                                        TextSpan(
-                                            text: ' Jam pelayanan',
-                                            style: secondaryTextStyle()),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                      '${controller.listPoliklinik.value[index].jamMulai} - ${controller.listPoliklinik.value[index].jamSelesai}',
-                                      style: secondaryTextStyle(
-                                          color: Colors.black87)),
-                                ],
-                              ).paddingOnly(left: 8, right: 8),
-                              8.height,
-                            ],
-                          ),
-                        ).onTap(
-                          () {
-                            // print(
-                            //     controller.listPoliklinik.value[index].nmDokter);
-                            controller.selectedIndex.value = index;
-                            controller.selectedKdDokter.value = controller
-                                .listPoliklinik.value[index].kdDokter!;
-                            controller.selectedDokter.value = controller
-                                .listPoliklinik.value[index].nmDokter!;
-                            controller.selectedKdPoli.value =
-                                controller.listPoliklinik.value[index].kdPoli!;
-                            controller.selectedPoli.value =
-                                controller.listPoliklinik.value[index].nmPoli!;
-                            controller.selectedJam.value =
-                                '${controller.listPoliklinik.value[index].jamMulai!} - ${controller.listPoliklinik.value[index].jamSelesai!}';
-                          },
-                        ),
-                      );
-                    },
-                  ),
+                            ).onTap(
+                              () {
+                                // print(
+                                //     controller.listPoliklinik.value[index].nmDokter);
+                                controller.selectedIndex.value = index;
+                                controller.selectedKdDokter.value = controller
+                                    .listPoliklinik.value[index].kdDokter!;
+                                controller.selectedDokter.value = controller
+                                    .listPoliklinik.value[index].nmDokter!;
+                                controller.selectedKdPoli.value = controller
+                                    .listPoliklinik.value[index].kdPoli!;
+                                controller.selectedPoli.value = controller
+                                    .listPoliklinik.value[index].nmPoli!;
+                                controller.selectedJam.value =
+                                    '${controller.listPoliklinik.value[index].jamMulai!} - ${controller.listPoliklinik.value[index].jamSelesai!}';
+                              },
+                            ),
+                          );
+                        },
+                      ),
           ),
         ],
       ),

@@ -1,4 +1,4 @@
-import 'package:epasien/app/modules/profile/models/StatistikPasienModel.dart';
+import 'package:ALPOKAT/app/modules/profile/models/StatistikPasienModel.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

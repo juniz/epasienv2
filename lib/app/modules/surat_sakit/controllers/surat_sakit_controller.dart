@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:epasien/app/modules/surat_sakit/models/LIstSuratNarkobaModel.dart';
-import 'package:epasien/app/modules/surat_sakit/models/SuratKontrolModel.dart';
-import 'package:epasien/app/modules/surat_sakit/models/SuratRujukanModel.dart';
-import 'package:epasien/app/modules/surat_sakit/models/surat_sakit_model.dart';
-import 'package:epasien/app/modules/surat_sakit/providers/surat_bebas_narkoba_provider.dart';
-import 'package:epasien/app/modules/surat_sakit/providers/surat_kontrol_provider.dart';
-import 'package:epasien/app/modules/surat_sakit/providers/surat_rujukan_provider.dart';
-import 'package:epasien/app/modules/surat_sakit/providers/surat_sakit_provider.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/LIstSuratNarkobaModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratKontrolModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratRujukanModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/surat_sakit_model.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/providers/surat_bebas_narkoba_provider.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/providers/surat_kontrol_provider.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/providers/surat_rujukan_provider.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/providers/surat_sakit_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

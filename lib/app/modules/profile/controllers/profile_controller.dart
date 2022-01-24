@@ -1,6 +1,6 @@
-import 'package:epasien/app/modules/profile/models/StatistikPasienModel.dart';
-import 'package:epasien/app/modules/profile/providers/profile_provider.dart';
-import 'package:epasien/app/routes/app_pages.dart';
+import 'package:ALPOKAT/app/modules/profile/models/StatistikPasienModel.dart';
+import 'package:ALPOKAT/app/modules/profile/providers/profile_provider.dart';
+import 'package:ALPOKAT/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

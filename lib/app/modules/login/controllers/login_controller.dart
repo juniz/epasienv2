@@ -1,10 +1,11 @@
-import 'package:epasien/app/modules/login/providers/login_provider.dart';
-import 'package:epasien/app/routes/app_pages.dart';
-import 'package:epasien/app/utils/helper.dart';
+import 'package:ALPOKAT/app/modules/login/providers/login_provider.dart';
+import 'package:ALPOKAT/app/routes/app_pages.dart';
+import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
@@ -32,10 +33,14 @@ class LoginController extends GetxController {
       Duration(seconds: 3),
       DialogHelper.showLoading('Loading...'),
     );
-
-    _provider.login(
-        {'username': username.text, 'password': password.text}).then((value) {
-      print(value.bodyString);
+    final status = await OneSignal.shared.getDeviceState();
+    final String? osUserID = status?.userId;
+    _provider.login({
+      'username': username.text,
+      'password': password.text,
+      'app_id': osUserID
+    }).then((value) {
+      // print(value.bodyString);
       if (value.statusCode == 200) {
         DialogHelper.hideLoading();
         toast('Data Pasien Ditemukan');

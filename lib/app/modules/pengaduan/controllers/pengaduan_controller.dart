@@ -1,6 +1,6 @@
-import 'package:epasien/app/modules/pengaduan/models/jawaban_pengaduan_model.dart';
-import 'package:epasien/app/modules/pengaduan/models/pengaduan_model.dart';
-import 'package:epasien/app/modules/pengaduan/providers/pengaduan_provider.dart';
+import 'package:ALPOKAT/app/modules/pengaduan/models/jawaban_pengaduan_model.dart';
+import 'package:ALPOKAT/app/modules/pengaduan/models/pengaduan_model.dart';
+import 'package:ALPOKAT/app/modules/pengaduan/providers/pengaduan_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

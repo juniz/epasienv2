@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/surat_sakit/models/SuratKontrolDataModel.dart';
-import 'package:epasien/app/modules/surat_sakit/models/SuratKontrolModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratKontrolDataModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratKontrolModel.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

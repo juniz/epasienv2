@@ -1,4 +1,4 @@
-import 'package:epasien/app/modules/panduan/models/PanduanModel.dart';
+import 'package:ALPOKAT/app/modules/panduan/models/PanduanModel.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

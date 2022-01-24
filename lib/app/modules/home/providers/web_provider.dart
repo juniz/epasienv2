@@ -1,4 +1,4 @@
-import 'package:epasien/app/modules/home/models/WebModel.dart';
+import 'package:ALPOKAT/app/modules/home/models/WebModel.dart';
 import 'package:get/get.dart';
 
 class WebProvider extends GetConnect {

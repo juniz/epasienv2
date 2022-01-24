@@ -1,4 +1,4 @@
-import 'package:epasien/app/utils/MLCommon.dart';
+import 'package:ALPOKAT/app/utils/MLCommon.dart';
 import 'package:flutter/material.dart';
 
 class MLBottomNavigationBarWidget extends StatefulWidget {
@@ -42,9 +42,9 @@ class MLBottomNavigationBarWidgetState
       onTap: widget.onTap,
       items: [
         bottomNavigationItem(Icons.home_outlined),
-        bottomNavigationItem(Icons.chat_bubble_outline),
-        bottomNavigationItem(Icons.calendar_today_outlined),
-        bottomNavigationItem(Icons.notifications_none),
+        bottomNavigationItem(Icons.accessible_outlined),
+        bottomNavigationItem(Icons.mail_outline),
+        bottomNavigationItem(Icons.question_answer_outlined),
         bottomNavigationItem(Icons.people_alt_outlined),
       ],
     );

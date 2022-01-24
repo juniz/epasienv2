@@ -1,8 +1,9 @@
-import 'package:epasien/app/modules/home/models/WebModel.dart';
-import 'package:epasien/app/modules/home/providers/booking_provider_home.dart';
-import 'package:epasien/app/modules/home/providers/web_provider.dart';
-import 'package:epasien/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
-import 'package:epasien/app/utils/helper.dart';
+import 'package:ALPOKAT/app/modules/home/models/Homevisite.dart';
+import 'package:ALPOKAT/app/modules/home/models/WebModel.dart';
+import 'package:ALPOKAT/app/modules/home/providers/booking_provider_home.dart';
+import 'package:ALPOKAT/app/modules/home/providers/web_provider.dart';
+import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
+import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,6 +17,9 @@ class HomeController extends GetxController {
   var listWeb = <WebModel>[].obs;
   var listBooking = <RiwayatBookingModel>[].obs;
   var selectedRiwayatBooking = RiwayatBookingModel().obs;
+  final homevisite = HomeVisiteModel().obs;
+  var loadBooking = true.obs;
+  var loadHomevisite = true.obs;
 
   @override
   void onInit() {
@@ -24,7 +28,9 @@ class HomeController extends GetxController {
 
   @override
   void onReady() {
-    WebProvider().fetchWeb().then((value) => listWeb.value = value);
+    WebProvider().fetchWeb().then((value) {
+      listWeb.value = value;
+    });
     onRefreshBooking();
     super.onReady();
   }
@@ -33,8 +39,15 @@ class HomeController extends GetxController {
   void onClose() {}
 
   onRefreshBooking() {
-    _bookingProvider.fetchRiwayatBooking({'no_rkm_medis': '165056'}).then(
-        (value) => listBooking.value = value);
+    loadBooking(true);
+    Future.delayed(Duration(seconds: 1), () {
+      _bookingProvider.fetchRiwayatBooking(
+          {'no_rkm_medis': pasien['no_rkm_medis']}).then((value) {
+        listBooking.value = value;
+      });
+      loadBooking(false);
+      getHomevisite();
+    });
   }
 
   checkin() {
@@ -44,7 +57,7 @@ class HomeController extends GetxController {
         () => DialogHelper.showLoading('Sedang memproses data.....'),
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'status': selectedRiwayatBooking.value.status,
@@ -108,7 +121,7 @@ class HomeController extends GetxController {
         () => DialogHelper.showLoading('Sedang memproses data.....'),
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'status': 'batal',
@@ -171,7 +184,7 @@ class HomeController extends GetxController {
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': '165056',
+        'no_rkm_medis': pasien['no_rkm_medis'],
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'kd_dokter': selectedRiwayatBooking.value.kdDokter,
@@ -183,5 +196,59 @@ class HomeController extends GetxController {
             (res) => selectedRiwayatBooking.value = res,
           );
     } catch (e) {}
+  }
+
+  postHomevisite(DateTime date) {
+    Future.delayed(
+      Duration.zero,
+      () => DialogHelper.showLoading('Loading.....'),
+    );
+    var body = {
+      'no_rkm_medis': pasien['no_rkm_medis'],
+      'tanggal': DateFormat("yyyy-MM-dd").format(date),
+    };
+
+    _bookingProvider.postHomevisite(body).then((value) {
+      DialogHelper.hideLoading();
+      var statusCode = value.statusCode;
+      var message = value.body['message'];
+      Get.snackbar(
+        statusCode == 200 ? 'Berhasil' : 'Gagal',
+        message,
+        icon: Icon(
+            statusCode == 200
+                ? Icons.check_circle_outline
+                : Icons.cancel_outlined,
+            color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: statusCode == 200 ? Colors.green : Colors.red,
+        colorText: Colors.white,
+        borderRadius: 20,
+        margin: const EdgeInsets.all(15),
+        duration: const Duration(seconds: 3),
+        isDismissible: true,
+        dismissDirection: SnackDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.easeOutBack,
+      );
+    });
+  }
+
+  getHomevisite() {
+    loadHomevisite(true);
+    // print(loadHomevisite);
+    Future.delayed(
+      Duration(seconds: 1),
+      () {
+        var body = {
+          'no_rkm_medis': pasien['no_rkm_medis'],
+        };
+        _bookingProvider.fetchHomevisite(body).then((value) {
+          homevisite.value = value;
+          loadHomevisite(false);
+        });
+      },
+    );
+    loadHomevisite(false);
+    // print(loadHomevisite);
   }
 }

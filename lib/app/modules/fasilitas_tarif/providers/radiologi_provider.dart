@@ -1,4 +1,4 @@
-import 'package:epasien/app/modules/fasilitas_tarif/models/radiologi_model.dart';
+import 'package:ALPOKAT/app/modules/fasilitas_tarif/models/radiologi_model.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

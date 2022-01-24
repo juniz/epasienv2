@@ -1,5 +1,5 @@
-import 'package:epasien/app/modules/home/components/MLHomeBottomComponent.dart';
-import 'package:epasien/app/modules/home/components/MLHomeTopComponent.dart';
+import 'package:ALPOKAT/app/modules/home/components/MLHomeBottomComponent.dart';
+import 'package:ALPOKAT/app/modules/home/components/MLHomeTopComponent.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
