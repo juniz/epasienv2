@@ -42,7 +42,7 @@ class HalamanBookingView extends GetView<HalamanBookingController> {
                   children: <Widget>[
                     8.height,
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Icon(Icons.arrow_back_ios, color: blackColor, size: 24)
                             .onTap(() {
@@ -50,7 +50,7 @@ class HalamanBookingView extends GetView<HalamanBookingController> {
                               ? Navigator.of(context).pop()
                               : controller.currentWidget--;
                           // controller.index == controller.currentWidget;
-                        }).expand(flex: 1),
+                        }),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -71,9 +71,8 @@ class HalamanBookingView extends GetView<HalamanBookingController> {
                               ),
                             ),
                           ],
-                        ).expand(flex: 8),
+                        ),
                         Icon(Icons.assignment, color: blackColor, size: 24)
-                            .expand(flex: 1)
                             .onTap(() => Get.toNamed('/riwayat-booking')),
                       ],
                     ).paddingAll(16.0),

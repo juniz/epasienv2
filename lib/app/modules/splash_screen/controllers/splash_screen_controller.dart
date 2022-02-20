@@ -32,7 +32,7 @@ class SplashScreenController extends GetxController {
     final String? osUserID = status?.userId;
     _provider.rumkit().then(
       (value) async {
-        print(value.body);
+        // print(value.body);
         if (value.statusCode == 200) {
           var token = await _provider.getToken({
             'username': value.body['username'],

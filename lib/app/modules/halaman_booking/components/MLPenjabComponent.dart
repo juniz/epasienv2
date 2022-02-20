@@ -53,7 +53,7 @@ class MLPenjabComponentState extends State<MLPenjabComponent> {
                   Text('Pilih Jenis Bayar', style: boldTextStyle(size: 24)),
                   8.height,
                 ],
-              ).expand(),
+              ),
               // mlRoundedIconContainer(Icons.search, mlColorBlue),
               // 16.width,
               // mlRoundedIconContainer(

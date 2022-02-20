@@ -27,12 +27,17 @@ class LoginView extends GetView<LoginController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    60.height,
+                    30.height,
+                    // Text(
+                    //   'Password menggunakan tanggal lahir (contoh : 31122021).',
+                    //   style: primaryTextStyle(size: 16),
+                    //   textAlign: TextAlign.left,
+                    // ),
                     Text(
-                      'Password menggunakan tanggal lahir (contoh : 31122021).',
-                      style: primaryTextStyle(size: 16),
+                      'LOGIN',
+                      style: boldTextStyle(size: 24),
                       textAlign: TextAlign.left,
-                    ),
+                    ).center(),
                     16.height,
                     AppTextField(
                       textFieldType: TextFieldType.PHONE,
@@ -48,7 +53,7 @@ class LoginView extends GetView<LoginController> {
                     ),
                     16.height,
                     AppTextField(
-                      textFieldType: TextFieldType.PASSWORD,
+                      textFieldType: TextFieldType.PHONE,
                       controller: controller.password,
                       decoration: InputDecoration(
                         labelText: 'Password',
@@ -82,14 +87,30 @@ class LoginView extends GetView<LoginController> {
                     22.height,
                     Column(
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Panduan',
+                              style: primaryTextStyle(),
+                            ).onTap(() => Get.toNamed(Routes.PANDUAN)),
+                            6.width,
+                            Icon(
+                              Icons.announcement_outlined,
+                              color: mlColorBlue,
+                            ),
+                          ],
+                        ),
+                        8.height,
                         Text(
                           'Belum punya Nomor Rekam Medik?',
                           style: primaryTextStyle(),
                         ),
                         8.height,
                         Text(
-                          'Silahkan menuju ke petugas pendaftaran',
+                          'Klik Pasien Baru',
                           style: boldTextStyle(
+                            size: 16,
                             color: mlColorBlue,
                             // decoration: TextDecoration.underline,
                           ),
@@ -107,7 +128,7 @@ class LoginView extends GetView<LoginController> {
               margin: EdgeInsets.only(top: 75),
               width: Get.width,
               child: Image.asset(
-                'images/rsbnganjuk.png',
+                'images/alpokat.png',
                 alignment: Alignment.center,
                 width: 150,
                 height: 150,

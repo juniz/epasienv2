@@ -3,7 +3,6 @@ import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:nb_utils/src/extensions/int_extensions.dart';
 
 class MLNarkobaComponents extends StatelessWidget {
   const MLNarkobaComponents({Key? key}) : super(key: key);

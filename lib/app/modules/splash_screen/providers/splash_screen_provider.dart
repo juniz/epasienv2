@@ -19,7 +19,7 @@ class SplashScreenProvider extends GetConnect {
     if (response.status.hasError) {
       Get.snackbar(
         'Error',
-        response.statusText!,
+        'Koneksi internet lemah, silahkan ganti koneksi internet anda',
         colorText: white,
         backgroundColor: Colors.red,
       );

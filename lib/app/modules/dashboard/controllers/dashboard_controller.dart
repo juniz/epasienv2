@@ -3,11 +3,10 @@ import 'package:ALPOKAT/app/modules/panduan/views/panduan_view.dart';
 import 'package:ALPOKAT/app/modules/profile/views/profile_view.dart';
 import 'package:ALPOKAT/app/modules/riwayat_booking/views/riwayat_booking_view.dart';
 import 'package:ALPOKAT/app/modules/surat_sakit/views/surat_sakit_view.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
-import 'package:flutter_launch/flutter_launch.dart';
+
 import 'package:get_storage/get_storage.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardController extends GetxController {
   //TODO: Implement DashboardController
@@ -35,12 +34,12 @@ class DashboardController extends GetxController {
   void onClose() {}
 
   void whatsAppOpen() async {
-    bool whatsapp = await FlutterLaunch.hasApp(name: "whatsapp");
-
-    if (whatsapp) {
-      await FlutterLaunch.launchWhatsapp(phone: rumkit['telp'], message: "");
-    } else {
-      toast('Gagal membuka aplikasi whatsapp');
-    }
+    //bool whatsapp = await FlutterLaunch.hasApp(name: "WhatsApp");
+    await launch("https://wa.me/${rumkit['telp']}/?text=");
+    // if (whatsapp) {
+    //await FlutterLaunch.launchWhatsapp(phone: rumkit['telp'], message: "");
+    // } else {
+    //   toast('Gagal membuka aplikasi whatsapp');
+    // }
   }
 }
