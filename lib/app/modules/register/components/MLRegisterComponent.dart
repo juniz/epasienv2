@@ -30,6 +30,7 @@ class _MLRgisterComponentState extends State<MLRgisterComponent> {
         Text('Nama Lengkap', style: boldTextStyle()),
         AppTextField(
           controller: controller.namaController,
+          textCapitalization: TextCapitalization.sentences,
           decoration: InputDecoration(
             hintText: 'Isikan nama lengkap',
             hintStyle: secondaryTextStyle(size: 16),
@@ -53,7 +54,7 @@ class _MLRgisterComponentState extends State<MLRgisterComponent> {
           ),
         ),
         16.height,
-        Text('Tanggal Booking', style: boldTextStyle()),
+        Text('Tanggal Lahir', style: boldTextStyle()),
         AppTextField(
           controller: controller.tglLahirController,
           textFieldType: TextFieldType.OTHER,
@@ -70,10 +71,34 @@ class _MLRgisterComponentState extends State<MLRgisterComponent> {
             DatePicker.showDatePicker(
               context,
               showTitleActions: true,
-              minTime: DateTime.now().add(Duration(days: 1)),
-              maxTime: DateTime.now().add(Duration(days: 15)),
               onConfirm: (date) => controller.setTglLahir(date),
               currentTime: controller.tglLahirSelected.value,
+              locale: LocaleType.id,
+            );
+          },
+        ),
+        16.height,
+        Text('Tanggal Booking', style: boldTextStyle()),
+        AppTextField(
+          controller: controller.tglBookingController,
+          textFieldType: TextFieldType.OTHER,
+          readOnly: true,
+          decoration: InputDecoration(
+            hintText: 'DD/MM/YYYY',
+            hintStyle: secondaryTextStyle(size: 16),
+            suffixIcon: Icon(Icons.calendar_today_outlined, color: mlColorBlue),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: mlColorLightGrey),
+            ),
+          ),
+          onTap: () {
+            DatePicker.showDatePicker(
+              context,
+              showTitleActions: true,
+              minTime: DateTime.now().add(Duration(days: 1)),
+              maxTime: DateTime.now().add(Duration(days: 15)),
+              onConfirm: (date) => controller.setTglBooking(date),
+              currentTime: controller.tglBookingSelected.value,
               locale: LocaleType.id,
             );
           },
@@ -143,7 +168,8 @@ class _MLRgisterComponentState extends State<MLRgisterComponent> {
             value: controller.kdPoli.value,
             onChanged: (newValue) {
               controller.kdPoli.value = newValue!;
-              print(controller.kdPoli.value);
+              controller.getNamaPoli(newValue);
+              //print(controller.kdPoli.value);
             },
             items: controller.listPoliklinik.value
                 .map<DropdownMenuItem<String>>((value) {

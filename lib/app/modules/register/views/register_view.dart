@@ -15,7 +15,7 @@ class RegisterView extends GetView<RegisterController> {
     return Scaffold(
         backgroundColor: mlPrimaryColor,
         body: Obx(
-          () => controller.bookingPeriksa.value.isBlank!
+          () => controller.bookingPeriksa.isEmpty
               ? Stack(
                   children: [
                     Container(

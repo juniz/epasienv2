@@ -42,4 +42,9 @@ class RegisterProvider extends GetConnect {
     final response = await post('apm/pasienbaru', body);
     return response;
   }
+
+  Future<Response> cekStatusBooking(var body) async {
+    final response = await post('apm/statusbookingperiksa', body);
+    return response;
+  }
 }

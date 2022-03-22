@@ -85,6 +85,16 @@ class MLDetailBookingPeriksa extends StatelessWidget {
                                       primaryTextStyle(color: mlColorDarkBlue))
                               .paddingLeft(18.0),
                           16.height,
+                          mOption('Tanggal Lahir'),
+                          4.height,
+                          Text(
+                                  DateFormat('dd-MM-yyyy').format(
+                                      DateTime.parse(controller
+                                          .bookingPeriksa.value['tgl_lahir'])),
+                                  style:
+                                      primaryTextStyle(color: mlColorDarkBlue))
+                              .paddingLeft(18.0),
+                          16.height,
                           mOption('Pesan'),
                           4.height,
                           Text(controller.bookingPeriksa.value['pesan'],
@@ -111,7 +121,10 @@ class MLDetailBookingPeriksa extends StatelessWidget {
                           // 16.height,
                           mOption('Tanggal Rencana Periksa'),
                           4.height,
-                          Text(controller.bookingPeriksa.value['tgl_daftar'],
+                          Text(
+                                  DateFormat('dd-MM-yyyy').format(
+                                      DateTime.parse(controller
+                                          .bookingPeriksa.value['tgl_daftar'])),
                                   style:
                                       primaryTextStyle(color: mlColorDarkBlue))
                               .paddingLeft(18.0),
@@ -173,6 +186,37 @@ class MLDetailBookingPeriksa extends StatelessWidget {
                           //         ],
                           //       )
                           //     : Container(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AppButton(
+                                height: 50,
+                                width: Get.width / 3,
+                                color: mlColorDarkBlue,
+                                child: Text(
+                                  "Check",
+                                  style: boldTextStyle(color: white),
+                                ),
+                                onTap: () => controller.cekStatusBooking(),
+                              ).cornerRadiusWithClipRRect(10),
+                              // AppButton(
+                              //   height: 50,
+                              //   width: Get.width / 3,
+                              //   color: Colors.red,
+                              //   child: Text(
+                              //     "Batal",
+                              //     style: boldTextStyle(color: white),
+                              //   ),
+                              //   onTap: () => showConfirmDialog(
+                              //     context,
+                              //     'Anda yakin ingin membatalkan booking?',
+                              //     onAccept: () {},
+                              //     positiveText: 'Ya',
+                              //     negativeText: 'Tidak',
+                              //   ),
+                              // ).cornerRadiusWithClipRRect(10)
+                            ],
+                          ),
                         ],
                       ),
                     ).paddingAll(16.0),
