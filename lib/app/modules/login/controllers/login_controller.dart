@@ -9,7 +9,8 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
-
+  final box = GetStorage();
+  final bookingPeriksa = Map<String, dynamic>().obs;
   final _provider = GetInstance().put(LoginProvider());
   late TextEditingController username;
   late TextEditingController password;
@@ -22,6 +23,7 @@ class LoginController extends GetxController {
 
   @override
   void onReady() {
+    bookingPeriksa.value = box.read('bookingPeriksa');
     super.onReady();
   }
 

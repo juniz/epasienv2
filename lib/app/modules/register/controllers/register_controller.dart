@@ -31,7 +31,6 @@ class RegisterController extends GetxController {
   RegisterProvider _provider = GetInstance().put(RegisterProvider());
   @override
   void onInit() {
-    bookingPeriksa.value = box.read('bookingPeriksa');
     _provider.fetchPoliklinik().then((value) {
       kdPoli.value = value[0].kdPoli!;
       listPoliklinik.value = value;
@@ -51,6 +50,7 @@ class RegisterController extends GetxController {
 
   @override
   void onReady() {
+    bookingPeriksa.value = box.read('bookingPeriksa');
     // if (bookingPeriksa.isNotEmpty) {
     //   cekStatusBooking();
     // }

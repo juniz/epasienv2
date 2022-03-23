@@ -24,7 +24,7 @@ class MLDetailBookingPeriksa extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<RegisterController>();
+    final controller = Get.put(RegisterController());
     return SafeArea(
       child: Scaffold(
         backgroundColor: mlPrimaryColor,

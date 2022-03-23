@@ -102,21 +102,25 @@ class LoginView extends GetView<LoginController> {
                           ],
                         ),
                         8.height,
-                        Text(
-                          'Belum punya Nomor Rekam Medik?',
-                          style: primaryTextStyle(),
+                        Column(
+                          children: [
+                            Text(
+                              'Belum punya Nomor Rekam Medik?',
+                              style: primaryTextStyle(),
+                            ),
+                            8.height,
+                            Text(
+                              'Klik Pasien Baru',
+                              style: boldTextStyle(
+                                size: 16,
+                                color: mlColorBlue,
+                                // decoration: TextDecoration.underline,
+                              ),
+                            ).onTap(() {
+                              Get.toNamed(Routes.REGISTER);
+                            }),
+                          ],
                         ),
-                        8.height,
-                        Text(
-                          'Klik Pasien Baru',
-                          style: boldTextStyle(
-                            size: 16,
-                            color: mlColorBlue,
-                            // decoration: TextDecoration.underline,
-                          ),
-                        ).onTap(() {
-                          Get.toNamed(Routes.REGISTER);
-                        }),
                       ],
                     ).center(),
                     32.height,
