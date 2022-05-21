@@ -8,7 +8,7 @@
             "name": "epasien",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
+            // "flutterMode": "release",
             "args": [
                 "--no-sound-null-safety"
                ]
@@ -17,7 +17,7 @@
             "name": "epasien (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
+            // "flutterMode": "release",
             "args": [
                 "--no-sound-null-safety"
                ]

@@ -28,11 +28,6 @@ class LoginView extends GetView<LoginController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     30.height,
-                    // Text(
-                    //   'Password menggunakan tanggal lahir (contoh : 31122021).',
-                    //   style: primaryTextStyle(size: 16),
-                    //   textAlign: TextAlign.left,
-                    // ),
                     Text(
                       'LOGIN',
                       style: boldTextStyle(size: 24),
@@ -109,16 +104,16 @@ class LoginView extends GetView<LoginController> {
                               style: primaryTextStyle(),
                             ),
                             8.height,
-                            Text(
-                              'Klik Pasien Baru',
-                              style: boldTextStyle(
-                                size: 16,
-                                color: mlColorBlue,
-                                // decoration: TextDecoration.underline,
-                              ),
-                            ).onTap(() {
-                              Get.toNamed(Routes.REGISTER);
-                            }),
+                            // Text(
+                            //   'Klik Pasien Baru',
+                            //   style: boldTextStyle(
+                            //     size: 16,
+                            //     color: mlColorBlue,
+                            //     // decoration: TextDecoration.underline,
+                            //   ),
+                            // ).onTap(() {
+                            //   Get.toNamed(Routes.REGISTER);
+                            // }),
                           ],
                         ),
                       ],

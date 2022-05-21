@@ -72,6 +72,7 @@ class PengaduanController extends GetxController {
     var body = {
       'id_pengaduan': id,
     };
+    // print(body);
     //listJawabanPengaduan.clear();
     var data = await _provider.jawabanPengaduan(body);
     // listJawabanPengaduan.value =

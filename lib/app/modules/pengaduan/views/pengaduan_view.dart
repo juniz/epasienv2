@@ -106,6 +106,7 @@ class PengaduanView extends GetView<PengaduanController> {
                                     .listPengaduan.value[index].id
                                     .toString()),
                                 builder: (context, snap) {
+                                  print(snap);
                                   if (snap.hasData) {
                                     var data = snap.data
                                         as List<JawabanPengaduanModel>;
@@ -137,9 +138,11 @@ class PengaduanView extends GetView<PengaduanController> {
                                                               mlColorLightGrey100),
                                                   padding: EdgeInsets.all(16.0),
                                                   child: Text(
-                                                      e.message.validate(),
-                                                      style: primaryTextStyle(
-                                                          color: black)),
+                                                    e.message.validate(),
+                                                    style: primaryTextStyle(
+                                                      color: black,
+                                                    ),
+                                                  ),
                                                 )
                                                     .paddingOnly(
                                                         right: 42.0,
