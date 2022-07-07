@@ -1,8 +1,6 @@
-import 'package:ALPOKAT/app/modules/booking_pasien_baru/models/poliklinik_model.dart';
 import 'package:ALPOKAT/app/modules/register/controllers/register_controller.dart';
 import 'package:ALPOKAT/app/modules/register/models/ListPoliklinikModel.dart';
 import 'package:ALPOKAT/app/utils/MLColors.dart';
-import 'package:ALPOKAT/app/utils/MLString.dart';
 import 'package:direct_select_flutter/direct_select_item.dart';
 import 'package:direct_select_flutter/direct_select_list.dart';
 import 'package:flutter/material.dart';

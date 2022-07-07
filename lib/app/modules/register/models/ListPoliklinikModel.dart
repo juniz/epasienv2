@@ -22,8 +22,8 @@ class ListPoliklinikModel {
 
   String? kdPoli;
   String? nmPoli;
-  int? registrasi;
-  int? registrasilama;
+  String? registrasi;
+  String? registrasilama;
   String? status;
 
   factory ListPoliklinikModel.fromJson(Map<String, dynamic> json) =>

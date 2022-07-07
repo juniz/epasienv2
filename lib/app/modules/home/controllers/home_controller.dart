@@ -1,19 +1,22 @@
+import 'dart:convert';
+
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/home/models/Homevisite.dart';
 import 'package:ALPOKAT/app/modules/home/models/WebModel.dart';
-import 'package:ALPOKAT/app/modules/home/providers/booking_provider_home.dart';
 import 'package:ALPOKAT/app/modules/home/providers/web_provider.dart';
 import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
 import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+
+import '../../../api/login_session.dart';
+import '../../../api/rest_api.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
-  BookingProviderHome _bookingProvider =
-      GetInstance().put(BookingProviderHome());
-  final pasien = GetStorage().read('pasien');
+  final _restApi = Get.put(RestApi());
+  final session = Get.find<LoginSession>();
   var listWeb = <WebModel>[].obs;
   var listBooking = <RiwayatBookingModel>[].obs;
   var selectedRiwayatBooking = RiwayatBookingModel().obs;
@@ -41,9 +44,13 @@ class HomeController extends GetxController {
   onRefreshBooking() {
     loadBooking(true);
     Future.delayed(Duration(seconds: 1), () {
-      _bookingProvider.fetchRiwayatBooking(
-          {'no_rkm_medis': pasien['no_rkm_medis']}).then((value) {
-        listBooking.value = value;
+      _restApi
+          .getService(urlRiwayatBooking + '?no_rkm_medis=${session.rkm.val}')
+          .then((value) {
+        if (value.statusCode == 200) {
+          listBooking.value =
+              riwayatBookingModelFromJson(json.encode(value.body['data']));
+        }
       });
       loadBooking(false);
       getHomevisite();
@@ -54,10 +61,10 @@ class HomeController extends GetxController {
     try {
       Future.delayed(
         Duration.zero,
-        () => DialogHelper.showLoading('Sedang memproses data.....'),
+        () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': session.rkm.val,
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'status': selectedRiwayatBooking.value.status,
@@ -66,12 +73,12 @@ class HomeController extends GetxController {
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      _bookingProvider.checkin(body).then((res) {
+      _restApi.postService(urlCheckin, body).then((res) {
         // print(res.bodyString);
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;
-        var message = res.body['message'];
+        var message = res.body['meta']['message'];
         if (statusCode == 200) {
           onRefreshBooking();
           Get.back();
@@ -121,7 +128,7 @@ class HomeController extends GetxController {
         () => DialogHelper.showLoading('Sedang memproses data.....'),
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': session.rkm.val,
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'status': 'batal',
@@ -130,12 +137,12 @@ class HomeController extends GetxController {
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      _bookingProvider.checkin(body).then((res) {
+      _restApi.postService(urlCheckin, body).then((res) {
         // print(res.bodyString);
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;
-        var message = res.body['message'];
+        var message = res.body['meta']['message'];
         if (statusCode == 200) {
           Get.back();
           onRefreshBooking();
@@ -183,17 +190,15 @@ class HomeController extends GetxController {
       Future.delayed(
         Duration.zero,
       );
-      var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
-        'tanggal': DateFormat('yyyy-MM-dd')
-            .format(selectedRiwayatBooking.value.tanggalPeriksa!),
-        'kd_dokter': selectedRiwayatBooking.value.kdDokter,
-        'kd_poli': selectedRiwayatBooking.value.kdPoli,
-        'kd_pj': selectedRiwayatBooking.value.kdPJ,
-        'no_reg': selectedRiwayatBooking.value.noReg,
-      };
-      _bookingProvider.fetchRiwayatBookingDetail(body).then(
-            (res) => selectedRiwayatBooking.value = res,
+      _restApi
+          .getService(
+            urlBookingDetail +
+                '?no_rkm_medis=${session.rkm.val}&tanggal=${DateFormat('yyyy-MM-dd').format(selectedRiwayatBooking.value.tanggalPeriksa!)}&kd_dokter=${selectedRiwayatBooking.value.kdDokter}&kd_poli=${selectedRiwayatBooking.value.kdPoli}&kd_pj=${selectedRiwayatBooking.value.kdPJ}&no_reg=${selectedRiwayatBooking.value.noReg}',
+          )
+          .then(
+            (res) => selectedRiwayatBooking.value =
+                selectedRiwayatBookingModelFromJson(
+                    json.encode(res.body['body'])),
           );
     } catch (e) {}
   }
@@ -204,14 +209,14 @@ class HomeController extends GetxController {
       () => DialogHelper.showLoading('Loading.....'),
     );
     var body = {
-      'no_rkm_medis': pasien['no_rkm_medis'],
+      'no_rkm_medis': session.rkm.val,
       'tanggal': DateFormat("yyyy-MM-dd").format(date),
     };
 
-    _bookingProvider.postHomevisite(body).then((value) {
+    _restApi.postService(urlDaftarHomeVisite, body).then((value) {
       DialogHelper.hideLoading();
       var statusCode = value.statusCode;
-      var message = value.body['message'];
+      var message = value.body['meta']['message'];
       Get.snackbar(
         statusCode == 200 ? 'Berhasil' : 'Gagal',
         message,
@@ -239,11 +244,11 @@ class HomeController extends GetxController {
     Future.delayed(
       Duration(seconds: 1),
       () {
-        var body = {
-          'no_rkm_medis': pasien['no_rkm_medis'],
-        };
-        _bookingProvider.fetchHomevisite(body).then((value) {
-          homevisite.value = value;
+        _restApi
+            .getService(urlHomeVisite + '?no_rkm_medis=${session.rkm.val}')
+            .then((value) {
+          homevisite.value =
+              homeVisiteModelFromJson(json.encode(value.body['data']));
           loadHomevisite(false);
         });
       },

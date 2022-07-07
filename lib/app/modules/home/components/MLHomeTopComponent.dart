@@ -3,7 +3,6 @@ import 'package:ALPOKAT/app/modules/home/controllers/home_controller.dart';
 import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
 import 'package:ALPOKAT/app/utils/MLImage.dart';
-import 'package:ALPOKAT/app/utils/MLString.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
@@ -52,7 +51,7 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
               Row(
                 children: [
                   CircleAvatar(
-                      child: Image.asset(controller.pasien['jk'] == 'P'
+                      child: Image.asset(controller.session.jk.val == 'P'
                           ? ml_ic_profile_picture!
                           : 'images/profile.png'),
                       radius: 22,
@@ -66,7 +65,7 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
                               color: white.withOpacity(0.7))),
                       4.height,
                       Text(
-                        controller.pasien['nm_pasien'],
+                        controller.session.nama.val,
                         style: boldTextStyle(color: whiteColor),
                         overflow: TextOverflow.ellipsis,
                       ),

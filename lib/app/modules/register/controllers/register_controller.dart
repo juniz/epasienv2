@@ -1,16 +1,20 @@
+import 'dart:convert';
+
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/register/models/ListPoliklinikModel.dart';
-import 'package:ALPOKAT/app/modules/register/providers/register_provider.dart';
 import 'package:ALPOKAT/app/routes/app_pages.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../../../api/rest_api.dart';
 
 class RegisterController extends GetxController {
   //TODO: Implement RegisterController
-
+  final _restApi = GetInstance().put(RestApi());
   final tglLahir = "".obs;
   final tglLahirSelected = DateTime.now().obs;
   final tglBooking = "".obs;
@@ -28,12 +32,14 @@ class RegisterController extends GetxController {
   final nmPoli = ''.obs;
   final box = GetStorage();
   final bookingPeriksa = Map<String, dynamic>().obs;
-  RegisterProvider _provider = GetInstance().put(RegisterProvider());
   @override
   void onInit() {
-    _provider.fetchPoliklinik().then((value) {
-      kdPoli.value = value[0].kdPoli!;
-      listPoliklinik.value = value;
+    _restApi.getService(urlPoliklinik).then((value) {
+      if (value.statusCode == 200) {
+        kdPoli.value = value.body['data'][0]['kd_poli'];
+        listPoliklinik.value =
+            listPoliklinikModelFromJson(json.encode(value.body['data']));
+      }
     });
     namaController = new TextEditingController();
     emailController = new TextEditingController();
@@ -51,9 +57,9 @@ class RegisterController extends GetxController {
   @override
   void onReady() {
     bookingPeriksa.value = box.read('bookingPeriksa');
-    // if (bookingPeriksa.isNotEmpty) {
-    //   cekStatusBooking();
-    // }
+    if (bookingPeriksa.isNotEmpty) {
+      cekStatusBooking();
+    }
     super.onReady();
   }
 
@@ -72,11 +78,10 @@ class RegisterController extends GetxController {
       Duration.zero,
       () => DialogHelper.showLoading('Loading.....'),
     );
-    var body = {
-      'no_booking': bookingPeriksa.value['no_booking'].toString(),
-      'no_hp': bookingPeriksa.value['hp'].toString(),
-    };
-    _provider.cekStatusBooking(body).then(
+    _restApi
+        .getService(urlStatusBooking +
+            '?no_booking=${bookingPeriksa.value['no_booking'].toString()}&no_hp=${bookingPeriksa.value['hp'].toString()}')
+        .then(
       (res) {
         // print(res.bodyString);
         // print(res.statusCode);
@@ -89,7 +94,7 @@ class RegisterController extends GetxController {
           Get.offNamed(Routes.LOGIN);
           Get.snackbar(
             'Notifikasi',
-            res.body['message'],
+            res.body['meta']['message'],
             icon: const Icon(Icons.add_alert_outlined, color: Colors.white),
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.red,
@@ -102,7 +107,7 @@ class RegisterController extends GetxController {
             forwardAnimationCurve: Curves.easeOutBack,
           );
         } else if (res.statusCode == 200) {
-          if (res.body['message'] == 'Diterima') {
+          if (res.body['meta']['message'] == 'Diterima') {
             Get.defaultDialog(
               title: "Booking Anda diterima",
               content: Column(
@@ -140,11 +145,11 @@ class RegisterController extends GetxController {
           } else {
             Get.snackbar(
               'Notifikasi',
-              res.body['message'],
+              res.body['meta']['message'],
               icon: const Icon(Icons.add_alert_outlined, color: Colors.white),
               snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white,
+              backgroundColor: mlColorBgErrBottomSheet,
+              colorText: mlColorBottomSheetText,
               borderRadius: 20,
               margin: const EdgeInsets.all(15),
               duration: const Duration(seconds: 5),
@@ -155,7 +160,23 @@ class RegisterController extends GetxController {
           }
         }
       },
-    );
+    ).catchError((e) {
+      DialogHelper.hideLoading();
+      Get.snackbar(
+        'Notifikasi',
+        e,
+        icon: const Icon(Icons.add_alert_outlined, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: mlColorBgErrBottomSheet,
+        colorText: mlColorBottomSheetText,
+        borderRadius: 20,
+        margin: const EdgeInsets.all(15),
+        duration: const Duration(seconds: 5),
+        isDismissible: true,
+        dismissDirection: SnackDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.easeOutBack,
+      );
+    });
   }
 
   setTglLahir(DateTime date) {
@@ -194,7 +215,7 @@ class RegisterController extends GetxController {
       'pesan': pesanController.text,
       'kd_poli': kdPoli.value,
     };
-    _provider.postPaienBaru(body).then((value) {
+    _restApi.postService(urlRegister, body).then((value) {
       DialogHelper.hideLoading();
       print(value.bodyString);
       if (value.statusCode == 200) {
@@ -213,7 +234,7 @@ class RegisterController extends GetxController {
         Get.offNamed(Routes.LOGIN);
         Get.snackbar(
           'Notifikasi',
-          value.body['message'],
+          value.body['meta']['message'],
           icon: const Icon(Icons.add_alert_outlined, color: Colors.white),
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green,
@@ -228,11 +249,11 @@ class RegisterController extends GetxController {
       } else if (value.statusCode == 201) {
         Get.snackbar(
           'Peringatan',
-          value.body['message'],
+          value.body['meta']['message'],
           icon: const Icon(Icons.add_alert_outlined, color: Colors.white),
           snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
+          backgroundColor: mlColorBgErrBottomSheet,
+          colorText: mlColorBottomSheetText,
           borderRadius: 20,
           margin: const EdgeInsets.all(15),
           duration: const Duration(seconds: 5),
@@ -241,6 +262,21 @@ class RegisterController extends GetxController {
           forwardAnimationCurve: Curves.easeOutBack,
         );
       } else {}
+    }).catchError((e) {
+      Get.snackbar(
+        'Error',
+        e,
+        icon: const Icon(Icons.add_alert_outlined, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: mlColorBgErrBottomSheet,
+        colorText: mlColorBottomSheetText,
+        borderRadius: 20,
+        margin: const EdgeInsets.all(15),
+        duration: const Duration(seconds: 5),
+        isDismissible: true,
+        dismissDirection: SnackDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.easeOutBack,
+      );
     });
   }
 }

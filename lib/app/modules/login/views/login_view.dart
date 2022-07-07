@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../utils/setting.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -104,16 +105,18 @@ class LoginView extends GetView<LoginController> {
                               style: primaryTextStyle(),
                             ),
                             8.height,
-                            // Text(
-                            //   'Klik Pasien Baru',
-                            //   style: boldTextStyle(
-                            //     size: 16,
-                            //     color: mlColorBlue,
-                            //     // decoration: TextDecoration.underline,
-                            //   ),
-                            // ).onTap(() {
-                            //   Get.toNamed(Routes.REGISTER);
-                            // }),
+                            pasienBaru
+                                ? Text(
+                                    'Klik Pasien Baru',
+                                    style: boldTextStyle(
+                                      size: 16,
+                                      color: mlColorBlue,
+                                      // decoration: TextDecoration.underline,
+                                    ),
+                                  ).onTap(() {
+                                    Get.toNamed(Routes.REGISTER);
+                                  })
+                                : Container(),
                           ],
                         ),
                       ],

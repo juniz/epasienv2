@@ -8,3 +8,5 @@ Color mlColorCyan = Colors.cyan.shade300;
 Color mlColorLightGrey = Colors.grey.shade300;
 Color mlColorLightGrey100 = Colors.grey.shade100;
 Color mlColorGreyShade = Color(0xfff5f5f5);
+Color mlColorBottomSheetText = Colors.white;
+Color mlColorBgErrBottomSheet = Colors.red;

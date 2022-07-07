@@ -1,18 +1,17 @@
-import 'package:ALPOKAT/app/modules/login/providers/login_provider.dart';
-import 'package:ALPOKAT/app/modules/splash_screen/providers/splash_screen_provider.dart';
 import 'package:ALPOKAT/app/routes/app_pages.dart';
+import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+import '../../../api/login_api.dart';
+import '../../../api/login_session.dart';
 
 class SplashScreenController extends GetxController {
   //TODO: Implement SplashScreenController
-
-  final _provider = Get.put(SplashScreenProvider());
-  final _loginprovider = Get.put(LoginProvider());
+  final restApi = Get.put(LoginApi());
+  final session = Get.find<LoginSession>();
+  // final session = Get.put(LoginSession());
   @override
   void onInit() async {
-    await getDataRumkit();
+    await splashInit();
     super.onInit();
   }
 
@@ -24,43 +23,29 @@ class SplashScreenController extends GetxController {
   @override
   void onClose() {}
 
-  getDataRumkit() async {
-    Future.delayed(
-      Duration(seconds: 3),
-    );
-    final status = await OneSignal.shared.getDeviceState();
-    final String? osUserID = status?.userId;
-    _provider.rumkit().then(
-      (value) async {
-        // print(value.body);
-        if (value.statusCode == 200) {
-          var token = await _provider.getToken({
-            'username': value.body['username'],
-            'password': value.body['password']
-          });
-          // print(value.bodyString);
-          GetStorage().write('token', token.body['data']['token']);
-          await GetStorage().write('rumkit', value.body);
-          var pasien = GetStorage().read('pasien');
-          if (pasien != null) {
-            final status = await OneSignal.shared.getDeviceState();
-            final String? osUserID = status?.userId;
-            var loginRes = await _loginprovider.login({
-              'username': pasien['no_rkm_medis'],
-              'password': pasien['tgl_lahir'],
-              'app_id': osUserID,
-            });
-            if (loginRes.statusCode == 200) {
-              GetStorage().write('pasien', loginRes.body);
-              Get.offAllNamed(Routes.DASHBOARD);
-            } else {
-              Get.offNamed('login');
-            }
-          } else {
-            Get.offNamed('login');
-          }
+  splashInit() async {
+    final username = session.rkm;
+    final password = session.password;
+    final body = {
+      'username': username,
+      'password': password,
+    };
+    Future.delayed(Duration(seconds: 3), () {
+      restApi.login(body).then((value) {
+        if (value.body['message'] == 'OK') {
+          Get.offAllNamed(Routes.DASHBOARD);
+        } else {
+          Get.offNamed('login');
         }
-      },
-    );
+      }).catchError((e) {
+        Get.offNamed('login');
+        Get.snackbar(
+          'Error',
+          e,
+          colorText: mlColorBottomSheetText,
+          backgroundColor: mlColorBgErrBottomSheet,
+        );
+      });
+    });
   }
 }
