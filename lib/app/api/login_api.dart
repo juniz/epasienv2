@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import 'login_session.dart';
 import 'url.dart';
@@ -19,17 +22,18 @@ class LoginApi extends GetConnect {
       if (response.hasError) {
         return Future.error(response.statusText!);
       }
-      if (response.body['message'] == 'OK') {
+      if (response.statusCode == 200) {
         final data = response.body['data'];
-        session.rkm.val = data['no_rkm_medis'];
-        session.password.val = data['password'];
+        session.rkm.val = data['no_rkm_medis'].toString();
+        session.password.val = data['password'].toString();
         session.nama.val = data['nm_pasien'];
         session.nip.val = data['nip'];
         session.email.val = data['email'];
         session.telp.val = data['no_tlp'];
         session.jk.val = data['jk'];
         session.noPeserta.val = data['no_peserta'];
-        session.token.val = data['token'];
+        session.token.val = response.body['token'];
+        log(session.rkm.val);
       }
       return response;
     } catch (e) {

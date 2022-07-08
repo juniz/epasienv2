@@ -38,6 +38,7 @@ class RestApi extends GetConnect {
   Future<Response> postService(String url, Map body) async {
     try {
       final response = await post(url, body);
+      log('tes');
       if (response.hasError) {
         return Future.error(response.statusText!);
       }

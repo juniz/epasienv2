@@ -1,14 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/surat_sakit/models/LIstSuratNarkobaModel.dart';
 import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratKontrolModel.dart';
 import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratRujukanModel.dart';
+import 'package:ALPOKAT/app/modules/surat_sakit/models/data_surat_sakit_model.dart';
 import 'package:ALPOKAT/app/modules/surat_sakit/models/surat_sakit_model.dart';
-import 'package:ALPOKAT/app/modules/surat_sakit/providers/surat_bebas_narkoba_provider.dart';
-import 'package:ALPOKAT/app/modules/surat_sakit/providers/surat_kontrol_provider.dart';
-import 'package:ALPOKAT/app/modules/surat_sakit/providers/surat_rujukan_provider.dart';
-import 'package:ALPOKAT/app/modules/surat_sakit/providers/surat_sakit_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -18,19 +17,20 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import '../../../api/login_session.dart';
+import '../../../api/rest_api.dart';
+import '../models/DataSuratSakitModel.dart';
+import '../models/SuratKontrolDataModel.dart';
+import '../models/SuratRujukanDataModel.dart';
+import '../models/setting_model.dart';
+
 class SuratSakitController extends GetxController
     with SingleGetTickerProviderMixin {
   //TODO: Implement SuratSakitController
   final rumkit = GetStorage().read('rumkit');
-  final pasien = GetStorage().read('pasien');
-  SuratKontrolProvider _suratKontrolProvider =
-      GetInstance().put(SuratKontrolProvider());
-  SuratBebasNarkobaProvider _suratSKBNProvider =
-      GetInstance().put(SuratBebasNarkobaProvider());
-  SuratSakitProvider _suratSakaitProvider =
-      GetInstance().put(SuratSakitProvider());
-  SuratRujukanProvider _suratRujukanProvider =
-      GetInstance().put(SuratRujukanProvider());
+  final pasien = Get.find<LoginSession>().rkm.val;
+  final _restApi = Get.put(RestApi());
+  final _setting = Setting().obs;
   var listSuratSakit = <SuratSakitModel>[].obs;
   var listSuratNarkoba = <ListSuratNarkobaModel>[].obs;
   var listSuratKontrol = <SuratKontrolModel>[].obs;
@@ -40,27 +40,33 @@ class SuratSakitController extends GetxController
   @override
   void onInit() {
     tabController = TabController(length: 4, vsync: this);
+    _restApi.getService(urlSetting).then((value) => {
+          if (value.statusCode == 200)
+            {
+              _setting.value = settingFromJson(value.bodyString!),
+            }
+        });
     super.onInit();
   }
 
   @override
   void onReady() {
-    _suratSakaitProvider
-        .fetchSuratSakit({'no_rkm_medis': pasien['no_rkm_medis']}).then(
-      (value) => listSuratSakit.value = value,
-    );
-    _suratSKBNProvider
-        .fetchListSuratNarkoba({'no_rkm_medis': pasien['no_rkm_medis']}).then(
-      (value) => listSuratNarkoba.value = value,
-    );
-    _suratKontrolProvider
-        .fetchSuratKontrol({'no_rkm_medis': pasien['no_rkm_medis']}).then(
-      (value) => listSuratKontrol.value = value,
-    );
-    _suratRujukanProvider
-        .fetchSuratSakit({'no_rkm_medis': pasien['no_rkm_medis']}).then(
-      (value) => listSuratRujukan.value = value,
-    );
+    _restApi.getService(urlSuratSakit + '?no_rkm_medis=$pasien').then(
+          (value) => listSuratSakit.value =
+              suratSakitModelFromJson(json.encode(value.body['data'])),
+        );
+    _restApi.getService(urlSuratSKBN + '?no_rkm_medis=$pasien').then(
+          (value) => listSuratNarkoba.value =
+              listSuratNarkobaModelFromJson(json.encode(value.body['data'])),
+        );
+    _restApi.getService(urlSuratKontrol + '?no_rkm_medis=$pasien').then(
+          (value) => listSuratKontrol.value =
+              suratKontrolModelFromJson(json.encode(value.body['data'])),
+        );
+    _restApi.getService(urlSuratRujukan + '?no_rkm_medis=$pasien').then(
+          (value) => listSuratRujukan.value =
+              suratRujukanModelFromJson(json.encode(value.body['data'])),
+        );
     super.onReady();
   }
 
@@ -68,10 +74,10 @@ class SuratSakitController extends GetxController
   void onClose() {}
 
   void suratSKBN(String noSurat) async {
-    final data =
-        await _suratSKBNProvider.fetchDataSuratNarkoba({'no_surat': noSurat});
+    final data = await _restApi.getService(urlSuratSKBN + '?no_surat=$noSurat');
+    final surat = dataSuratNarkobaModelFromJson(json.encode(data.body['data']));
     final barcode =
-        await _suratSakaitProvider.fetchBarcode({'nik': data.kdDokter});
+        await _restApi.getService(urlBarcode + '?nik=${surat.kdDokter}');
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -122,7 +128,7 @@ class SuratSakitController extends GetxController
                       pw.Column(
                         children: [
                           pw.Text(
-                            'Yang bertanda tangan dibawah ini saya ${data.nmDokter}, pada ${rumkit['rumkit']} menerangkan bahwa telah melakukan wawancara, pemeriksaan fisik dan pemeriksaan laboratorium terhadap pasien dengan keterangan sebagai berikut :',
+                            'Yang bertanda tangan dibawah ini saya ${surat.nmDokter}, pada ${rumkit['rumkit']} menerangkan bahwa telah melakukan wawancara, pemeriksaan fisik dan pemeriksaan laboratorium terhadap pasien dengan keterangan sebagai berikut :',
                             textAlign: pw.TextAlign.justify,
                           ),
                           pw.SizedBox(height: 15),
@@ -139,7 +145,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('a.'),
                                   pw.Text('Nama'),
                                   pw.Text(':'),
-                                  pw.Text(data.nmPasien!)
+                                  pw.Text(surat.nmPasien!)
                                 ],
                               ),
                               pw.TableRow(
@@ -148,7 +154,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('Tempat, Tgl. lahir'),
                                   pw.Text(':'),
                                   pw.Text(
-                                      data.tmpLahir! + ', ' + data.tglLahir!)
+                                      surat.tmpLahir! + ', ' + surat.tglLahir!)
                                 ],
                               ),
                               pw.TableRow(
@@ -156,7 +162,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('c.'),
                                   pw.Text('Agama'),
                                   pw.Text(':'),
-                                  pw.Text(data.agama!)
+                                  pw.Text(surat.agama!)
                                 ],
                               ),
                               pw.TableRow(
@@ -164,7 +170,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('d.'),
                                   pw.Text('Jenis Kelamin'),
                                   pw.Text(':'),
-                                  pw.Text(data.jk!)
+                                  pw.Text(surat.jk!)
                                 ],
                               ),
                               pw.TableRow(
@@ -172,7 +178,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('e.'),
                                   pw.Text('Suku Bangsa'),
                                   pw.Text(':'),
-                                  pw.Text(data.namaSukuBangsa!)
+                                  pw.Text(surat.namaSukuBangsa!)
                                 ],
                               ),
                               pw.TableRow(
@@ -180,7 +186,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('f.'),
                                   pw.Text('Pekerjaan'),
                                   pw.Text(':'),
-                                  pw.Text(data.pekerjaan!)
+                                  pw.Text(surat.pekerjaan!)
                                 ],
                               ),
                               pw.TableRow(
@@ -188,7 +194,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('g.'),
                                   pw.Text('Alamat'),
                                   pw.Text(':'),
-                                  pw.Text(data.alamat!)
+                                  pw.Text(surat.alamat!)
                                 ],
                               ),
                               pw.TableRow(
@@ -196,7 +202,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('h.'),
                                   pw.Text('Dipergunakan'),
                                   pw.Text(':'),
-                                  pw.Text(data.keperluan!)
+                                  pw.Text(surat.keperluan!)
                                 ],
                               ),
                             ],
@@ -217,7 +223,7 @@ class SuratSakitController extends GetxController
                       pw.Column(
                         children: [
                           pw.Text(
-                            'Berdasarkan pemeriksaan Fisik dan pemeriksaan Urine dengan menggunakan alat ANSWER yang dilaksanakan pada hari/tanggal ${data.tanggalsurat}, bahwa pada saat pemeriksaaan didapatkan hasil sebagai berikut :',
+                            'Berdasarkan pemeriksaan Fisik dan pemeriksaan Urine dengan menggunakan alat ANSWER yang dilaksanakan pada hari/tanggal ${surat.tanggalsurat}, bahwa pada saat pemeriksaaan didapatkan hasil sebagai berikut :',
                             textAlign: pw.TextAlign.justify,
                           ),
                           pw.SizedBox(height: 15),
@@ -234,7 +240,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('a.'),
                                   pw.Text('Opiat / Morphin'),
                                   pw.Text(':'),
-                                  pw.Text(data.opiat!)
+                                  pw.Text(surat.opiat!)
                                 ],
                               ),
                               pw.TableRow(
@@ -242,7 +248,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('b.'),
                                   pw.Text('Ganja / Canabis'),
                                   pw.Text(':'),
-                                  pw.Text(data.ganja!)
+                                  pw.Text(surat.ganja!)
                                 ],
                               ),
                               pw.TableRow(
@@ -250,7 +256,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('c.'),
                                   pw.Text('Amphetamin'),
                                   pw.Text(':'),
-                                  pw.Text(data.amphetamin!)
+                                  pw.Text(surat.amphetamin!)
                                 ],
                               ),
                               pw.TableRow(
@@ -258,7 +264,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('d.'),
                                   pw.Text('Methamphetamin'),
                                   pw.Text(':'),
-                                  pw.Text(data.methamphetamin!)
+                                  pw.Text(surat.methamphetamin!)
                                 ],
                               ),
                               pw.TableRow(
@@ -266,7 +272,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('e.'),
                                   pw.Text('Benzodiazepin'),
                                   pw.Text(':'),
-                                  pw.Text(data.benzodiazepin!)
+                                  pw.Text(surat.benzodiazepin!)
                                 ],
                               ),
                               pw.TableRow(
@@ -274,7 +280,7 @@ class SuratSakitController extends GetxController
                                   pw.Text('f.'),
                                   pw.Text('Cocain'),
                                   pw.Text(':'),
-                                  pw.Text(data.cocain!)
+                                  pw.Text(surat.cocain!)
                                 ],
                               ),
                             ],
@@ -314,24 +320,25 @@ class SuratSakitController extends GetxController
                     children: [
                       pw.Text('Pemohon'),
                       pw.SizedBox(height: 70),
-                      pw.Text(data.nmPasien!)
+                      pw.Text(surat.nmPasien!)
                     ],
                   ),
                   pw.Column(
                     children: [
-                      pw.Text('${rumkit['kota']}, ${data.tanggalsurat}'),
-                      pw.Text(rumkit['rumkit']),
+                      pw.Text(
+                          '${_setting.value.data?.kabupaten}, ${surat.tanggalsurat}'),
+                      pw.Text(_setting.value.data!.namaInstansi!),
                       pw.Text('Dokter,'),
                       pw.SizedBox(height: 10),
                       pw.BarcodeWidget(
-                        data: barcode.body['sidikjari'],
+                        data: barcode.body['data']['sidikjari'],
                         barcode: pw.Barcode.qrCode(),
                         width: 100,
                         height: 100,
                       ),
                       pw.SizedBox(height: 10),
                       pw.Text(
-                        '( ${data.nmDokter} )',
+                        '( ${surat.nmDokter} )',
                         style: pw.TextStyle(
                           decoration: pw.TextDecoration.underline,
                         ),
@@ -355,10 +362,11 @@ class SuratSakitController extends GetxController
   }
 
   void suratSakitPDF(String noSurat) async {
-    final dataSurat =
-        await _suratSakaitProvider.fetchDataSuratSakit({'no_surat': noSurat});
+    final data =
+        await _restApi.getService(urlSuratSakit + '?no_surat=$noSurat');
+    final surat = dataSuratSakitModelFromJson(json.encode(data.body['data']));
     final barcode =
-        await _suratSakaitProvider.fetchBarcode({'nik': dataSurat.kdDokter});
+        await _restApi.getService(urlBarcode + '?nik=${surat.kdDokter}');
     final pdf = pw.Document();
 
     pdf.addPage(
@@ -389,7 +397,7 @@ class SuratSakitController extends GetxController
                 pw.Divider(thickness: 1),
                 pw.SizedBox(height: 15),
                 pw.Text(
-                  'Yang bertanda tangan di bawah ini ${dataSurat.nmDokter}, dokter pada ${rumkit['rumkit']} menerangkan bahwa :',
+                  'Yang bertanda tangan di bawah ini ${surat.nmDokter}, dokter pada ${_setting.value.data?.namaInstansi} menerangkan bahwa :',
                   textAlign: pw.TextAlign.justify,
                   style: pw.TextStyle(fontSize: 14),
                 ),
@@ -408,7 +416,7 @@ class SuratSakitController extends GetxController
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
-                          dataSurat.nmPasien!,
+                          surat.nmPasien!,
                           style: pw.TextStyle(fontSize: 14),
                         ),
                       ],
@@ -424,7 +432,7 @@ class SuratSakitController extends GetxController
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
-                          dataSurat.umur!,
+                          surat.umur!,
                           style: pw.TextStyle(fontSize: 14),
                         ),
                       ],
@@ -440,7 +448,7 @@ class SuratSakitController extends GetxController
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
-                          dataSurat.jk!,
+                          surat.jk!,
                           style: pw.TextStyle(fontSize: 14),
                         ),
                       ],
@@ -456,7 +464,7 @@ class SuratSakitController extends GetxController
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
-                          dataSurat.pekerjaan!,
+                          surat.pekerjaan!,
                           style: pw.TextStyle(fontSize: 14),
                         ),
                       ],
@@ -472,7 +480,7 @@ class SuratSakitController extends GetxController
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
-                          dataSurat.alamat!,
+                          surat.alamat!,
                           style: pw.TextStyle(fontSize: 14),
                         ),
                       ],
@@ -488,7 +496,7 @@ class SuratSakitController extends GetxController
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
-                          dataSurat.diagnosa!,
+                          surat.diagnosa!,
                           style: pw.TextStyle(fontSize: 14),
                         ),
                       ],
@@ -497,7 +505,7 @@ class SuratSakitController extends GetxController
                 ),
                 pw.SizedBox(height: 15),
                 pw.Text(
-                  'Telah diperiksa kesehatan badannya dan sekarang dalam keadaan sakit dan perlu istirahat ${dataSurat.lamasakit} hari dari tanggal ${dataSurat.tanggalawal} sampai dengan ${dataSurat.tanggalakhir}. Demikian surat keterangan ini dibuat dengan benar dan untuk dapat digunakan sebagaimana mestinya.',
+                  'Telah diperiksa kesehatan badannya dan sekarang dalam keadaan sakit dan perlu istirahat ${surat.lamasakit} hari dari tanggal ${surat.tanggalawal} sampai dengan ${surat.tanggalakhir}. Demikian surat keterangan ini dibuat dengan benar dan untuk dapat digunakan sebagaimana mestinya.',
                   textAlign: pw.TextAlign.justify,
                   style: pw.TextStyle(fontSize: 14),
                 ),
@@ -511,11 +519,11 @@ class SuratSakitController extends GetxController
                     pw.Column(
                       children: [
                         pw.Text(
-                          '${rumkit['kota']}, ${dataSurat.tanggalawal}',
+                          '${_setting.value.data!.kabupaten!}, ${surat.tanggalawal}',
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
-                          rumkit['rumkit'],
+                          _setting.value.data!.namaInstansi!,
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
@@ -524,14 +532,14 @@ class SuratSakitController extends GetxController
                         ),
                         pw.SizedBox(height: 10),
                         pw.BarcodeWidget(
-                          data: barcode.body['sidikjari'],
+                          data: barcode.body['meta']['sidikjari'],
                           barcode: pw.Barcode.qrCode(),
                           width: 80,
                           height: 80,
                         ),
                         pw.SizedBox(height: 10),
                         pw.Text(
-                          '( ${dataSurat.nmDokter} )',
+                          '( ${surat.nmDokter} )',
                           style: pw.TextStyle(
                             decoration: pw.TextDecoration.underline,
                           ),
@@ -554,10 +562,11 @@ class SuratSakitController extends GetxController
   }
 
   suratSKDP(String noSurat, String tahun) async {
-    final data = await _suratKontrolProvider
-        .fetchSuratKontrolData({'noantrian': noSurat, 'tahun': tahun});
+    final data = await _restApi
+        .getService(urlSuratKontrol + '?no_surat=$noSurat&tahun=$tahun');
+    final surat = suratKontrolDataModelFromJson(json.encode(data.body['data']));
     final barcode =
-        await _suratSakaitProvider.fetchBarcode({'nik': data.kdDokter});
+        await _restApi.getService(urlBarcode + '?nik=${surat.kdDokter}');
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -596,7 +605,7 @@ class SuratSakitController extends GetxController
                         style: pw.TextStyle(fontSize: 14),
                       ),
                       pw.Text(
-                        data.noAntrian!,
+                        surat.noAntrian!,
                         style: pw.TextStyle(fontSize: 14),
                       ),
                     ],
@@ -612,7 +621,7 @@ class SuratSakitController extends GetxController
                         style: pw.TextStyle(fontSize: 14),
                       ),
                       pw.Text(
-                        data.noRkmMedis!,
+                        surat.noRkmMedis!,
                         style: pw.TextStyle(fontSize: 14),
                       ),
                     ],
@@ -628,7 +637,7 @@ class SuratSakitController extends GetxController
                         style: pw.TextStyle(fontSize: 14),
                       ),
                       pw.Text(
-                        data.diagnosa!,
+                        surat.diagnosa!,
                         style: pw.TextStyle(fontSize: 14),
                       ),
                     ],
@@ -644,7 +653,7 @@ class SuratSakitController extends GetxController
                         style: pw.TextStyle(fontSize: 14),
                       ),
                       pw.Text(
-                        data.terapi!,
+                        surat.terapi!,
                         style: pw.TextStyle(fontSize: 14),
                       ),
                     ],
@@ -653,7 +662,7 @@ class SuratSakitController extends GetxController
               ),
               pw.SizedBox(height: 15),
               pw.Text(
-                'Tanggal surat rujukan ${DateFormat("dd-MM-yyyy").format(data.tanggalRujukan!)}',
+                'Tanggal surat rujukan ${DateFormat("dd-MM-yyyy").format(surat.tanggalRujukan!)}',
                 style: pw.TextStyle(fontSize: 14),
                 textAlign: pw.TextAlign.justify,
               ),
@@ -663,12 +672,12 @@ class SuratSakitController extends GetxController
                 textAlign: pw.TextAlign.justify,
               ),
               pw.Text(
-                '1. ${data.alasan1}',
+                '1. ${surat.alasan1}',
                 style: pw.TextStyle(fontSize: 14),
                 textAlign: pw.TextAlign.justify,
               ),
               pw.Text(
-                '2. ${data.alasan2}',
+                '2. ${surat.alasan2}',
                 style: pw.TextStyle(fontSize: 14),
                 textAlign: pw.TextAlign.justify,
               ),
@@ -679,12 +688,12 @@ class SuratSakitController extends GetxController
                 textAlign: pw.TextAlign.justify,
               ),
               pw.Text(
-                '1. ${data.rtl1}',
+                '1. ${surat.rtl1}',
                 style: pw.TextStyle(fontSize: 14),
                 textAlign: pw.TextAlign.justify,
               ),
               pw.Text(
-                '2. ${data.rtl2}',
+                '2. ${surat.rtl2}',
                 style: pw.TextStyle(fontSize: 14),
                 textAlign: pw.TextAlign.justify,
               ),
@@ -695,12 +704,12 @@ class SuratSakitController extends GetxController
                 textAlign: pw.TextAlign.justify,
               ),
               pw.Text(
-                'Tanggal ${DateFormat("dd-MM-yyyy").format(data.tanggalDatang!)}',
+                'Tanggal ${DateFormat("dd-MM-yyyy").format(surat.tanggalDatang!)}',
                 style: pw.TextStyle(fontSize: 14),
                 textAlign: pw.TextAlign.justify,
               ),
               pw.Text(
-                'No. Antrian ${data.noReg}',
+                'No. Antrian ${surat.noReg}',
                 style: pw.TextStyle(fontSize: 14),
                 textAlign: pw.TextAlign.justify,
               ),
@@ -709,7 +718,7 @@ class SuratSakitController extends GetxController
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.BarcodeWidget(
-                    data: data.noReg!,
+                    data: surat.noReg!,
                     barcode: pw.Barcode.qrCode(),
                     width: 50,
                     height: 50,
@@ -717,7 +726,7 @@ class SuratSakitController extends GetxController
                   pw.Column(
                     children: [
                       pw.Text(
-                        '${rumkit['kota']},',
+                        '${_setting.value.data!.kabupaten!},',
                         style: pw.TextStyle(fontSize: 14),
                       ),
                       pw.Text(
@@ -726,14 +735,14 @@ class SuratSakitController extends GetxController
                       ),
                       pw.SizedBox(height: 10),
                       pw.BarcodeWidget(
-                        data: barcode.body['sidikjari'],
+                        data: barcode.body['data']['sidikjari'],
                         barcode: pw.Barcode.qrCode(),
                         width: 80,
                         height: 80,
                       ),
                       pw.SizedBox(height: 10),
                       pw.Text(
-                        '(${data.nmDokter})',
+                        '(${surat.nmDokter})',
                         style: pw.TextStyle(
                           fontSize: 14,
                           decoration: pw.TextDecoration.underline,
@@ -759,9 +768,10 @@ class SuratSakitController extends GetxController
 
   suratRujukan(String noSurat) async {
     final data =
-        await _suratRujukanProvider.fetchDataSuratRujukan({'nosurat': noSurat});
+        await _restApi.getService(urlSuratRujukan + '?no_surat=$noSurat');
+    final surat = suratRujukanDataModelFromJson(json.encode(data.body['data']));
     final barcode =
-        await _suratSakaitProvider.fetchBarcode({'nik': data.kdDokter});
+        await _restApi.getService(urlBarcode + '?nik=${surat.kdDokter}');
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -781,7 +791,7 @@ class SuratSakitController extends GetxController
               ),
               pw.Center(
                 child: pw.Text(
-                  'NOMOR : ${data.noRujuk}',
+                  'NOMOR : ${surat.noRujuk}',
                   style: pw.TextStyle(
                     fontWeight: pw.FontWeight.bold,
                     fontSize: 14,
@@ -793,13 +803,13 @@ class SuratSakitController extends GetxController
               pw.SizedBox(height: 15),
               pw.Align(
                 child: pw.Text(
-                  '${rumkit['kota']}, ${data.tglRujuk}',
+                  '${_setting.value.data?.kabupaten}, ${surat.tglRujuk}',
                   textAlign: pw.TextAlign.right,
                 ),
                 alignment: pw.Alignment.topRight,
               ),
               pw.Text('Kepada Yth.'),
-              pw.Text(data.rujukKe!),
+              pw.Text(surat.rujukKe!),
               pw.Text('Di Tempat'),
               pw.SizedBox(height: 15),
               pw.Text(
@@ -817,76 +827,78 @@ class SuratSakitController extends GetxController
                     children: [
                       pw.Text('Tanggal Rawat'),
                       pw.Text(':'),
-                      pw.Text(
-                          DateFormat("dd-MM-yyyy").format(data.tglRegistrasi!)),
+                      pw.Text(DateFormat("dd-MM-yyyy")
+                          .format(surat.tglRegistrasi!)),
                     ],
                   ),
                   pw.TableRow(
                     children: [
                       pw.Text('Nama Pasien'),
                       pw.Text(':'),
-                      pw.Text(data.nmPasien!),
+                      pw.Text(surat.nmPasien!),
                     ],
                   ),
                   pw.TableRow(
                     children: [
                       pw.Text('No.RM'),
                       pw.Text(':'),
-                      pw.Text(data.noRkmMedis!),
+                      pw.Text(surat.noRkmMedis!),
                     ],
                   ),
                   pw.TableRow(
                     children: [
                       pw.Text('Alamat'),
                       pw.Text(':'),
-                      pw.Text(data.alamat!),
+                      pw.Text(surat.alamat!),
                     ],
                   ),
                   pw.TableRow(
                     children: [
                       pw.Text('Diagnosa'),
                       pw.Text(':'),
-                      pw.Text(data.keteranganDiagnosa!),
+                      pw.Text(surat.keteranganDiagnosa!),
                     ],
                   ),
                   pw.TableRow(
                     children: [
                       pw.Text('Tindakan'),
                       pw.Text(':'),
-                      pw.Text(
-                          data.inap! + data.lab! + data.rad! + data.operasi!),
+                      pw.Text(surat.inap! +
+                          surat.lab! +
+                          surat.rad! +
+                          surat.operasi!),
                     ],
                   ),
                   pw.TableRow(
                     children: [
                       pw.Text('Terapi'),
                       pw.Text(':'),
-                      pw.Text(data.obat!),
+                      pw.Text(surat.obat!),
                     ],
                   ),
                 ],
               ),
               pw.SizedBox(height: 15),
               pw.Text(
-                  'Demikianlah riwayat perawatan selama di ${rumkit['rumkit']} dengan diagnosa akhir ${data.keteranganDiagnosa}. Atas kerjasamanya kami ucapkan terima kasih',
+                  'Demikianlah riwayat perawatan selama di ${_setting.value.data?.namaInstansi} dengan diagnosa akhir ${surat.keteranganDiagnosa}. Atas kerjasamanya kami ucapkan terima kasih',
                   textAlign: pw.TextAlign.justify),
               pw.SizedBox(height: 15),
               pw.Align(
                 alignment: pw.Alignment.topRight,
                 child: pw.Column(
                   children: [
-                    pw.Text('${rumkit['rumkit']},'),
+                    pw.Text('${_setting.value.data?.namaInstansi},'),
                     pw.Text('Dokter yang merawat'),
                     pw.SizedBox(height: 10),
                     pw.BarcodeWidget(
-                      data: barcode.body['sidikjari'],
+                      data: barcode.body['data']['sidikjari'],
                       barcode: pw.Barcode.qrCode(),
                       width: 80,
                       height: 80,
                     ),
                     pw.SizedBox(height: 10),
                     pw.Text(
-                      '(${data.nmDokter})',
+                      '(${surat.nmDokter})',
                       style: pw.TextStyle(
                         decoration: pw.TextDecoration.underline,
                       ),

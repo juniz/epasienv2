@@ -1,6 +1,7 @@
 import 'package:ALPOKAT/app/routes/app_pages.dart';
 import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:get/get.dart';
+import 'package:nb_utils/nb_utils.dart';
 import '../../../api/login_api.dart';
 import '../../../api/login_session.dart';
 
@@ -24,15 +25,15 @@ class SplashScreenController extends GetxController {
   void onClose() {}
 
   splashInit() async {
-    final username = session.rkm;
-    final password = session.password;
+    final username = session.rkm.val;
+    final password = session.password.val;
     final body = {
       'username': username,
       'password': password,
     };
     Future.delayed(Duration(seconds: 3), () {
       restApi.login(body).then((value) {
-        if (value.body['message'] == 'OK') {
+        if (value.statusCode == 200) {
           Get.offAllNamed(Routes.DASHBOARD);
         } else {
           Get.offNamed('login');
