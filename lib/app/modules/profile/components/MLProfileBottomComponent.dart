@@ -146,7 +146,7 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                   children: [
                     Icon(Icons.card_membership, size: 24, color: Colors.blue),
                     8.width,
-                    Text(controller.pasien['no_peserta'],
+                    Text(controller.session.noPeserta.val,
                             style: secondaryTextStyle(color: black, size: 16))
                         .expand(),
                     Icon(Icons.arrow_forward_ios,
@@ -154,7 +154,7 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                   ],
                 ),
               ).onTap(() {
-                toasty(context, controller.pasien['no_peserta']);
+                toasty(context, controller.session.noPeserta.val);
               }),
               Container(
                 margin: EdgeInsets.only(bottom: 16.0),
@@ -164,17 +164,14 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                   children: [
                     Icon(Icons.calendar_today, size: 24, color: Colors.blue),
                     8.width,
-                    Text('${controller.pasien['tmp_lahir']}, ${controller.pasien['lahir']}',
+                    Text('${controller.session.tmpLahir.val}',
                             style: secondaryTextStyle(color: black, size: 16))
                         .expand(),
                     Icon(Icons.arrow_forward_ios,
                         color: Colors.grey[300], size: 16),
                   ],
                 ),
-              ).onTap(() {
-                toasty(context,
-                    '${controller.pasien['tmp_lahir']}, ${controller.pasien['lahir']}');
-              }),
+              ).onTap(() {}),
               Container(
                 margin: EdgeInsets.only(bottom: 16.0),
                 padding: EdgeInsets.all(12.0),
@@ -184,9 +181,9 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                     Icon(Icons.person, size: 24, color: Colors.blue),
                     8.width,
                     Text(
-                            controller.pasien['jk'] == 'L'
+                            controller.session.jk.val == 'L'
                                 ? 'Laki-Laki'
-                                : controller.pasien['jk'] == 'L'
+                                : controller.session.jk.val == 'L'
                                     ? 'Perempuan'
                                     : 'Lainnya',
                             style: secondaryTextStyle(color: black, size: 16))
@@ -198,9 +195,9 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
               ).onTap(() {
                 toasty(
                   context,
-                  controller.pasien['jk'] == 'L'
+                  controller.session.jk.val == 'L'
                       ? 'Laki-Laki'
-                      : controller.pasien['jk'] == 'L'
+                      : controller.session.jk.val == 'L'
                           ? 'Perempuan'
                           : 'Lainnya',
                 );
@@ -213,7 +210,7 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                   children: [
                     Icon(Icons.mail, size: 24, color: Colors.blue),
                     8.width,
-                    Text(controller.pasien['email'],
+                    Text(controller.session.email.val,
                             style: secondaryTextStyle(color: black, size: 16))
                         .expand(),
                     Icon(Icons.arrow_forward_ios,
@@ -221,7 +218,7 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                   ],
                 ),
               ).onTap(() {
-                toasty(context, controller.pasien['email']);
+                toasty(context, controller.session.email.val);
               }),
               Container(
                 margin: EdgeInsets.only(bottom: 16.0),
@@ -231,7 +228,7 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                   children: [
                     Icon(Icons.phone, size: 24, color: Colors.blue),
                     8.width,
-                    Text(controller.pasien['no_tlp'],
+                    Text(controller.session.telp.val,
                             style: secondaryTextStyle(color: black, size: 16))
                         .expand(),
                     Icon(Icons.arrow_forward_ios,
@@ -239,7 +236,7 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                   ],
                 ),
               ).onTap(() {
-                toasty(context, controller.pasien['no_tlp']);
+                toasty(context, controller.session.telp.val);
               }),
             ],
           ),

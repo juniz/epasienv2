@@ -1,10 +1,14 @@
+import 'dart:convert';
+
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/fasilitas_tarif/models/laborat_model.dart';
-import 'package:ALPOKAT/app/modules/fasilitas_tarif/providers/laborat_provider.dart';
 import 'package:get/get.dart';
+
+import '../../../api/rest_api.dart';
 
 class LaboratController extends GetxController {
   //TODO: Implement LaboratController
-  final _apiProvider = GetInstance().put(LaboratProvider());
+  final _restApi = Get.put(RestApi());
   var listLaborat = <LaboratModel>[].obs;
   @override
   void onInit() {
@@ -13,8 +17,9 @@ class LaboratController extends GetxController {
 
   @override
   void onReady() {
-    _apiProvider.fetchLaborat().then(
-          (value) => listLaborat.value = value,
+    _restApi.getService(urlLaborat).then(
+          (value) => listLaborat.value =
+              laboratModelFromJson(json.encode(value.body['data'])),
         );
     super.onReady();
   }

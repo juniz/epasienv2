@@ -1,18 +1,18 @@
 // To parse this JSON data, do
 //
-//     final jawabanPengaduanModel = jawabanPengaduanModelFromJson(jsonString);
+//     final jawabanPengaduan = jawabanPengaduanFromJson(jsonString);
 
 import 'dart:convert';
 
-List<JawabanPengaduanModel> jawabanPengaduanModelFromJson(String str) =>
-    List<JawabanPengaduanModel>.from(
-        json.decode(str).map((x) => JawabanPengaduanModel.fromJson(x)));
+List<JawabanPengaduan> jawabanPengaduanFromJson(String str) =>
+    List<JawabanPengaduan>.from(
+        json.decode(str).map((x) => JawabanPengaduan.fromJson(x)));
 
-String jawabanPengaduanModelToJson(List<JawabanPengaduanModel> data) =>
+String jawabanPengaduanToJson(List<JawabanPengaduan> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class JawabanPengaduanModel {
-  JawabanPengaduanModel({
+class JawabanPengaduan {
+  JawabanPengaduan({
     this.id,
     this.dateTime,
     this.pengaduanId,
@@ -20,14 +20,14 @@ class JawabanPengaduanModel {
     this.message,
   });
 
-  int? id;
+  String? id;
   String? dateTime;
-  int? pengaduanId;
+  String? pengaduanId;
   String? username;
   String? message;
 
-  factory JawabanPengaduanModel.fromJson(Map<String, dynamic> json) =>
-      JawabanPengaduanModel(
+  factory JawabanPengaduan.fromJson(Map<String, dynamic> json) =>
+      JawabanPengaduan(
         id: json["id"],
         dateTime: json["date_time"],
         pengaduanId: json["pengaduan_id"],

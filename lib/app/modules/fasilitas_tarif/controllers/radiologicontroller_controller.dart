@@ -1,10 +1,14 @@
+import 'dart:convert';
+
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/fasilitas_tarif/models/radiologi_model.dart';
-import 'package:ALPOKAT/app/modules/fasilitas_tarif/providers/radiologi_provider.dart';
 import 'package:get/get.dart';
+
+import '../../../api/rest_api.dart';
 
 class RadiologiController extends GetxController {
   //TODO: Implement RadiologicontrollerController
-  final _apiProvider = GetInstance().put(RadiologiProvider());
+  final _restApi = Get.put(RestApi());
   var listRadiologi = <RadiologiModel>[].obs;
   @override
   void onInit() {
@@ -13,7 +17,8 @@ class RadiologiController extends GetxController {
 
   @override
   void onReady() {
-    _apiProvider.fetchRadiologi().then((value) => listRadiologi.value = value);
+    _restApi.getService(urlRadiologi).then((value) => listRadiologi.value =
+        radiologiModelFromJson(json.encode(value.body['data'])));
     super.onReady();
   }
 

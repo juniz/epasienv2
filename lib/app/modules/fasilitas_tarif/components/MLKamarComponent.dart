@@ -47,7 +47,7 @@ class MLKamarComponent extends StatelessWidget {
                                 DataCell(Text(e.kelas!)),
                                 DataCell(Text(
                                     NumberFormat.currency(locale: 'id')
-                                        .format(e.trfKamar!))),
+                                        .format(int.parse(e.trfKamar!)))),
                                 DataCell(Text(e.status!)),
                               ],
                             ),

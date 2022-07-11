@@ -1,19 +1,21 @@
+import 'dart:convert';
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/data/MLBookAppointmentData.dart';
 import 'package:ALPOKAT/app/modules/halaman_booking/components/MLBookedDailog.dart';
 import 'package:ALPOKAT/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
 import 'package:ALPOKAT/app/modules/halaman_booking/models/penjab_model.dart';
-import 'package:ALPOKAT/app/modules/halaman_booking/providers/booking_provider.dart';
 import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
 import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import '../../../api/login_session.dart';
+import '../../../api/rest_api.dart';
 
 class HalamanBookingController extends GetxController {
   //TODO: Implement HalamanBookingController
-  BookingProvider _bookingProvider = GetInstance().put(BookingProvider());
-  final pasien = GetStorage().read('pasien');
+  final _restApi = Get.put(RestApi());
+  final _session = Get.find<LoginSession>();
   var currentWidget = 0.obs;
   var selectedIndex = 0.obs;
   var selectedKdPoli = "".obs;
@@ -56,8 +58,11 @@ class HalamanBookingController extends GetxController {
             'tanggal': DateFormat('yyyy-MM-dd').format(selectedDate.value),
           };
 
-          _bookingProvider.fetchJadwalPoliklinik(body).then((value) {
-            listPoliklinik.value = value;
+          _restApi
+              .getService(urlCariPoli + '?tanggal=${body['tanggal']}')
+              .then((value) {
+            listPoliklinik.value =
+                jadwalPoliklinikModelFromJson(json.encode(value.body['data']));
             if (listPoliklinik.value.isEmpty) {
               selectedKdDokter.value = "";
               selectedKdPoli.value = "";
@@ -84,8 +89,9 @@ class HalamanBookingController extends GetxController {
       Future.delayed(
         Duration(seconds: 1),
         () {
-          _bookingProvider.fetchPenjab().then((value) {
-            listPenjab.value = value;
+          _restApi.getService(urlPenjab).then((value) {
+            listPenjab.value =
+                penjabModelFromJson(json.encode(value.body['data']));
             selectedKdPenjab.value = listPenjab.value[0].kdPj!;
             selectedPenjab.value = listPenjab.value[0].pngJawab!;
             isLoading(false);
@@ -104,25 +110,24 @@ class HalamanBookingController extends GetxController {
         () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': _session.rkm.val,
         'tanggal': DateFormat('yyyy-MM-dd').format(selectedDate.value),
         'kd_poli': selectedKdPoli.value,
         'kd_dokter': selectedKdDokter.value,
         'kd_pj': selectedKdPenjab.value
       };
-      print(body);
-      _bookingProvider.postBooking(body).then((res) {
+      _restApi.postService(urlBooking, body).then((res) {
         DialogHelper.hideLoading();
         if (res.statusCode == 200) {
           Get.dialog(
             MLBookedDialog(
-              desc: res.body['message'],
+              desc: res.body['meta']['message'],
             ),
           );
         } else {
           Get.snackbar(
             'Error',
-            res.statusText!,
+            res.body['meta']['message'],
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
@@ -131,6 +136,12 @@ class HalamanBookingController extends GetxController {
     } catch (e) {
       print(e);
       DialogHelper.hideLoading();
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 

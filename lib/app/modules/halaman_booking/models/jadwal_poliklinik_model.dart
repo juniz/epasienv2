@@ -20,6 +20,7 @@ class JadwalPoliklinikModel {
     this.jamMulai,
     this.jamSelesai,
     this.hariKerja,
+    this.photo,
   });
 
   String? nmDokter;
@@ -29,6 +30,7 @@ class JadwalPoliklinikModel {
   String? jamMulai;
   String? jamSelesai;
   String? hariKerja;
+  String? photo;
 
   factory JadwalPoliklinikModel.fromJson(Map<String, dynamic> json) =>
       JadwalPoliklinikModel(
@@ -39,6 +41,7 @@ class JadwalPoliklinikModel {
         jamMulai: json["jam_mulai"],
         jamSelesai: json["jam_selesai"],
         hariKerja: json["hari_kerja"],
+        photo: json["photo"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,5 +50,6 @@ class JadwalPoliklinikModel {
         "jam_mulai": jamMulai,
         "jam_selesai": jamSelesai,
         "hari_kerja": hariKerja,
+        "photo": photo,
       };
 }

@@ -12,9 +12,8 @@ import '../../../api/rest_api.dart';
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
 
-  final pasien = GetStorage().read('pasien');
   final _restApi = Get.put(RestApi());
-  final _session = Get.put(LoginSession());
+  final session = Get.put(LoginSession());
   var statistikPasien = <StatistikPasienModel>[].obs;
   @override
   void onInit() {
@@ -24,7 +23,7 @@ class ProfileController extends GetxController {
   @override
   void onReady() {
     _restApi
-        .getService(urlJumlahKunjungan + '?no_rkm_medis=${_session.rkm.val}')
+        .getService(urlJumlahKunjungan + '?no_rkm_medis=${session.rkm.val}')
         .then((value) {
       if (value.statusCode == 200) {
         statistikPasien.value =
@@ -38,7 +37,8 @@ class ProfileController extends GetxController {
   void onClose() {}
 
   logOut() {
-    GetStorage().remove('pasien');
+    session.rkm.val = '';
+    session.password.val = '';
     Get.offAllNamed(Routes.LOGIN);
   }
 }

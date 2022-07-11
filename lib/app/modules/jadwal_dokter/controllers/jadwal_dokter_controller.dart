@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:ALPOKAT/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
-import 'package:ALPOKAT/app/modules/jadwal_dokter/providers/jadwal_dokter_home_provider.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../../../api/rest_api.dart';
+import '../../../api/url.dart';
 
 class JadwalDokterController extends GetxController {
   //TODO: Implement JadwalDokterController
-  JadwalDokterHomeProvider _jadwalProvider =
-      GetInstance().put(JadwalDokterHomeProvider());
+  final _restApi = Get.put(RestApi());
   var selectedIndex = 0.obs;
   var selectedDate = DateTime.now().add(Duration(days: 1)).obs;
   var selectedKdPoli = "".obs;
@@ -40,8 +42,11 @@ class JadwalDokterController extends GetxController {
           'tanggal': DateFormat('yyyy-MM-dd').format(selectedDate.value),
         };
 
-        _jadwalProvider.fetchJadwalDokter(body).then((value) {
-          listPoliklinik.value = value;
+        _restApi
+            .getService(urlCariPoli + '?tanggal=${body['tanggal']}')
+            .then((value) {
+          listPoliklinik.value =
+              jadwalPoliklinikModelFromJson(json.encode(value.body['data']));
           if (listPoliklinik.value.isEmpty) {
             selectedKdDokter.value = "";
             selectedKdPoli.value = "";

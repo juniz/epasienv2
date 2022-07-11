@@ -22,9 +22,9 @@ class BangsalKamarModel {
 
   String? nmBangsal;
   String? kdBangsal;
-  int? total;
-  int? isi;
-  int? kosong;
+  String? total;
+  String? isi;
+  String? kosong;
 
   factory BangsalKamarModel.fromJson(Map<String, dynamic> json) =>
       BangsalKamarModel(

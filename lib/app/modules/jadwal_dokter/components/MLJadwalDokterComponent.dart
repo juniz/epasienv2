@@ -8,6 +8,10 @@ import 'package:getwidget/getwidget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../api/url.dart';
+import '../../../utils/MLCommon.dart';
+import '../../../utils/setting.dart';
+
 class MLJadwalDokterComponent extends StatelessWidget {
   const MLJadwalDokterComponent({Key? key}) : super(key: key);
 
@@ -66,14 +70,25 @@ class MLJadwalDokterComponent extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: [
-                                        Image.asset(
-                                                ('images/hospital.png')
-                                                    .validate(),
-                                                height: 75,
+                                        photoDokter
+                                            ? waCommonCachedNetworkImage(
+                                                urlBaseImage +
+                                                    controller.listPoliklinik
+                                                        .value[index].photo
+                                                        .validate(),
+                                                fit: BoxFit.cover,
+                                                alignment: Alignment.topCenter,
+                                                height: 100,
                                                 width: 75,
-                                                fit: BoxFit.fill)
-                                            .paddingAll(8.0)
-                                            .expand(flex: 1),
+                                              ).paddingAll(8.0).expand(flex: 1)
+                                            : Image.asset(
+                                                    ('images/hospital.png')
+                                                        .validate(),
+                                                    height: 75,
+                                                    width: 75,
+                                                    fit: BoxFit.fill)
+                                                .paddingAll(8.0)
+                                                .expand(flex: 1),
                                         Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,

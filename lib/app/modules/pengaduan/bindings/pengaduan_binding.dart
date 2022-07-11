@@ -5,8 +5,6 @@ import '../controllers/pengaduan_controller.dart';
 class PengaduanBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<PengaduanController>(
-      () => PengaduanController(),
-    );
+    Get.put(PengaduanController());
   }
 }

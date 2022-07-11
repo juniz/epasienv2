@@ -19,10 +19,10 @@ class StatistikPasienModel {
     this.bulan,
   });
 
-  int? kunjungan;
-  int? rajal;
-  int? ranap;
-  int? bulan;
+  String? kunjungan;
+  String? rajal;
+  String? ranap;
+  String? bulan;
 
   factory StatistikPasienModel.fromJson(Map<String, dynamic> json) =>
       StatistikPasienModel(

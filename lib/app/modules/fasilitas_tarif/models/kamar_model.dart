@@ -22,7 +22,7 @@ class KamarModel {
   String? kdKamar;
   String? nmBangsal;
   String? kelas;
-  int? trfKamar;
+  String? trfKamar;
   String? status;
 
   factory KamarModel.fromJson(Map<String, dynamic> json) => KamarModel(

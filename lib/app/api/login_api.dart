@@ -30,10 +30,11 @@ class LoginApi extends GetConnect {
         session.nip.val = data['nip'];
         session.email.val = data['email'];
         session.telp.val = data['no_tlp'];
+        session.tmpLahir.val = data['tmp_lahir'];
         session.jk.val = data['jk'];
         session.noPeserta.val = data['no_peserta'];
         session.token.val = response.body['token'];
-        log(session.rkm.val);
+        // log(session.rkm.val);
       }
       return response;
     } catch (e) {

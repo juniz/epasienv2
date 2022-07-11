@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/surat_sakit/models/LIstSuratNarkobaModel.dart';
 import 'package:ALPOKAT/app/modules/surat_sakit/models/SuratKontrolModel.dart';
@@ -12,11 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-
 import '../../../api/login_session.dart';
 import '../../../api/rest_api.dart';
 import '../models/DataSuratSakitModel.dart';
@@ -74,7 +73,8 @@ class SuratSakitController extends GetxController
   void onClose() {}
 
   void suratSKBN(String noSurat) async {
-    final data = await _restApi.getService(urlSuratSKBN + '?no_surat=$noSurat');
+    final data =
+        await _restApi.getService(urlSuratSKBNData + '?no_surat=$noSurat');
     final surat = dataSuratNarkobaModelFromJson(json.encode(data.body['data']));
     final barcode =
         await _restApi.getService(urlBarcode + '?nik=${surat.kdDokter}');
@@ -362,8 +362,9 @@ class SuratSakitController extends GetxController
   }
 
   void suratSakitPDF(String noSurat) async {
+    log(noSurat);
     final data =
-        await _restApi.getService(urlSuratSakit + '?no_surat=$noSurat');
+        await _restApi.getService(urlSuratSakitData + '?no_surat=$noSurat');
     final surat = dataSuratSakitModelFromJson(json.encode(data.body['data']));
     final barcode =
         await _restApi.getService(urlBarcode + '?nik=${surat.kdDokter}');
@@ -532,7 +533,7 @@ class SuratSakitController extends GetxController
                         ),
                         pw.SizedBox(height: 10),
                         pw.BarcodeWidget(
-                          data: barcode.body['meta']['sidikjari'],
+                          data: barcode.body['data']['sidikjari'],
                           barcode: pw.Barcode.qrCode(),
                           width: 80,
                           height: 80,
@@ -563,7 +564,7 @@ class SuratSakitController extends GetxController
 
   suratSKDP(String noSurat, String tahun) async {
     final data = await _restApi
-        .getService(urlSuratKontrol + '?no_surat=$noSurat&tahun=$tahun');
+        .getService(urlSuratKontrolData + '?noantrian=$noSurat&tahun=$tahun');
     final surat = suratKontrolDataModelFromJson(json.encode(data.body['data']));
     final barcode =
         await _restApi.getService(urlBarcode + '?nik=${surat.kdDokter}');
@@ -768,7 +769,7 @@ class SuratSakitController extends GetxController
 
   suratRujukan(String noSurat) async {
     final data =
-        await _restApi.getService(urlSuratRujukan + '?no_surat=$noSurat');
+        await _restApi.getService(urlSuratRujukanData + '?nosurat=$noSurat');
     final surat = suratRujukanDataModelFromJson(json.encode(data.body['data']));
     final barcode =
         await _restApi.getService(urlBarcode + '?nik=${surat.kdDokter}');

@@ -18,7 +18,7 @@ class OperasiModel {
   });
 
   String? nmPerawatan;
-  int? total;
+  String? total;
   String? kelas;
 
   factory OperasiModel.fromJson(Map<String, dynamic> json) => OperasiModel(

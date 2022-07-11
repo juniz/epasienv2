@@ -31,7 +31,7 @@ class SuratKontrolDataModel {
   });
 
   String? noReg;
-  int? tahun;
+  String? tahun;
   String? noRkmMedis;
   String? nmPasien;
   String? diagnosa;

@@ -1,20 +1,23 @@
+import 'dart:convert';
+
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/riwayat_booking/models/BillingModel.dart';
 import 'package:ALPOKAT/app/modules/riwayat_booking/models/ResumeModel.dart';
 import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatBookingModel.dart';
 import 'package:ALPOKAT/app/modules/riwayat_booking/models/RiwayatPemeriksaanModel.dart';
-import 'package:ALPOKAT/app/modules/riwayat_booking/providers/riwayat_booking_provider.dart';
 import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+
+import '../../../api/login_session.dart';
+import '../../../api/rest_api.dart';
 
 class RiwayatBookingController extends GetxController
     with SingleGetTickerProviderMixin {
   //TODO: Implement RiwayatBookingController
-  RiwayatBookingProvider _provider =
-      GetInstance().put(RiwayatBookingProvider());
-  final pasien = GetStorage().read('pasien');
+  final _session = Get.find<LoginSession>();
+  final _restApi = Get.put(RestApi());
   late TabController tabController;
   var riwayatBooking = <RiwayatBookingModel>[].obs;
   var selectedRiwayatBooking = RiwayatBookingModel().obs;
@@ -44,11 +47,11 @@ class RiwayatBookingController extends GetxController
       Future.delayed(
         Duration.zero,
       );
-      var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
-      };
-      _provider.fetchRiwayatBooking(body).then((res) {
-        riwayatBooking.value = res;
+      _restApi
+          .getService(urlRiwayatBooking + '?no_rkm_medis=${_session.rkm.val}')
+          .then((res) {
+        riwayatBooking.value =
+            riwayatBookingModelFromJson(json.encode(res.body['data']));
       });
     } catch (e) {}
   }
@@ -60,7 +63,7 @@ class RiwayatBookingController extends GetxController
         () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': _session.rkm.val,
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'status': selectedRiwayatBooking.value.status,
@@ -69,11 +72,11 @@ class RiwayatBookingController extends GetxController
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      _provider.checkin(body).then((res) {
+      _restApi.postService(urlCheckin, body).then((res) {
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;
-        var message = res.body['message'];
+        var message = res.body['meta']['message'];
         Get.snackbar(
           statusCode == 200 ? 'Checkin berhasil' : 'Checkin gagal',
           message,
@@ -119,7 +122,7 @@ class RiwayatBookingController extends GetxController
         () => DialogHelper.showLoading('Loading.....'),
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': _session.rkm.val,
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'status': 'batal',
@@ -128,11 +131,11 @@ class RiwayatBookingController extends GetxController
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      _provider.batalCheckin(body).then((res) {
+      _restApi.postService(urlCheckin, body).then((res) {
         DialogHelper.hideLoading();
         bookingDetail();
         var statusCode = res.statusCode;
-        var message = res.body['message'];
+        var message = res.body['meta']['message'];
         Get.snackbar(
           statusCode == 200 ? 'Batal checkin berhasil' : 'Batal checkin gagal',
           message,
@@ -177,7 +180,7 @@ class RiwayatBookingController extends GetxController
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': _session.rkm.val,
         'tanggal': DateFormat('yyyy-MM-dd')
             .format(selectedRiwayatBooking.value.tanggalPeriksa!),
         'kd_dokter': selectedRiwayatBooking.value.kdDokter,
@@ -185,9 +188,12 @@ class RiwayatBookingController extends GetxController
         'kd_pj': selectedRiwayatBooking.value.kdPJ,
         'no_reg': selectedRiwayatBooking.value.noReg,
       };
-      _provider
-          .fetchRiwayatBookingDetail(body)
-          .then((res) => selectedRiwayatBooking.value = res);
+      _restApi
+          .getService(urlBookingDetail +
+              '?no_rkm_medis=${body['no_rkm_medis']}&tanggal=${body['tanggal']}&kd_dokter=${body['kd_dokter']}&kd_poli=${body['kd_poli']}&kd_pj=${body['kd_pj']}&no_reg=${body['no_reg']}')
+          .then((res) => selectedRiwayatBooking.value =
+              selectedRiwayatBookingModelFromJson(
+                  json.encode(res.body['data'])));
     } catch (e) {}
   }
 
@@ -197,11 +203,13 @@ class RiwayatBookingController extends GetxController
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': _session.rkm.val,
       };
-      _provider
-          .fetchRiwayatPeriksaan(body)
-          .then((res) => listRiwayatPemeriksaan.value = res);
+      _restApi
+          .getService(
+              urlRiwayatPeriksa + '?no_rkm_medis=${body['no_rkm_medis']}')
+          .then((res) => listRiwayatPemeriksaan.value =
+              riwayatPemeriksaanModelFromJson(json.encode(res.body['data'])));
     } catch (e) {}
   }
 
@@ -213,9 +221,9 @@ class RiwayatBookingController extends GetxController
       var body = {
         'no_rawat': noRawat,
       };
-      _provider.fetchResume(body).then(
+      _restApi.getService(urlResume + '?no_rawat=${body['no_rawat']}').then(
         (res) {
-          dataResume.value = res;
+          dataResume.value = resumeModelFromJson(json.encode(res.body['data']));
         },
       );
     } catch (e) {}
@@ -229,10 +237,11 @@ class RiwayatBookingController extends GetxController
       var body = {
         'no_rawat': noRawat,
       };
-      _provider.fetchBilling(body).then(
+      _restApi.getService(urlBilling + '?no_rawat=${body['no_rawat']}').then(
         (res) {
           totalBilling.value = 0;
-          listBilling.value = res;
+          listBilling.value =
+              billingModelFromJson(json.encode(res.body['data']));
           listBilling.value.forEach((e) {
             if (e.empat != '') {
               totalBilling.value += int.parse(e.empat!);

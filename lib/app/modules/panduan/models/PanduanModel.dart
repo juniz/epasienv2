@@ -17,7 +17,7 @@ class PanduanModel {
     this.deskripsi,
   });
 
-  int? id;
+  String? id;
   String? judul;
   String? deskripsi;
 

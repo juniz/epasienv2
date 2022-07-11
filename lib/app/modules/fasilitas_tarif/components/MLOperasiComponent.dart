@@ -45,7 +45,7 @@ class MLOperasiComponent extends StatelessWidget {
                                 DataCell(Text(e.kelas!)),
                                 DataCell(Text(
                                     NumberFormat.currency(locale: 'id')
-                                        .format(e.total!))),
+                                        .format(int.parse(e.total!)))),
                               ],
                             ),
                           )

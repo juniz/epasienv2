@@ -46,7 +46,7 @@ class MLLaboratComponent extends StatelessWidget {
                                 DataCell(Text(e.kelas!)),
                                 DataCell(Text(
                                     NumberFormat.currency(locale: 'id')
-                                        .format(e.totalByr!))),
+                                        .format(int.parse(e.totalByr!)))),
                               ],
                             ),
                           )

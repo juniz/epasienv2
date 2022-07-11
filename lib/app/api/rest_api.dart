@@ -6,7 +6,7 @@ import 'login_session.dart';
 import 'url.dart';
 
 class RestApi extends GetConnect {
-  final _loginRest = Get.find<LoginApi>();
+  final _loginRest = Get.put(LoginApi());
   final _session = Get.find<LoginSession>();
   @override
   void onInit() {

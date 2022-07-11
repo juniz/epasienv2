@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 
 import '../../../api/login_session.dart';
 import '../../../api/rest_api.dart';
+import '../../../utils/setting.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -53,7 +54,9 @@ class HomeController extends GetxController {
         }
       });
       loadBooking(false);
-      getHomevisite();
+      if (homeVisite) {
+        getHomevisite();
+      }
     });
   }
 

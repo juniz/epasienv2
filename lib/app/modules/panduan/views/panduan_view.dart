@@ -21,21 +21,19 @@ class PanduanView extends GetView<PanduanController> {
               children: [
                 Text('FAQ', style: boldTextStyle(size: 20, color: white))
                     .expand(),
-                // Text(mlHistory!, style: secondaryTextStyle(color: white))
-                //     .paddingRight(8.0),
-                // Icon(Icons.refresh, color: white, size: 30)
-                //     .onTap(() => controller.riwayatPemeriksaan()),
               ],
             ).paddingAll(16.0),
             8.width,
             Container(
               decoration: boxDecorationWithRoundedCorners(
                   borderRadius: radiusOnly(topRight: 32)),
-              child: Obx(() => Column(
-                  children: controller.listPanduan.value
-                      .map((e) => ResumeWidget(
-                          controller: e.deskripsi, header: e.judul))
-                      .toList())),
+              child: Obx(() => SingleChildScrollView(
+                    child: Column(
+                        children: controller.listPanduan.value
+                            .map((e) => ResumeWidget(
+                                controller: e.deskripsi, header: e.judul))
+                            .toList()),
+                  )),
             ).expand()
           ],
         ),
@@ -58,7 +56,7 @@ class ResumeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpandableNotifier(
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(left: 10, right: 10),
         child: GFAccordion(
           titleChild: Text(
             header!,

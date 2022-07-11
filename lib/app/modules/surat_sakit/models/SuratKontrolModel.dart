@@ -29,8 +29,8 @@ class SuratKontrolModel {
   DateTime? tanggalDatang;
   String? noAntrian;
   String? nmDokter;
-  int? tahun;
-  int? kadaluarsa;
+  String? tahun;
+  String? kadaluarsa;
 
   factory SuratKontrolModel.fromJson(Map<String, dynamic> json) =>
       SuratKontrolModel(

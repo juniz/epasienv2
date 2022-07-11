@@ -1,28 +1,30 @@
+import 'dart:convert';
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/pengaduan/models/jawaban_pengaduan_model.dart';
 import 'package:ALPOKAT/app/modules/pengaduan/models/pengaduan_model.dart';
-import 'package:ALPOKAT/app/modules/pengaduan/providers/pengaduan_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../../../api/login_session.dart';
+import '../../../api/rest_api.dart';
 
 class PengaduanController extends GetxController {
   //TODO: Implement PengaduanController
-  final _provider = GetInstance().put(PengaduanProvider());
+  final _session = Get.find<LoginSession>();
+  final _restApi = Get.put(RestApi());
   late TextEditingController messageController;
   var listPengaduan = <PengaduanModel>[].obs;
-  var listJawabanPengaduan = <JawabanPengaduanModel>[].obs;
-  final pasien = GetStorage().read('pasien');
+  var listJawabanPengaduan = <JawabanPengaduan>[].obs;
 
   @override
   void onInit() {
     messageController = TextEditingController();
+    pengaduan();
     super.onInit();
   }
 
   @override
   void onReady() {
-    pengaduan();
     super.onReady();
   }
 
@@ -35,13 +37,13 @@ class PengaduanController extends GetxController {
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': _session.rkm.val,
         'pesan': messageController.text,
       };
-      _provider.kirimPengaduan(body).then((res) {
+      _restApi.postService(urlKirimPengaduan, body).then((res) {
         if (res.statusCode == 200) {
           toast(
-            res.body['message'],
+            res.body['meta']['message'],
             textColor: Colors.black,
             gravity: ToastGravity.TOP,
           );
@@ -57,26 +59,28 @@ class PengaduanController extends GetxController {
         Duration.zero,
       );
       var body = {
-        'no_rkm_medis': pasien['no_rkm_medis'],
+        'no_rkm_medis': _session.rkm.val,
       };
-      _provider.pengaduan(body).then((res) {
-        listPengaduan.value = res;
+      _restApi
+          .getService(urlPengaduan + '?no_rkm_medis=${body['no_rkm_medis']}')
+          .then((res) {
+        log(res.bodyString);
+        listPengaduan.value =
+            pengaduanModelFromJson(json.encode(res.body['data']));
       });
     } catch (e) {}
   }
 
-  Future<List<JawabanPengaduanModel>> jawabanPengaduan(String? id) async {
+  Future<List<JawabanPengaduan>> jawabanPengaduan(String? id) async {
     Future.delayed(
       Duration.zero,
     );
     var body = {
       'id_pengaduan': id,
     };
-    // print(body);
-    //listJawabanPengaduan.clear();
-    var data = await _provider.jawabanPengaduan(body);
-    // listJawabanPengaduan.value =
-    //     jawabanPengaduanModelFromJson(data.bodyString!);
-    return jawabanPengaduanModelFromJson(data.bodyString!);
+    var data = await _restApi.getService(
+        urlJawabanPengaduan + '?id_pengaduan=${body['id_pengaduan']}');
+
+    return jawabanPengaduanFromJson(json.encode(data.body['data']));
   }
 }

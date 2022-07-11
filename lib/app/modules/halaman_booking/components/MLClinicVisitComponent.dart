@@ -4,11 +4,16 @@ import 'package:ALPOKAT/app/data/MLDepartmentData.dart';
 import 'package:ALPOKAT/app/modules/halaman_booking/controllers/halaman_booking_controller.dart';
 import 'package:ALPOKAT/app/utils/MLColors.dart';
 import 'package:ALPOKAT/app/utils/MLDataProvider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import '../../../api/url.dart';
+import '../../../utils/MLCommon.dart';
+import '../../../utils/setting.dart';
 
 class MLClinicVisitComponent extends StatefulWidget {
   @override
@@ -104,14 +109,25 @@ class MLClinicVisitComponentState extends State<MLClinicVisitComponent> {
                                 children: [
                                   Row(
                                     children: [
-                                      Image.asset(
-                                              ('images/hospital.png')
-                                                  .validate(),
-                                              height: 75,
+                                      photoDokter
+                                          ? waCommonCachedNetworkImage(
+                                              urlBaseImage +
+                                                  controller.listPoliklinik
+                                                      .value[index].photo
+                                                      .validate(),
+                                              fit: BoxFit.cover,
+                                              alignment: Alignment.topCenter,
+                                              height: 100,
                                               width: 75,
-                                              fit: BoxFit.fill)
-                                          .paddingAll(8.0)
-                                          .expand(flex: 1),
+                                            ).paddingAll(8.0).expand(flex: 1)
+                                          : Image.asset(
+                                                  ('images/hospital.png')
+                                                      .validate(),
+                                                  height: 75,
+                                                  width: 75,
+                                                  fit: BoxFit.fill)
+                                              .paddingAll(8.0)
+                                              .expand(flex: 1),
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,

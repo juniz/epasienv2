@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:nb_utils/src/extensions/int_extensions.dart';
 
 import '../controllers/profile_controller.dart';
 
@@ -50,16 +49,16 @@ class ProfileView extends GetView<ProfileController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircleAvatar(
-                                child: controller.pasien['jk'] == 'P'
+                                child: controller.session.jk.val == 'P'
                                     ? Image.asset(ml_ic_profile_picture!)
                                     : Image.asset('images/profile.png'),
                                 radius: 40.0,
                                 backgroundColor: mlColorCyan),
                             8.height,
-                            Text(controller.pasien['nm_pasien'],
+                            Text(controller.session.nama.val,
                                 style: boldTextStyle(color: white, size: 20)),
                             4.height,
-                            Text(controller.pasien['no_rkm_medis'],
+                            Text(controller.session.rkm.val,
                                 style:
                                     secondaryTextStyle(color: white, size: 16)),
                           ],

@@ -20,7 +20,7 @@ class LaboratModel {
 
   String? kdJenisPrw;
   String? nmPerawatan;
-  int? totalByr;
+  String? totalByr;
   String? kelas;
 
   factory LaboratModel.fromJson(Map<String, dynamic> json) => LaboratModel(

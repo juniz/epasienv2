@@ -1,11 +1,15 @@
+import 'dart:convert';
+
+import 'package:ALPOKAT/app/api/url.dart';
 import 'package:ALPOKAT/app/modules/fasilitas_tarif/models/operasi_model.dart';
-import 'package:ALPOKAT/app/modules/fasilitas_tarif/providers/operasi_provider.dart';
 import 'package:get/get.dart';
+
+import '../../../api/rest_api.dart';
 
 class OperasiController extends GetxController {
   //TODO: Implement OperasiController
 
-  final _apiProvider = GetInstance().put(OperasiProvider());
+  final _restApi = Get.put(RestApi());
   var listOperasi = <OperasiModel>[].obs;
   @override
   void onInit() {
@@ -14,8 +18,9 @@ class OperasiController extends GetxController {
 
   @override
   void onReady() {
-    _apiProvider.fetchOperasi().then(
-          (value) => listOperasi.value = value,
+    _restApi.getService(urlOperasi).then(
+          (value) => listOperasi.value =
+              operasiModelFromJson(json.encode(value.body['data'])),
         );
     super.onReady();
   }

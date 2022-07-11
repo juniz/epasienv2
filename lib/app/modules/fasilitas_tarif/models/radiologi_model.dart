@@ -19,7 +19,7 @@ class RadiologiModel {
   });
 
   String? nmPerawatan;
-  int? totalByr;
+  String? totalByr;
   String? kelas;
 
   factory RadiologiModel.fromJson(Map<String, dynamic> json) => RadiologiModel(

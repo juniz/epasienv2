@@ -1,41 +1,43 @@
 import 'package:get/get.dart';
 
-import 'package:ALPOKAT/app/modules/booking_pasien_baru/bindings/booking_pasien_baru_binding.dart';
-import 'package:ALPOKAT/app/modules/booking_pasien_baru/views/booking_pasien_baru_view.dart';
-import 'package:ALPOKAT/app/modules/cek_status_booking/bindings/cek_status_booking_binding.dart';
-import 'package:ALPOKAT/app/modules/cek_status_booking/views/cek_status_booking_view.dart';
-import 'package:ALPOKAT/app/modules/dashboard/bindings/dashboard_binding.dart';
-import 'package:ALPOKAT/app/modules/dashboard/views/dashboard_view.dart';
-import 'package:ALPOKAT/app/modules/fasilitas_tarif/bindings/fasilitas_tarif_binding.dart';
-import 'package:ALPOKAT/app/modules/fasilitas_tarif/views/fasilitas_tarif_view.dart';
-import 'package:ALPOKAT/app/modules/halaman_booking/bindings/halaman_booking_binding.dart';
-import 'package:ALPOKAT/app/modules/halaman_booking/views/halaman_booking_view.dart';
-import 'package:ALPOKAT/app/modules/home/bindings/home_binding.dart';
-import 'package:ALPOKAT/app/modules/home/views/home_view.dart';
-import 'package:ALPOKAT/app/modules/homevisite/bindings/homevisite_binding.dart';
-import 'package:ALPOKAT/app/modules/homevisite/views/homevisite_view.dart';
-import 'package:ALPOKAT/app/modules/jadwal_dokter/bindings/jadwal_dokter_binding.dart';
-import 'package:ALPOKAT/app/modules/jadwal_dokter/views/jadwal_dokter_view.dart';
-import 'package:ALPOKAT/app/modules/kedersediaan_kamar/bindings/kedersediaan_kamar_binding.dart';
-import 'package:ALPOKAT/app/modules/kedersediaan_kamar/views/kedersediaan_kamar_view.dart';
-import 'package:ALPOKAT/app/modules/login/bindings/login_binding.dart';
-import 'package:ALPOKAT/app/modules/login/views/login_view.dart';
-import 'package:ALPOKAT/app/modules/panduan/bindings/panduan_binding.dart';
-import 'package:ALPOKAT/app/modules/panduan/views/panduan_view.dart';
-import 'package:ALPOKAT/app/modules/pengaduan/bindings/pengaduan_binding.dart';
-import 'package:ALPOKAT/app/modules/pengaduan/views/pengaduan_view.dart';
-import 'package:ALPOKAT/app/modules/profile/bindings/profile_binding.dart';
-import 'package:ALPOKAT/app/modules/profile/views/profile_view.dart';
-import 'package:ALPOKAT/app/modules/register/bindings/register_binding.dart';
-import 'package:ALPOKAT/app/modules/register/views/register_view.dart';
-import 'package:ALPOKAT/app/modules/riwayat_booking/bindings/riwayat_booking_binding.dart';
-import 'package:ALPOKAT/app/modules/riwayat_booking/views/riwayat_booking_view.dart';
-import 'package:ALPOKAT/app/modules/splash_screen/bindings/splash_screen_binding.dart';
-import 'package:ALPOKAT/app/modules/splash_screen/views/splash_screen_view.dart';
-import 'package:ALPOKAT/app/modules/surat_sakit/bindings/surat_sakit_binding.dart';
-import 'package:ALPOKAT/app/modules/surat_sakit/views/surat_sakit_view.dart';
-import 'package:ALPOKAT/app/modules/webview/bindings/webview_binding.dart';
-import 'package:ALPOKAT/app/modules/webview/views/webview_view.dart';
+import '../modules/booking_pasien_baru/bindings/booking_pasien_baru_binding.dart';
+import '../modules/booking_pasien_baru/views/booking_pasien_baru_view.dart';
+import '../modules/cek_status_booking/bindings/cek_status_booking_binding.dart';
+import '../modules/cek_status_booking/views/cek_status_booking_view.dart';
+import '../modules/dashboard/bindings/dashboard_binding.dart';
+import '../modules/dashboard/views/dashboard_view.dart';
+import '../modules/fasilitas_tarif/bindings/fasilitas_tarif_binding.dart';
+import '../modules/fasilitas_tarif/views/fasilitas_tarif_view.dart';
+import '../modules/halaman_booking/bindings/halaman_booking_binding.dart';
+import '../modules/halaman_booking/views/halaman_booking_view.dart';
+import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/views/home_view.dart';
+import '../modules/homevisite/bindings/homevisite_binding.dart';
+import '../modules/homevisite/views/homevisite_view.dart';
+import '../modules/jadwal_dokter/bindings/jadwal_dokter_binding.dart';
+import '../modules/jadwal_dokter/views/jadwal_dokter_view.dart';
+import '../modules/jadwal_operasi/bindings/jadwal_operasi_binding.dart';
+import '../modules/jadwal_operasi/views/jadwal_operasi_view.dart';
+import '../modules/kedersediaan_kamar/bindings/kedersediaan_kamar_binding.dart';
+import '../modules/kedersediaan_kamar/views/kedersediaan_kamar_view.dart';
+import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/views/login_view.dart';
+import '../modules/panduan/bindings/panduan_binding.dart';
+import '../modules/panduan/views/panduan_view.dart';
+import '../modules/pengaduan/bindings/pengaduan_binding.dart';
+import '../modules/pengaduan/views/pengaduan_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/register/bindings/register_binding.dart';
+import '../modules/register/views/register_view.dart';
+import '../modules/riwayat_booking/bindings/riwayat_booking_binding.dart';
+import '../modules/riwayat_booking/views/riwayat_booking_view.dart';
+import '../modules/splash_screen/bindings/splash_screen_binding.dart';
+import '../modules/splash_screen/views/splash_screen_view.dart';
+import '../modules/surat_sakit/bindings/surat_sakit_binding.dart';
+import '../modules/surat_sakit/views/surat_sakit_view.dart';
+import '../modules/webview/bindings/webview_binding.dart';
+import '../modules/webview/views/webview_view.dart';
 
 part 'app_routes.dart';
 
@@ -134,6 +136,11 @@ class AppPages {
       name: _Paths.HOMEVISITE,
       page: () => HomevisiteView(),
       binding: HomevisiteBinding(),
+    ),
+    GetPage(
+      name: _Paths.JADWAL_OPERASI,
+      page: () => const JadwalOperasiView(),
+      binding: JadwalOperasiBinding(),
     ),
   ];
 }

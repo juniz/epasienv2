@@ -27,6 +27,7 @@ import 'package:flutter/material.dart';
 
 import 'MLImage.dart';
 import 'MLString.dart';
+import 'setting.dart';
 
 List<MLWalkThroughData> mlWalkThroughDataList() {
   List<MLWalkThroughData> list = [];
@@ -54,10 +55,10 @@ List<MLServicesData> mlServiceDataList() {
       image: ml_ic_dashClinicVisit!,
       widget: Routes.HALAMAN_BOOKING));
   list.add(MLServicesData(
-      title: 'Home Visit',
+      title: homeVisite ? 'Home Visit' : 'Jadwal Operasi',
       icon: Icons.home,
       image: ml_ic_dashHomeVisit,
-      widget: Routes.HALAMAN_BOOKING));
+      widget: homeVisite ? Routes.HALAMAN_BOOKING : Routes.JADWAL_OPERASI));
   list.add(MLServicesData(
       title: 'Pengaduan',
       icon: Icons.video_call,

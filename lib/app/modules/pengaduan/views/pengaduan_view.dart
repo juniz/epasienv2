@@ -108,8 +108,8 @@ class PengaduanView extends GetView<PengaduanController> {
                                 builder: (context, snap) {
                                   print(snap);
                                   if (snap.hasData) {
-                                    var data = snap.data
-                                        as List<JawabanPengaduanModel>;
+                                    var data =
+                                        snap.data as List<JawabanPengaduan>;
                                     return Column(
                                       children: data
                                           .map(
