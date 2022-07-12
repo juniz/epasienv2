@@ -1,7 +1,6 @@
-import 'dart:convert';
+import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:nb_utils/nb_utils.dart';
 
 import 'login_session.dart';
 import 'url.dart';
@@ -38,6 +37,9 @@ class LoginApi extends GetConnect {
       }
       return response;
     } catch (e) {
+      if (e.toString().contains('SocketException')) {
+        return Future.error('Koneksi ke server gagal');
+      }
       return Future.error(e);
     }
   }
@@ -50,6 +52,9 @@ class LoginApi extends GetConnect {
       }
       return response;
     } catch (e) {
+      if (e.toString().contains('SocketException')) {
+        return Future.error('Koneksi ke server gagal');
+      }
       return Future.error(e);
     }
   }

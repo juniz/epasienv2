@@ -1,33 +1,34 @@
-import 'package:ALPOKAT/app/data/MLAppointmentData.dart';
-import 'package:ALPOKAT/app/data/MLBookAppointmentData.dart';
-import 'package:ALPOKAT/app/data/MLCovidData.dart';
-import 'package:ALPOKAT/app/data/MLDeliveredData.dart';
-import 'package:ALPOKAT/app/data/MLDepartmentData.dart';
-import 'package:ALPOKAT/app/data/MLDiseaseData.dart';
-import 'package:ALPOKAT/app/data/MLDoctorData.dart';
-import 'package:ALPOKAT/app/data/MLInboxData.dart';
-import 'package:ALPOKAT/app/data/MLMedicationData.dart';
-import 'package:ALPOKAT/app/data/MLNewsData.dart';
-import 'package:ALPOKAT/app/data/MLNotificationData.dart';
-import 'package:ALPOKAT/app/data/MLOrderSuccessData.dart';
-import 'package:ALPOKAT/app/data/MLOrderTrackData.dart';
-import 'package:ALPOKAT/app/data/MLPatientData.dart';
-import 'package:ALPOKAT/app/data/MLPaymentData.dart';
-import 'package:ALPOKAT/app/data/MLProfileCardData.dart';
-import 'package:ALPOKAT/app/data/MLServiceData.dart';
-import 'package:ALPOKAT/app/data/MLSpecialistData.dart';
-import 'package:ALPOKAT/app/data/MLTopHospitalData.dart';
-import 'package:ALPOKAT/app/data/MLVoucherData.dart';
-import 'package:ALPOKAT/app/data/MLWalkThroughData.dart';
-import 'package:ALPOKAT/app/modules/halaman_booking/components/MLClinicVisitComponent.dart';
-import 'package:ALPOKAT/app/modules/halaman_booking/components/MLConfirmAppointmentComponent.dart';
-import 'package:ALPOKAT/app/modules/halaman_booking/components/MLPenjabComponent.dart';
-import 'package:ALPOKAT/app/routes/app_pages.dart';
+import '../data/MLBookAppointmentData.dart';
+import '../data/MLCovidData.dart';
+import '../data/MLDeliveredData.dart';
+import '../data/MLDepartmentData.dart';
+import '../data/MLDiseaseData.dart';
+import '../data/MLDoctorData.dart';
+import '../data/MLInboxData.dart';
+import '../data/MLMedicationData.dart';
+import '../data/MLNewsData.dart';
+import '../data/MLNotificationData.dart';
+import '../data/MLOrderSuccessData.dart';
+import '../data/MLOrderTrackData.dart';
+import '../data/MLPatientData.dart';
+import '../data/MLPaymentData.dart';
+import '../data/MLProfileCardData.dart';
+import '../data/MLServiceData.dart';
+import '../data/MLSpecialistData.dart';
+import '../data/MLTopHospitalData.dart';
+import '../data/MLVoucherData.dart';
+import '../data/MLWalkThroughData.dart';
+import '../modules/halaman_booking/components/MLClinicVisitComponent.dart';
+import '../modules/halaman_booking/components/MLConfirmAppointmentComponent.dart';
+import '../modules/halaman_booking/components/MLPenjabComponent.dart';
+import '../routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../main.dart';
+import '../data/MLAppointmentData.dart';
 import 'MLImage.dart';
 import 'MLString.dart';
-import 'setting.dart';
 
 List<MLWalkThroughData> mlWalkThroughDataList() {
   List<MLWalkThroughData> list = [];
@@ -48,6 +49,7 @@ List<MLWalkThroughData> mlWalkThroughDataList() {
 }
 
 List<MLServicesData> mlServiceDataList() {
+  final homeVisite = Get.find<SettingsService>().read('homeVisite');
   List<MLServicesData> list = [];
   list.add(MLServicesData(
       title: 'Booking',
@@ -55,10 +57,12 @@ List<MLServicesData> mlServiceDataList() {
       image: ml_ic_dashClinicVisit!,
       widget: Routes.HALAMAN_BOOKING));
   list.add(MLServicesData(
-      title: homeVisite ? 'Home Visit' : 'Jadwal Operasi',
+      title: homeVisite == "true" ? 'Home Visit' : 'Jadwal Operasi',
       icon: Icons.home,
       image: ml_ic_dashHomeVisit,
-      widget: homeVisite ? Routes.HALAMAN_BOOKING : Routes.JADWAL_OPERASI));
+      widget: homeVisite == "true"
+          ? Routes.HALAMAN_BOOKING
+          : Routes.JADWAL_OPERASI));
   list.add(MLServicesData(
       title: 'Pengaduan',
       icon: Icons.video_call,

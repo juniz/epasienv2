@@ -23,6 +23,8 @@ abstract class Routes {
   static const REGISTER = _Paths.REGISTER;
   static const HOMEVISITE = _Paths.HOMEVISITE;
   static const JADWAL_OPERASI = _Paths.JADWAL_OPERASI;
+  static const MAINTANCE = _Paths.MAINTANCE;
+  static const TIMEOUT = _Paths.TIMEOUT;
 }
 
 abstract class _Paths {
@@ -45,4 +47,6 @@ abstract class _Paths {
   static const REGISTER = '/register';
   static const HOMEVISITE = '/homevisite';
   static const JADWAL_OPERASI = '/jadwal-operasi';
+  static const MAINTANCE = '/maintance';
+  static const TIMEOUT = '/timeout';
 }

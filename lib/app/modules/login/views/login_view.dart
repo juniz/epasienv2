@@ -98,15 +98,15 @@ class LoginView extends GetView<LoginController> {
                           ],
                         ),
                         8.height,
-                        Column(
-                          children: [
-                            Text(
-                              'Belum punya Nomor Rekam Medik?',
-                              style: primaryTextStyle(),
-                            ),
-                            8.height,
-                            pasienBaru
-                                ? Text(
+                        controller.pasienBaru == "true"
+                            ? Column(
+                                children: [
+                                  Text(
+                                    'Belum punya Nomor Rekam Medik?',
+                                    style: primaryTextStyle(),
+                                  ),
+                                  8.height,
+                                  Text(
                                     'Klik Pasien Baru',
                                     style: boldTextStyle(
                                       size: 16,
@@ -115,10 +115,10 @@ class LoginView extends GetView<LoginController> {
                                     ),
                                   ).onTap(() {
                                     Get.toNamed(Routes.REGISTER);
-                                  })
-                                : Container(),
-                          ],
-                        ),
+                                  }),
+                                ],
+                              )
+                            : Container(),
                       ],
                     ).center(),
                     32.height,

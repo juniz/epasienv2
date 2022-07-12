@@ -1,14 +1,15 @@
 import 'dart:convert';
-
 import 'package:ALPOKAT/app/modules/halaman_booking/models/jadwal_poliklinik_model.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../../../../main.dart';
 import '../../../api/rest_api.dart';
 import '../../../api/url.dart';
 
 class JadwalDokterController extends GetxController {
   //TODO: Implement JadwalDokterController
   final _restApi = Get.put(RestApi());
+  final photo = Get.find<SettingsService>().read('photoDokter');
   var selectedIndex = 0.obs;
   var selectedDate = DateTime.now().add(Duration(days: 1)).obs;
   var selectedKdPoli = "".obs;

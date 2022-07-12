@@ -22,6 +22,8 @@ import '../modules/kedersediaan_kamar/bindings/kedersediaan_kamar_binding.dart';
 import '../modules/kedersediaan_kamar/views/kedersediaan_kamar_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/maintance/bindings/maintance_binding.dart';
+import '../modules/maintance/views/maintance_view.dart';
 import '../modules/panduan/bindings/panduan_binding.dart';
 import '../modules/panduan/views/panduan_view.dart';
 import '../modules/pengaduan/bindings/pengaduan_binding.dart';
@@ -36,6 +38,8 @@ import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/surat_sakit/bindings/surat_sakit_binding.dart';
 import '../modules/surat_sakit/views/surat_sakit_view.dart';
+import '../modules/timeout/bindings/timeout_binding.dart';
+import '../modules/timeout/views/timeout_view.dart';
 import '../modules/webview/bindings/webview_binding.dart';
 import '../modules/webview/views/webview_view.dart';
 
@@ -141,6 +145,16 @@ class AppPages {
       name: _Paths.JADWAL_OPERASI,
       page: () => const JadwalOperasiView(),
       binding: JadwalOperasiBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAINTANCE,
+      page: () => const MaintanceView(),
+      binding: MaintanceBinding(),
+    ),
+    GetPage(
+      name: _Paths.TIMEOUT,
+      page: () => const TimeoutView(),
+      binding: TimeoutBinding(),
     ),
   ];
 }

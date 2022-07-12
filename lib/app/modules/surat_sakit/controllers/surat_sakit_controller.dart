@@ -26,7 +26,6 @@ import '../models/setting_model.dart';
 class SuratSakitController extends GetxController
     with SingleGetTickerProviderMixin {
   //TODO: Implement SuratSakitController
-  final rumkit = GetStorage().read('rumkit');
   final pasien = Get.find<LoginSession>().rkm.val;
   final _restApi = Get.put(RestApi());
   final _setting = Setting().obs;
@@ -40,6 +39,7 @@ class SuratSakitController extends GetxController
   void onInit() {
     tabController = TabController(length: 4, vsync: this);
     _restApi.getService(urlSetting).then((value) => {
+          log(value.bodyString),
           if (value.statusCode == 200)
             {
               _setting.value = settingFromJson(value.bodyString!),
@@ -128,7 +128,7 @@ class SuratSakitController extends GetxController
                       pw.Column(
                         children: [
                           pw.Text(
-                            'Yang bertanda tangan dibawah ini saya ${surat.nmDokter}, pada ${rumkit['rumkit']} menerangkan bahwa telah melakukan wawancara, pemeriksaan fisik dan pemeriksaan laboratorium terhadap pasien dengan keterangan sebagai berikut :',
+                            'Yang bertanda tangan dibawah ini saya ${surat.nmDokter}, pada ${_setting.value.data?.namaInstansi} menerangkan bahwa telah melakukan wawancara, pemeriksaan fisik dan pemeriksaan laboratorium terhadap pasien dengan keterangan sebagai berikut :',
                             textAlign: pw.TextAlign.justify,
                           ),
                           pw.SizedBox(height: 15),

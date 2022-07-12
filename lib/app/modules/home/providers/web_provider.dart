@@ -1,13 +1,15 @@
-import 'package:ALPOKAT/app/api/url.dart';
-import 'package:ALPOKAT/app/modules/home/models/WebModel.dart';
 import 'package:get/get.dart';
 
+import '../../../../main.dart';
+import '../models/WebModel.dart';
+
 class WebProvider extends GetConnect {
+  final informasi = Get.find<SettingsService>().read('informasi');
   @override
   void onInit() {}
 
   Future<List<WebModel>> fetchWeb() async {
-    final response = await get(urlInformasi);
+    final response = await get(informasi);
     if (response.status.hasError) {
       return Future.error(response.statusText!);
     } else {

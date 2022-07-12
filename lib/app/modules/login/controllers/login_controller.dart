@@ -3,13 +3,14 @@ import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../../../../main.dart';
 import '../../../api/login_api.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
-  //TODO: Implement LoginController
   final bookingPeriksa = Map<String, dynamic>().obs;
   final _restApi = Get.put(LoginApi());
+  final pasienBaru = Get.find<SettingsService>().read('pasienBaru');
   late TextEditingController username;
   late TextEditingController password;
   @override
@@ -51,15 +52,29 @@ class LoginController extends GetxController {
           colorText: mlColorBottomSheetText,
         );
       }
-    }).catchError((e) {
-      DialogHelper.hideLoading();
-      Get.snackbar(
-        'Error',
-        e,
-        icon: Icon(LineIcons.bell, color: mlColorBottomSheetText),
-        backgroundColor: mlColorBgErrBottomSheet,
-        colorText: mlColorBottomSheetText,
-      );
-    });
+    }).catchError(
+      (e) {
+        if (e.toString().contains('SocketException')) {
+          DialogHelper.hideLoading();
+          Get.snackbar(
+            'Peringatan',
+            'Tidak dapat terhubung ke server',
+            icon: Icon(LineIcons.bell, color: mlColorBottomSheetText),
+            backgroundColor: mlColorBgErrBottomSheet,
+            colorText: mlColorBottomSheetText,
+            showProgressIndicator: true,
+          );
+        } else {
+          DialogHelper.hideLoading();
+          Get.snackbar(
+            'Error',
+            e,
+            icon: Icon(LineIcons.bell, color: mlColorBottomSheetText),
+            backgroundColor: mlColorBgErrBottomSheet,
+            colorText: mlColorBottomSheetText,
+          );
+        }
+      },
+    );
   }
 }

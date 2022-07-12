@@ -70,7 +70,7 @@ class MLJadwalDokterComponent extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: [
-                                        photoDokter
+                                        controller.photo == "true"
                                             ? waCommonCachedNetworkImage(
                                                 urlBaseImage +
                                                     controller.listPoliklinik

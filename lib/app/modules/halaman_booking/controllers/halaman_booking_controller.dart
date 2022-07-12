@@ -9,6 +9,7 @@ import 'package:ALPOKAT/app/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../../../../main.dart';
 import '../../../api/login_session.dart';
 import '../../../api/rest_api.dart';
 
@@ -16,6 +17,7 @@ class HalamanBookingController extends GetxController {
   //TODO: Implement HalamanBookingController
   final _restApi = Get.put(RestApi());
   final _session = Get.find<LoginSession>();
+  final photo = Get.find<SettingsService>().read('photoDokter');
   var currentWidget = 0.obs;
   var selectedIndex = 0.obs;
   var selectedKdPoli = "".obs;

@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import 'login_api.dart';
 import 'login_session.dart';
 import 'url.dart';
@@ -38,12 +37,14 @@ class RestApi extends GetConnect {
   Future<Response> postService(String url, Map body) async {
     try {
       final response = await post(url, body);
-      log('tes');
       if (response.hasError) {
         return Future.error(response.statusText!);
       }
       return response;
     } catch (e) {
+      if (e.toString().contains('SocketException')) {
+        return Future.error('Koneksi ke server gagal');
+      }
       return Future.error(e);
     }
   }
@@ -51,13 +52,15 @@ class RestApi extends GetConnect {
   Future<Response> getService(String url) async {
     try {
       final response = await get(url);
-      log(response.bodyString);
       if (response.hasError) {
         return Future.error(response.statusText!);
       } else {
         return response;
       }
     } catch (e) {
+      if (e.toString().contains('SocketException')) {
+        return Future.error('Koneksi ke server gagal');
+      }
       return Future.error(e);
     }
   }

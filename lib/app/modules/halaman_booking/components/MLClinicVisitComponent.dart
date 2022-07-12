@@ -109,7 +109,7 @@ class MLClinicVisitComponentState extends State<MLClinicVisitComponent> {
                                 children: [
                                   Row(
                                     children: [
-                                      photoDokter
+                                      controller.photo == "true"
                                           ? waCommonCachedNetworkImage(
                                               urlBaseImage +
                                                   controller.listPoliklinik

@@ -1,6 +1,6 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:ALPOKAT/app/utils/MLColors.dart';
-import 'package:ALPOKAT/app/utils/MLString.dart';
+import '../../../utils/MLColors.dart';
+import '../../../utils/MLString.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
