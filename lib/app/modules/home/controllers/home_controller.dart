@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import '../../../api/login_session.dart';
 import '../../../api/rest_api.dart';
 import '../../../utils/setting.dart';
+import '../../surat_sakit/models/setting_model.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -22,6 +23,7 @@ class HomeController extends GetxController {
   var listBooking = <RiwayatBookingModel>[].obs;
   var selectedRiwayatBooking = RiwayatBookingModel().obs;
   final homevisite = HomeVisiteModel().obs;
+  final setting = Setting().obs;
   var loadBooking = true.obs;
   var loadHomevisite = true.obs;
 
@@ -35,6 +37,12 @@ class HomeController extends GetxController {
     WebProvider().fetchWeb().then((value) {
       listWeb.value = value;
     });
+    _restApi.getService(urlSetting).then((value) => {
+          if (value.statusCode == 200)
+            {
+              setting.value = settingFromJson(value.bodyString!),
+            }
+        });
     onRefreshBooking();
     super.onReady();
   }

@@ -12,12 +12,14 @@ import 'package:intl/intl.dart';
 import '../../../../main.dart';
 import '../../../api/login_session.dart';
 import '../../../api/rest_api.dart';
+import '../../surat_sakit/models/setting_model.dart';
 
 class HalamanBookingController extends GetxController {
   //TODO: Implement HalamanBookingController
   final _restApi = Get.put(RestApi());
   final _session = Get.find<LoginSession>();
   final photo = Get.find<SettingsService>().read('photoDokter');
+  final setting = Setting().obs;
   var currentWidget = 0.obs;
   var selectedIndex = 0.obs;
   var selectedKdPoli = "".obs;
@@ -36,6 +38,12 @@ class HalamanBookingController extends GetxController {
 
   @override
   void onInit() {
+    _restApi.getService(urlSetting).then((value) => {
+          if (value.statusCode == 200)
+            {
+              setting.value = settingFromJson(value.bodyString!),
+            }
+        });
     super.onInit();
   }
 

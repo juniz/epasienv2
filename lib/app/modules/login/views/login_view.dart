@@ -39,7 +39,8 @@ class LoginView extends GetView<LoginController> {
                       textFieldType: TextFieldType.PHONE,
                       controller: controller.username,
                       decoration: InputDecoration(
-                        labelText: 'NRP/Nomor Rekam Medik',
+                        labelText: 'Username',
+                        hintText: 'NRP / Nomor Rekam Medik',
                         labelStyle: secondaryTextStyle(size: 16),
                         prefixIcon: Icon(Icons.credit_card),
                         enabledBorder: UnderlineInputBorder(
@@ -51,8 +52,10 @@ class LoginView extends GetView<LoginController> {
                     AppTextField(
                       textFieldType: TextFieldType.PHONE,
                       controller: controller.password,
+                      isPassword: true,
                       decoration: InputDecoration(
                         labelText: 'Password',
+                        hintText: 'Tanggal Lahir (ddmmyyyy)',
                         labelStyle: secondaryTextStyle(size: 16),
                         prefixIcon: Icon(Icons.lock_outline),
                         enabledBorder: UnderlineInputBorder(

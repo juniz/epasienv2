@@ -83,7 +83,9 @@ class MLHomeDetailBookingState extends State<MLHomeDetailBooking> {
                                   fit: BoxFit.cover)
                               .cornerRadiusWithClipRRect(8.0),
                           16.height,
-                          Text(('Rumah Sakit Bhayangkara Nganjuk').validate(),
+                          Text(
+                              ('${controller.setting.value.data?.namaInstansi}')
+                                  .validate(),
                               style: boldTextStyle()),
                           16.height,
                           Divider(thickness: 0.5),

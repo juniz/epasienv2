@@ -12,12 +12,14 @@ import 'package:intl/intl.dart';
 
 import '../../../api/login_session.dart';
 import '../../../api/rest_api.dart';
+import '../../surat_sakit/models/setting_model.dart';
 
 class RiwayatBookingController extends GetxController
     with SingleGetTickerProviderMixin {
   //TODO: Implement RiwayatBookingController
   final _session = Get.find<LoginSession>();
   final _restApi = Get.put(RestApi());
+  final setting = Setting().obs;
   late TabController tabController;
   var riwayatBooking = <RiwayatBookingModel>[].obs;
   var selectedRiwayatBooking = RiwayatBookingModel().obs;
@@ -34,6 +36,12 @@ class RiwayatBookingController extends GetxController
 
   @override
   void onReady() {
+    _restApi.getService(urlSetting).then((value) => {
+          if (value.statusCode == 200)
+            {
+              setting.value = settingFromJson(value.bodyString!),
+            }
+        });
     getRiwayatBooking();
     riwayatPemeriksaan();
     super.onReady();

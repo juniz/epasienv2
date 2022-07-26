@@ -1,4 +1,4 @@
-package com.bhayangkaranganjuk.epasien
+package com.bhayangkaranganjuk.alpokat
 
 import io.flutter.embedding.android.FlutterActivity
 
