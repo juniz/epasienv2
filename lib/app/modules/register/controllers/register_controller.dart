@@ -217,7 +217,7 @@ class RegisterController extends GetxController {
     };
     _restApi.postService(urlRegister, body).then((value) {
       DialogHelper.hideLoading();
-      print(value.bodyString);
+      log(value.bodyString);
       if (value.statusCode == 200) {
         var data = {
           'no_booking': value.body['no_booking'],

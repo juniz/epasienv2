@@ -13,7 +13,7 @@ dependencies:
   intl: 0.17.0
   lottie: 1.2.1
   nb_utils: 4.4.10
-  smart_select: 4.3.2
+  smart_select: 4.2.1
   webview_flutter: 3.0.0
   pdf: 3.6.5
   open_file: 3.2.1
