@@ -37,6 +37,7 @@ class RestApi extends GetConnect {
   Future<Response> postService(String url, Map body) async {
     try {
       final response = await post(url, body);
+      log(response.bodyString);
       if (response.hasError) {
         return Future.error(response.statusText!);
       }
@@ -58,6 +59,7 @@ class RestApi extends GetConnect {
         return response;
       }
     } catch (e) {
+      log(e);
       if (e.toString().contains('SocketException')) {
         return Future.error('Koneksi ke server gagal');
       }

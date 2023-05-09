@@ -32,6 +32,7 @@ class RegisterController extends GetxController {
   final nmPoli = ''.obs;
   final box = GetStorage();
   final bookingPeriksa = Map<String, dynamic>().obs;
+  final isLoading = true.obs;
   @override
   void onInit() {
     _restApi.getService(urlPoliklinik).then((value) {
@@ -39,6 +40,7 @@ class RegisterController extends GetxController {
         kdPoli.value = value.body['data'][0]['kd_poli'];
         listPoliklinik.value =
             listPoliklinikModelFromJson(json.encode(value.body['data']));
+        isLoading(false);
       }
     });
     namaController = new TextEditingController();
@@ -215,6 +217,7 @@ class RegisterController extends GetxController {
       'pesan': pesanController.text,
       'kd_poli': kdPoli.value,
     };
+    log(body);
     _restApi.postService(urlRegister, body).then((value) {
       DialogHelper.hideLoading();
       log(value.bodyString);

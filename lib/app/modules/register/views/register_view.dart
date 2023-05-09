@@ -15,11 +15,11 @@ class RegisterView extends GetView<RegisterController> {
     return Scaffold(
         backgroundColor: mlPrimaryColor,
         body: Obx(
-          () => controller.bookingPeriksa.value == null
+          // ignore: deprecated_member_use
+          () => controller.bookingPeriksa.value.isNull
               ? Stack(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 24.0),
                       decoration: boxDecorationWithRoundedCorners(
                           borderRadius: radiusOnly(topRight: 32)),
                       height: double.infinity,
@@ -28,17 +28,20 @@ class RegisterView extends GetView<RegisterController> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            54.height,
-                            Text('Pasien Baru', style: boldTextStyle(size: 24)),
+                            60.height,
+                            Text('Pasien Baru', style: boldTextStyle(size: 24))
+                                .paddingLeft(30),
                             32.height,
-                            MLRgisterComponent(),
+                            controller.isLoading.value
+                                ? Center(child: CircularProgressIndicator())
+                                : MLRgisterComponent(),
                             42.height,
                           ],
                         ),
                       ),
                     ),
                     Positioned(
-                        top: 30, child: mlBackToPrevious(context, blackColor)),
+                        top: 55, child: mlBackToPrevious(context, blackColor)),
                     Positioned(
                       bottom: 8,
                       left: 16,

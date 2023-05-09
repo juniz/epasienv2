@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class MLDetailBookingPeriksa extends StatelessWidget {
+class MLDetailBookingPeriksa extends GetWidget<RegisterController> {
   const MLDetailBookingPeriksa({Key? key}) : super(key: key);
   Widget mOption(var value) {
     return RichText(
@@ -24,7 +24,7 @@ class MLDetailBookingPeriksa extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(RegisterController());
+    // final controller = Get.put(RegisterController());
     return SafeArea(
       child: Scaffold(
         backgroundColor: mlPrimaryColor,

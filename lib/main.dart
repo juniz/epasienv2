@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'app/api/rest_api.dart';
 import 'app/api/url.dart';
 import 'app/routes/app_pages.dart';
@@ -41,6 +42,7 @@ class SettingsService extends GetxService {
   Future<SettingsService> init() async {
     await GetStorage.init();
     final response = await _restApi.getService(urlSettingEpasien);
+    log(response.statusCode);
     if (response.statusCode == 200) {
       var data = response.body['data'];
       write('pasienBaru', data['pasien_baru']);
@@ -52,8 +54,9 @@ class SettingsService extends GetxService {
       write('appVer', data['app_ver']);
       write('buildVer', data['build_ver']);
       return this;
+    } else {
+      return this;
     }
-    return this;
   }
 
   void write(String key, dynamic value) {
